@@ -1,22 +1,18 @@
 <template>
   <div>
-    <div v-show="firstViewItem">トップページ</div>
+    <h1>商品詳細</h1>
     <ul class="itemList">
       <li v-for="item in firstViewItemList" :key="item.id">
         <p>
           <!-- <nuxt-link :to="`/item/${item.index}`" -->
 
-          <img
-            :src="item.Item.mediumImageUrls[0].imageUrl"
-            @click="$router.push({ path: `/item/1` })"
-          />
+          <img :src="item.Item.mediumImageUrls[0].imageUrl" />
           <!-- </nuxt-link> -->
         </p>
         <!-- <p>{{ item.Item.itemName }}</p> -->
         <p>{{ [item.Item.itemPrice].toLocaleString() }}円</p>
       </li>
     </ul>
-    <div v-show="searchedItem">検索アイテム</div>
   </div>
 </template>
 
@@ -26,8 +22,8 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      firstViewItem: true,
-      searchedItem: false,
+      // firstViewItem: true,
+      // searchedItem: false,
     }
   },
   computed: {
@@ -37,17 +33,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-h1 {
-  background-color: red;
-}
-ul.itemList {
-  display: flex;
-  // flex-direction: row;
-  flex-wrap: wrap;
-}
-li {
-  list-style: none;
-}
-</style>
