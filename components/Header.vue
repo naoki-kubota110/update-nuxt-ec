@@ -26,26 +26,29 @@ export default {
   },
   methods: {
     searchItem() {
-      this.searchedItems = ''
-      axios
-        .get(
-          'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
-          {
-            params: {
-              applicationId: '1083744313894679387',
-              keyword: '筋トレ',
-              hits: 20,
-            },
-          }
-        )
-        .then((response) => {
-          this.searchedItems = response.data
-          this['item/searchItem'](response.data.Items)
-        })
+      if (this.searchWord !== '') {
+        this.searchedItems = ''
+        axios
+          .get(
+            'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+            {
+              params: {
+                applicationId: '1083744313894679387',
+                keyword: this.searchWord,
+                hits: 30,
+              },
+            }
+          )
+          .then((response) => {
+            this.searchedItems = response.data
+            this['item/searchItem'](response.data.Items)
+            this.$router.push('/')
+          })
 
-        .catch((err) => {
-          console.log(err)
-        })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
     },
     ...mapActions(['item/searchItem']),
   },

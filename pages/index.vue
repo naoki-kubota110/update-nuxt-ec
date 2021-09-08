@@ -2,21 +2,17 @@
   <div>
     <div v-show="firstViewItem">トップページ</div>
     <ul class="itemList">
-      <li v-for="item in firstViewItemList" :key="item.id">
+      <li v-for="item in firstViewItemList" :key="item.Item.itemCode">
         <p>
-          <!-- <nuxt-link :to="`/item/${item.index}`" -->
-
-          <img
-            :src="item.Item.mediumImageUrls[0].imageUrl"
-            @click="$router.push({ path: `/item/1` })"
-          />
-          <!-- </nuxt-link> -->
+          <router-link :to="{ path: `/item/${item.Item.itemCode}` }">
+            <img :src="item.Item.mediumImageUrls[0].imageUrl" />
+          </router-link>
         </p>
         <!-- <p>{{ item.Item.itemName }}</p> -->
         <p>{{ [item.Item.itemPrice].toLocaleString() }}円</p>
       </li>
     </ul>
-    <div v-show="searchedItem">検索アイテム</div>
+    <!-- <div v-show="searchedItem">検索アイテム</div> -->
   </div>
 </template>
 

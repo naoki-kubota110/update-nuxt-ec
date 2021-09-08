@@ -1,8 +1,7 @@
-// import mongoose from 'mongoose';
 const mongoose = require('mongoose')
 
 mongoose.connect(
-  'mongodb+srv://user1:sakamo51@cluster0.kop3k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+  'mongodb+srv://user1:rakus2098@cluster0.rpec9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useFindAndModify: false, useNewUrlParser: true, useUnifiedTopology: true }
 )
 mongoose.connection.once('open', () => {
