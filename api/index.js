@@ -27,6 +27,12 @@ app.post('/cart-cretate', (req, res) => {
     })
 })
 
+// Router
+const userRouter = require("./routes/user")
+app.use("/user",userRouter)
+// Router
+
+
 // app.post('/cart-cretate', (req, res) => {
 //   console.log(req.body.foo)
 // res.send('API server works fine')
@@ -34,6 +40,7 @@ app.post('/cart-cretate', (req, res) => {
 // res.send(test)
 // res.send(req)
 // })
+
 
 module.exports = {
   path: '/api',
