@@ -3,7 +3,9 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const cartSchema = new Schema({
-  item: Object,
+  id: String,
+  status: Number,
+  itemInfo: Array,
 })
 
-module.exports = mongoose.model('Cart', cartSchema)
+module.exports = mongoose.model('Carts', cartSchema)

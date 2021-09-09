@@ -32,8 +32,8 @@ export const actions = {
     //   // console.log(res.$post)
     //   commit('newCart', item)
     // })
-    this.$axios.$post('/api/cart-cretate', { foo: item.id }).then((res) => {
-      console.log(item)
+    this.$axios.$post('/api/cart-cretate', { foo: item }).then((res) => {
+      // console.log(res)
       // console.log(res.$post)
       commit('newCart', item)
     })
