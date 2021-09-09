@@ -7,7 +7,7 @@ app.use(express.json()) //  この記述によりreqのbodyが読み込める
 const Carts = require('./models/cart')
 
 app.post('/cart-cretate', (req, res) => {
-  const item = req.body.foo
+  const item = req.body.item
   const createCart = {
     id: item.id,
     status: item.status,
@@ -27,13 +27,23 @@ app.post('/cart-cretate', (req, res) => {
     })
 })
 
-// app.post('/cart-cretate', (req, res) => {
-//   console.log(req.body.foo)
-// res.send('API server works fine')
-// const test = 'テストです'
-// res.send(test)
-// res.send(req)
-// })
+app.post('/cart-update', (req, res) => {
+  const item = req.body.item
+  const updateCart = {
+    id: item.id,
+    status: item.status,
+    itemInfo: item.itemInfo,
+  }
+  Carts.update(updateCart)
+    .then((response) => {
+      res.header('Content-Type', 'application/json; charset=utf-8')
+      res.send(updateCart)
+    })
+    .catch((response) => {
+      res.header('Content-Type', 'application/json; charset=utf-8')
+      res.send({ response })
+    })
+})
 
 module.exports = {
   path: '/api',
