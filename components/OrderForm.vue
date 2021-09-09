@@ -7,7 +7,7 @@
         <span>{{ errors[0] }}</span>
       </validation-provider>
     </ValidationObserver>
-    <MyFooter />
+    <!-- <MyFooter /> -->
   </div>
 </template>
 

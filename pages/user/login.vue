@@ -1,24 +1,26 @@
 <template>
 <div>
-  <div>
-  <h1>ログインユーザ</h1>
-  <form @submit.prevent="loginUser">
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input v-model="user.email" name="email">
-    </div>
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input 
-      v-model="user.password"
-      name="password"
-      type="password" 
-      >
-    </div>
-    <button type="submit">ログイン</button>
-    {{errorMsg}}
-  </form>
-  </div>
+  <h1>ログイン画面</h1>
+  <ValidationObserver ref="observer" v-slot="{ invalid }">
+    <form @submit.prevent="loginUser">
+      <div class="email-form">
+        <label for="email">Email:</label>
+        <ValidationProvider v-slot="{ errors }" name="メールアドレス" rules="required|email|">
+          <input v-model="user.email" type="email">
+          <p class="text-danger">{{ errors[0] }}</p>
+        </ValidationProvider>
+      </div>
+      <div class="password-form">
+        <label for="password">Password:</label>
+        <ValidationProvider v-slot="{ errors }" name="パスワード" rules="required">
+        <input v-model="user.password" type="password">
+        <p class="text-danger">{{ errors[0] }}</p>
+        </ValidationProvider>
+      </div>
+      <button type="submit" :disabled="invalid">ログイン</button>
+      <p>{{errorMsg}}</p>
+    </form>
+   </ValidationObserver>
 </div>
 </template>
 
@@ -47,7 +49,7 @@
         })
         .catch((err) => {
           console.log(err)
-          this.errorMsg = "error"
+          this.errorMsg = "メールアドレスまたはパスワードが間違っています。"
         })
       },
     }
