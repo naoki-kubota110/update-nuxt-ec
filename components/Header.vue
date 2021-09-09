@@ -28,6 +28,7 @@
 <script>
 import axios from 'axios'
 import { mapActions } from 'vuex'
+import config from "../config"
 
 export default {
   data() {
@@ -42,6 +43,7 @@ export default {
       this.$auth.logout()
     },
     searchItem() {
+      const apiKey = config.RAKUTEN_API_KEY
       if (this.searchWord !== '') {
         this.searchedItems = ''
         axios
@@ -49,7 +51,7 @@ export default {
             'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
             {
               params: {
-                applicationId: '1083744313894679387',
+                applicationId: apiKey,
                 keyword: this.searchWord,
                 hits: 30,
               },
