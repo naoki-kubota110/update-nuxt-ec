@@ -26,7 +26,6 @@ app.post('/cart-cretate', (req, res) => {
       res.send({ response })
     })
 })
-
 app.post('/cart-update', (req, res) => {
   const item = req.body.item
   const updateCart = {
@@ -44,6 +43,12 @@ app.post('/cart-update', (req, res) => {
       res.send({ response })
     })
 })
+
+
+// Router
+const userRouter = require("./routes/user")
+app.use("/user",userRouter)
+
 
 module.exports = {
   path: '/api',

@@ -1,6 +1,18 @@
 <template>
   <header>
     <div>らくらくEC</div>
+      <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <h2>
+          ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} 
+          <div v-if="!$auth.loggedIn">
+          <nuxt-link to="/user/login">| Login | </nuxt-link>
+          <nuxt-link to="/user/register">|register |</nuxt-link>
+          </div>
+          <div v-if="$auth.loggedIn">
+            <button @click="logout()">Logout</button>
+          </div>
+        </h2>
+      </div>
     <div class="search">
       <input v-model="searchWord" type="text" />
       <button type="submit" @click="searchItem">検索</button>
@@ -25,6 +37,10 @@ export default {
     }
   },
   methods: {
+    logout(){
+      confirm("本当にログアウトしますか？")
+      this.$auth.logout()
+    },
     searchItem() {
       if (this.searchWord !== '') {
         this.searchedItems = ''

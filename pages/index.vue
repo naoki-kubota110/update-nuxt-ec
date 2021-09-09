@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show="firstViewItem">トップページ</div>
+    <!-- <div v-show="firstViewItem">トップページ</div> -->
     <ul class="itemList">
       <li v-for="item in firstViewItemList" :key="item.Item.itemCode">
         <p>
