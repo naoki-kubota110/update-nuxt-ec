@@ -9,7 +9,6 @@ export const state = () => ({
           {
             imageUrl:
               'https://www.meiji.co.jp/products/sports/assets/img/4902777305400.jpg',
-            // 'https://thumbnail.image.rakuten.co.jp/@0_mall/bagray/cabinet/img05/pushup-001seth.jpg?_ex=128x128',
           },
         ],
       },
@@ -43,7 +42,7 @@ export const state = () => ({
   ],
 })
 
-// export const getters = {}
+export const getters = {}
 
 export const mutations = {
   searchItem(state, searchedItems) {
