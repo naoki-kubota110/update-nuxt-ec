@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
 
+const orderSchema = new mongoose.Schema({
+  id: String,
+  orderId:String,
+  status: Number,
+  addCartDate:String,
+  itemInfo: Array,
+})
+
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -15,6 +23,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  orders:{
+    type:[orderSchema],
+    default:[],
+    unique:true
+  }
 });
 
 module.exports = mongoose.model('User', UserSchema);

@@ -27,11 +27,12 @@ module.exports = {
       console.log(err)
     }
   },
-  userLogin: async (req,res) => {
+  userLogin: async (req,res,next) => {
     try {
       console.log("userLogin呼び出し")
       const user = await User.findOne({ email: req.body.email });
       if (!user) {
+        console.log("メアドが一致しない")
         res.json({message:"user not found"})
       }else{
         const match = await bcrypt.compare(
@@ -39,6 +40,7 @@ module.exports = {
           user.password
         );
         if (!match){
+          console.log("パスワードが一致しない")
           res.json({ message: 'password not correct' });
         }else{
           const payload = {
@@ -50,7 +52,8 @@ module.exports = {
           res.json({token});
         }
       }
-    } catch (err) {
+    }catch (err) {
+      console.log("エラーハンドリング")
       console.log(err);
     }
   },
@@ -69,5 +72,19 @@ module.exports = {
     } catch (err) {
       res.sendStatus(403)
     }
+  },
+  newCart: async (req, res) => {
+    console.log(req.body,"exoress newCart")
+    const payload = {
+      orderId: req.body.orderId,
+      status: req.body.status,
+      addCartDate: req.body.addCartDate,
+      itemInfo:req.body.itemInfo
+    }
+    const newItem = await User.findOneAndUpdate(
+      {_id:req.body.userId},
+      {$addToSet: {orders:payload}}
+      )
+      res.status(200).json(newItem.orders)
   }
 }
