@@ -27,13 +27,16 @@
         <p><button @click="addCart">カートに入れる</button></p>
       </li>
     </ul>
+    <OrderForm />
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import OrderForm from '../../components/OrderForm.vue'
 
 export default {
+  components: { OrderForm },
   data() {
     return {
       value: 1,

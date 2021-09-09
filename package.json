@@ -28,7 +28,8 @@
     "nodemon": "^2.0.12",
     "npm": "^7.22.0",
     "nuxt": "^2.15.7",
-    "sass-loader": "10"
+    "sass-loader": "10",
+    "vee-validate": "^3.4.12"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",
