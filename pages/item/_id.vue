@@ -51,10 +51,12 @@ export default {
   },
   methods: {
     addCart() {
-      const cart = this.$store.state.shoppingCart.cart
+      // const cart = this.$store.state.shoppingCart.cart
       const item = {
-        id: new Date().getTime().toString(),
+        orderId: new Date().getTime().toString(),
         status: 0,
+        userId:this.$auth.user.id,
+        addCartDate: new Date().toLocaleString(),
         itemInfo: [
           {
             itemId: this.selectedItem[0].Item.itemCode,
@@ -66,25 +68,8 @@ export default {
         ],
       }
       if (confirm('カートに商品を追加しますか?')) {
-        // if (this.$store.getters.uid === null) {
-        //   this.$router.push(/login/)
-        // }
-        if (cart === null) {
-          console.log('新規カート')
-          console.log(item)
+        console.log(item)
           this['shoppingCart/newCart'](item)
-        } else {
-          console.log('追加カート')
-          const copyCart = cart
-          const info = [...copyCart.itemInfo, item.itemInfo[0]]
-          const data = {
-            id: cart.id,
-            status: 0,
-            itemInfo: info,
-          }
-          console.log(data)
-          this['shoppingCart/addCart'](data)
-        }
       }
     },
     ...mapActions(['shoppingCart/newCart', 'shoppingCart/addCart']),

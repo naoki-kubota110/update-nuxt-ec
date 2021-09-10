@@ -26,8 +26,8 @@
 
 <script>
   export default {
-    middleware({ store, redirect }) {
-      if(store.$auth.loggedIn) {
+    middleware({ store, redirect }){
+      if(store.$auth.loggedIn){
         redirect('/');
       }
     },
@@ -45,10 +45,10 @@
         this.$auth.loginWith('local',{data:this.user})
         .then(res => {
           console.log("成功")
-          console.log(res.body)
+          console.log(res)
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err.response)
           this.errorMsg = "メールアドレスまたはパスワードが間違っています。"
         })
       },

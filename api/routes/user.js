@@ -11,4 +11,6 @@ router.post('/login', userController.userLogin);
 // token認証
 router.get('/auth', userController.userAuth);
 
+router.post("/newcart", userController.newCart)
+
 module.exports = router;
