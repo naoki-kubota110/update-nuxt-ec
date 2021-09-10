@@ -33,22 +33,26 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
   ],
   auth: {
     redirect: {
-      home: "/"
+      home: '/',
     },
-  
+
     strategies: {
       local: {
         endpoints: {
-          login: { url: '/api/user/login', method: 'post', propertyName: 'token' },
+          login: {
+            url: '/api/user/login',
+            method: 'post',
+            propertyName: 'token',
+          },
           logout: { url: '/api/user/logout', method: 'post' },
-          user: { url: '/api/user/auth', method: 'get', propertyName: 'user' }
+          user: { url: '/api/user/auth', method: 'get', propertyName: 'user' },
         },
-      }
-    }
+      },
+    },
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -58,8 +62,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    babel: {
+      plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
+    },
     transpile: ['vee-validate/dist/rules'],
   },
-
   serverMiddleware: ['~/api/index.js'],
 }
