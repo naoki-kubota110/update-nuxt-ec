@@ -79,12 +79,16 @@ module.exports = {
       orderId: req.body.orderId,
       status: req.body.status,
       addCartDate: req.body.addCartDate,
-      itemInfo:req.body.itemInfo
+      itemInfo:req.body.itemInfo,
     }
     const newItem = await User.findOneAndUpdate(
       {_id:req.body.userId},
       {$addToSet: {orders:payload}}
       )
       res.status(200).json(newItem.orders)
+    // const check = await User.findOne({_id:req.body.userId})
+    // const status0 = check.orders.findOne({status:0})
+    // console.log(status0, "status0")
+    // console.log(check, "check")
   }
 }

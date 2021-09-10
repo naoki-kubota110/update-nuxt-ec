@@ -6,6 +6,25 @@ const orderSchema = new mongoose.Schema({
   status: Number,
   addCartDate:String,
   itemInfo: Array,
+  // 注文入力フォームのデータ
+  destinationName:String,
+  destinationEmail:String,
+  destinationZipcode:String,
+  destinationAddress:String,
+  destinationTel:String,
+  destinationDate:String,
+  paymentMethod:Number,
+  creditCardNumber:String,
+  // 注文ボタンを押したときの日時
+  orderDate:String
+})
+
+const userInfoSchema =  new mongoose.Schema({
+  name: String,
+  email:String,
+  zipcode: String,
+  address:String,
+  tel: String,
 })
 
 const UserSchema = new mongoose.Schema({
@@ -26,6 +45,11 @@ const UserSchema = new mongoose.Schema({
   orders:{
     type:[orderSchema],
     default:[],
+    unique:true
+  },
+  userInfo:{
+    type:userInfoSchema,
+    default:{},
     unique:true
   }
 });
