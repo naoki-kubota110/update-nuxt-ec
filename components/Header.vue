@@ -3,7 +3,7 @@
     <div>らくらくEC</div>
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
       <h2>
-        ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }}
+        <!-- ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} -->
         <div v-if="!$auth.loggedIn">
           <nuxt-link to="/user/login">| Login | </nuxt-link>
           <nuxt-link to="/user/register">|register |</nuxt-link>
@@ -17,11 +17,19 @@
       <input v-model="searchWord" type="text" />
       <button type="submit" @click="searchItem">検索</button>
     </div>
-    <div>
-      <li>ログイン</li>
-      <li>お気に入り</li>
-      <li>カート</li>
-    </div>
+    <nav>
+      <ul>
+        <nuxt-link to="/user/login">
+          <li>ログイン</li>
+        </nuxt-link>
+        <!-- <nuxt-link to="/user/favorite"> -->
+        <li>お気に入り</li>
+        <!-- </nuxt-link> -->
+        <!-- <nuxt-link to="/user/cart"> -->
+        <li>カート</li>
+        <!-- </nuxt-link> -->
+      </ul>
+    </nav>
   </header>
 </template>
 
@@ -93,7 +101,7 @@ header {
   background-color: pink;
   height: 100px;
 }
-input {
-  margin-top: 40px;
-}
+// input {
+//   margin-top: 40px;
+// }
 </style>
