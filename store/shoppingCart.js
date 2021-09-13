@@ -21,9 +21,9 @@ export const actions = {
       commit('newCart', item)
     })
   },
-  addCart({ commit }, item) {
-    this.$axios.$post('/api/cart-update', { item }).then((res) => {
-      commit('addCart', item)
-    })
+  addCart({ commit }, payload) {
+    console.log("addCartのアクション呼び出し")
+    console.log(payload)
+    this.$axios.$post('/api/user/addcart', { payload})
   },
 }

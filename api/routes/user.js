@@ -13,4 +13,8 @@ router.get('/auth', userController.userAuth);
 
 router.post("/newcart", userController.newCart)
 
+router.post("/addcart", userController.addCart)
+
+router.post("/orders",userController.getAllOrders)
+
 module.exports = router;
