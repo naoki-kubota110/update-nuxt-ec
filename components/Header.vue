@@ -1,18 +1,18 @@
 <template>
   <header>
     <div>らくらくEC</div>
-      <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-        <h2>
-          ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} 
-          <div v-if="!$auth.loggedIn">
+    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+      <h2>
+        ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }}
+        <div v-if="!$auth.loggedIn">
           <nuxt-link to="/user/login">| Login | </nuxt-link>
           <nuxt-link to="/user/register">|register |</nuxt-link>
-          </div>
-          <div v-if="$auth.loggedIn">
-            <button @click="logout()">Logout</button>
-          </div>
-        </h2>
-      </div>
+        </div>
+        <div v-if="$auth.loggedIn">
+          <button @click="logout()">Logout</button>
+        </div>
+      </h2>
+    </div>
     <div class="search">
       <input v-model="searchWord" type="text" />
       <button type="submit" @click="searchItem">検索</button>
@@ -28,7 +28,7 @@
 <script>
 import axios from 'axios'
 import { mapActions } from 'vuex'
-import config from "../config"
+import config from '../config'
 
 export default {
   data() {
@@ -38,8 +38,8 @@ export default {
     }
   },
   methods: {
-    logout(){
-      confirm("本当にログアウトしますか？")
+    logout() {
+      confirm('本当にログアウトしますか？')
       this.$auth.logout()
     },
     searchItem() {

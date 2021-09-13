@@ -48,7 +48,7 @@ const UserSchema = new mongoose.Schema({
     unique:true
   },
   userInfo:{
-    type:userInfoSchema,
+    type:{userInfoSchema},
     default:{},
     unique:true
   }

@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema
-const cartSchema = new Schema({
-  id: String,
-  status: Number,
-  itemInfo: Array,
-})
+// const Schema = mongoose.Schema
+// const cartSchema = new Schema({
+//   id: String,
+//   status: Number,
+//   itemInfo: Array,
+// })
 
-module.exports = mongoose.model('Carts', cartSchema)
+// module.exports = mongoose.model('Carts', cartSchema)
