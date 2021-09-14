@@ -49,10 +49,9 @@ export const actions = {
     this.$axios.$post('/api/user/addcart', { payload })
   },
   sendOrder({ commit }, payload) {
+    console.log('store/sendOrder発火')
     this.$axios.$post('/api/user/send-order', { payload })
-    commit('sendOrder', payload)
-    this.$axios.$post('/api/user/addcart', { payload })
-    this.$router.push('/orders/cart')
+    // commit('sendOrder', payload)
   },
   deleteCart({ commit }, payload) {
     console.log('deletecart actions 呼び出し')
