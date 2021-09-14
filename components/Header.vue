@@ -24,6 +24,9 @@
         <li class="menu-item">
           <nuxt-link to="/orders/cart">カート </nuxt-link>
         </li>
+        <li class="menu-item">
+          <nuxt-link to="/orders/history">注文履歴</nuxt-link>
+        </li>
       </ul>
     </nav>
   </header>
