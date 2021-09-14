@@ -128,4 +128,12 @@ module.exports = {
     )
     res.send(xxx)
   },
+  cancelOrder: async (req,res) => {
+    console.log("キャンセルオーダーコントローラー")
+    console.log(req.body)
+    await User.findOneAndUpdate(
+      { 'orders.orderId': req.body.orderId },
+      { $set: { 'orders.$.status': 9} }
+    )
+  }
 }
