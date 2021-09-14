@@ -1,4 +1,5 @@
 require('express')
+const ObjectId = require('mongodb').ObjectId
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
@@ -117,5 +118,15 @@ module.exports = {
         res.send({ response })
       }
     )
+  },
+  deleteCart: async (req, res) => {
+    console.log('deletecart呼び出し')
+    console.log(req.body)
+    const xxx = await User.findOneAndUpdate(
+      { 'orders.orderId': req.body.orderId },
+      { $pull: { 'orders.$.itemInfo': { _id: ObjectId(req.body.itemId) } } }
+    )
+    console.log(xxx)
+    res.send(xxx)
   },
 }

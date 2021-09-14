@@ -22,7 +22,7 @@
           <nuxt-link to="/user/favorite">お気に入り</nuxt-link>
         </li>
         <li class="menu-item">
-          <nuxt-link to="/user/cart">カート </nuxt-link>
+          <nuxt-link to="/orders/cart">カート </nuxt-link>
         </li>
       </ul>
     </nav>

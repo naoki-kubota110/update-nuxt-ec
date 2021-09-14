@@ -27,16 +27,13 @@
         <p><button @click="addCart">カートに入れる</button></p>
       </li>
     </ul>
-    <OrderForm />
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import OrderForm from '../../components/OrderForm.vue'
 
 export default {
-  components: { OrderForm },
   data() {
     return {
       value: 1,
@@ -79,21 +76,10 @@ export default {
           // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
           if (!res.orders.length || !addOrder.length) {
             alert('カートに追加しますか？')
-            console.log('newcart')
             this['shoppingCart/newCart'](item)
             // ユーザーのオーダー配列にstatusが０のオブジェクトがある
           } else {
             console.log('addorder呼び出し')
-            addOrder[0].itemInfo.push({
-              itemId: this.selectedItem[0].Item.itemCode,
-              itemName: this.selectedItem[0].Item.itemName,
-              itemPrice: this.selectedItem[0].Item.itemPrice,
-              itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
-              buyNum: this.value,
-            })
-            addOrder[0].addCartDate = new Date().toLocaleString
-            addOrder.userId = this.$auth.user.id
-            console.log(addOrder)
             const payload = {
               orderId: addOrder[0].orderId,
               itemId: this.selectedItem[0].Item.itemCode,
@@ -129,9 +115,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div {
-  color: aqua;
-}
 li {
   list-style: none;
 }
