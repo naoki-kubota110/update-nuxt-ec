@@ -146,13 +146,20 @@
 import { mapActions } from 'vuex'
 
 export default {
-  asyncData() {
-    return this.$axios.$get('/api/cart/shoppingcart').then((response) => {
-      return {
-        cartData: response.data,
-      }
-    })
+  props: {
+    orderId: {
+      type: String,
+      default: '',
+      required: true,
+    },
   },
+  // asyncData() {
+  //   return this.$axios.$get('/api/cart/shoppingcart').then((response) => {
+  //     return {
+  //       cartData: response.data,
+  //     }
+  //   })
+  // },
 
   data() {
     return {
@@ -172,10 +179,9 @@ export default {
   methods: {
     sendOrder() {
       if (confirm('注文を確定しますか?')) {
-        console.log(this.cartData)
         const orderDetails = {
           // id: String,
-          orderId: String,
+          orderId: this.orderId,
           status: Number(this.paymentMethod),
           // addCartDate: new Date().getTime().toString(),
           // itemInfo: Array,
@@ -199,11 +205,11 @@ export default {
           //   tel: this.destinationTel,
           // },
         }
-        this['shoppingCart/sendOrder'](orderDetails)
         console.log(orderDetails)
+        this['shoppingCart/sendOrder'](orderDetails)
       }
     },
+    ...mapActions(['shoppingCart/sendOrder']),
   },
-  ...mapActions(['shoppingCart/sendOrder']),
 }
 </script>

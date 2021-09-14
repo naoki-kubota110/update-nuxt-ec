@@ -108,16 +108,38 @@ module.exports = {
     res.send(addItem)
   },
 
-  sendOrder(res, req) {
+  sendOrder: async (req, res) => {
+    console.log('sendOrder発火')
     console.log(req.body.payload)
-    const orderData = {}
-    console.log(orderData)
-    User.update({ date: orderData }, { $set: { itemInfo: orderData } }).then(
-      (response) => {
-        res.header('Content-Type', 'application/json; charset=utf-8')
-        res.send({ response })
-      }
+
+    // console.log(req.body.payload.orderId)
+    const updateData = {
+      destinationName: req.body.payload.destinationName,
+      destinationEmail: req.body.payload.destinationEmail,
+      destinationZipcode: req.body.payload.destinationZipcode,
+      destinationAddress: req.body.payload.destinationAddress,
+      destinationTel: req.body.payload.destinationTel,
+      destinationDate: req.body.payload.destinationDate,
+      // paymentMethod: req.body.payload.paymentMethod,
+      creditCardNumber: req.body.payload.creditCardNumber,
+      orderDate: req.body.payload.orderDate,
+    }
+    console.log(updateData)
+    const buyItem = await User.findOneAndUpdate(
+      { 'orders.orderId': req.body.payload.orderId },
+      { $inc: updateData },
+      true
+      // { $set: { 'orders.$.status': req.body.payload.paymentMethod } }
     )
+    res.send(buyItem)
+    // const orderData = {}
+    // console.log(orderData)
+    // User.update({ date: orderData }, { $set: { itemInfo: orderData } }).then(
+    //   (response) => {
+    //     res.header('Content-Type', 'application/json; charset=utf-8')
+    //     res.send({ response })
+    //   }
+    // )
   },
   deleteCart: async (req, res) => {
     console.log('deletecart呼び出し')

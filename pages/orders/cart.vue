@@ -22,11 +22,11 @@
         </tr>
       </table>
       <h2>合計金額:{{ sumPrice }}</h2>
+      <p><OrderForm :order-id="cartData.orderId" /></p>
     </div>
     <div v-else>
       <h1>カートが空です</h1>
     </div>
-    <OrderForm />
   </div>
 </template>
 
