@@ -1,6 +1,7 @@
 <template>
   <header>
     <div>らくらくEC</div>
+    
     <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
       <h2>
         ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }}
@@ -20,7 +21,7 @@
     <div>
       <li>ログイン</li>
       <li>お気に入り</li>
-      <li>カート</li>
+      <li><nuxt-link to="/orders/cart">ショッピングカート</nuxt-link></li>
     </div>
   </header>
 </template>

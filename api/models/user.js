@@ -1,11 +1,19 @@
 const mongoose = require('mongoose');
 
+const orderSubSchema = new mongoose.Schema({
+  itemId: String,
+  itemName: String,
+  itemPrice: Number,
+  itemImage: String,
+  buyNum: Number,
+})
+
 const orderSchema = new mongoose.Schema({
   id: String,
   orderId:String,
   status: Number,
   addCartDate:String,
-  itemInfo: Array,
+  itemInfo: [orderSubSchema],
   // 注文入力フォームのデータ
   destinationName:String,
   destinationEmail:String,

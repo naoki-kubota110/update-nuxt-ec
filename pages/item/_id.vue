@@ -80,21 +80,10 @@ export default {
           // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
           if(!res.orders.length || !addOrder.length){
           alert("カートに追加しますか？")
-          console.log("newcart")
           this['shoppingCart/newCart'](item)
           // ユーザーのオーダー配列にstatusが０のオブジェクトがある
           }else{
             console.log("addorder呼び出し")
-            addOrder[0].itemInfo.push({
-              itemId: this.selectedItem[0].Item.itemCode,
-              itemName: this.selectedItem[0].Item.itemName,
-              itemPrice: this.selectedItem[0].Item.itemPrice,
-              itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
-              buyNum: this.value,
-            })
-            addOrder[0].addCartDate = new Date().toLocaleString
-            addOrder.userId = this.$auth.user.id
-            console.log(addOrder)
             const payload = {
               orderId: addOrder[0].orderId,
               itemId: this.selectedItem[0].Item.itemCode,

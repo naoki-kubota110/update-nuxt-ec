@@ -15,6 +15,8 @@ router.post('/newcart', userController.newCart)
 
 router.post("/addcart", userController.addCart)
 
+router.post("/deletecart", userController.deleteCart)
+
 router.post("/orders",userController.getAllOrders)
 
 module.exports = router
