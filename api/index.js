@@ -48,8 +48,8 @@ app.use(express.json()) //  この記述によりreqのbodyが読み込める
 const userRouter = require('./routes/user')
 app.use('/user', userRouter)
 
-const cartRouter = require('./routes/cart')
-app.use('/cart', cartRouter)
+// const cartRouter = require('./routes/cart')
+// app.use('/cart', cartRouter)
 
 module.exports = {
   path: '/api',

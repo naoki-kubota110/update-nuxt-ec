@@ -70,8 +70,14 @@ module.exports = {
       res.sendStatus(403)
     }
   },
+  getAllOrders: async (req, res) => {
+    console.log('getAllOrders呼び出し')
+    console.log(req.body)
+    const orders = await User.findOne({ _id: req.body.id })
+    console.log(orders)
+    res.send(orders)
+  },
   newCart: async (req, res) => {
-    console.log(req.body, 'exoress newCart')
     const payload = {
       orderId: req.body.orderId,
       status: req.body.status,
@@ -83,9 +89,33 @@ module.exports = {
       { $addToSet: { orders: payload } }
     )
     res.status(200).json(newItem.orders)
-    // const check = await User.findOne({_id:req.body.userId})
-    // const status0 = check.orders.findOne({status:0})
-    // console.log(status0, "status0")
-    // console.log(check, "check")
+  },
+  addCart: async (req, res) => {
+    console.log(req.body.payload.orderId)
+    const updateData = {
+      itemId: req.body.payload.itemId,
+      itemName: req.body.payload.itemName,
+      itemPrice: req.body.payload.itemPrice,
+      itemImage: req.body.payload.itemImage,
+      buyNum: req.body.payload.buyNum,
+    }
+    console.log(updateData)
+    const addItem = await User.findOneAndUpdate(
+      { 'orders.orderId': req.body.payload.orderId },
+      { $push: { 'orders.$.itemInfo': updateData } }
+    )
+    res.send(addItem)
+  },
+
+  sendOrder(res, req) {
+    console.log(req.body.payload)
+    const orderData = {}
+    console.log(orderData)
+    User.update({ date: orderData }, { $set: { itemInfo: orderData } }).then(
+      (response) => {
+        res.header('Content-Type', 'application/json; charset=utf-8')
+        res.send({ response })
+      }
+    )
   },
 }

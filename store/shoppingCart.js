@@ -13,6 +13,9 @@ export const mutations = {
   addCart(state, item) {
     state.cart = item
   },
+  sendOrder(state, payload) {
+    state.cart = payload
+  },
 }
 
 export const actions = {
@@ -21,9 +24,13 @@ export const actions = {
       commit('newCart', item)
     })
   },
-  addCart({ commit }, item) {
-    this.$axios.$post('/api/cart-update', { item }).then((res) => {
-      commit('addCart', item)
-    })
+  addCart({ commit }, payload) {
+    console.log('addCartのアクション呼び出し')
+    console.log(payload)
+    this.$axios.$post('/api/user/addcart', { payload })
+  },
+  sendOrder({ commit }, payload) {
+    this.$axios.$post('/api/user/send-order', { payload })
+    commit('sendOrder', payload)
   },
 }

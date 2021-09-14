@@ -1,7 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const cartController = require('../controllers/cartController')
+// const express = require('express')
+// const router = express.Router()
+// const cartController = require('../controllers/cartController')
 
-router.post('/shoppingcart', cartController.getCart)
+// router.post('/shoppingcart', cartController.getCart)
 
-module.exports = router
+// module.exports = router

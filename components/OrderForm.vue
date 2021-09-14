@@ -143,6 +143,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   asyncData() {
     return this.$axios.$get('/api/cart/shoppingcart').then((response) => {
@@ -172,35 +174,36 @@ export default {
       if (confirm('注文を確定しますか?')) {
         console.log(this.cartData)
         const orderDetails = {
-          orders: {
-            id: String,
-            orderId: String,
-            status: Number(this.paymentMethod),
-            addCartDate: new Date().getTime().toString(),
-            itemInfo: Array,
-            // 注文入力フォームのデータ
-            destinationName: this.destinationName,
-            destinationEmail: this.destinationEmail,
-            destinationZipcode: this.destinationZipcode,
-            destinationAddress: this.destinationAddress,
-            destinationTel: this.destinationTel,
-            destinationDate: this.destinationDate,
-            paymentMethod: this.paymentMethod,
-            creditCardNumber: this.creditCardNumber,
-            // 注文ボタンを押したときの日時
-            orderDate: new Date().getTime().toString(),
-          },
-          userInfo: {
-            name: this.destinationName,
-            email: this.destinationEmail,
-            zipcode: this.destinationZipcode,
-            address: this.destinationAddress,
-            tel: this.destinationTel,
-          },
+          // id: String,
+          orderId: String,
+          status: Number(this.paymentMethod),
+          // addCartDate: new Date().getTime().toString(),
+          // itemInfo: Array,
+          // 注文入力フォームのデータ
+          destinationName: this.destinationName,
+          destinationEmail: this.destinationEmail,
+          destinationZipcode: this.destinationZipcode,
+          destinationAddress: this.destinationAddress,
+          destinationTel: this.destinationTel,
+          destinationDate: this.destinationDate,
+          paymentMethod: this.paymentMethod,
+          creditCardNumber: this.creditCardNumber,
+          // 注文ボタンを押したときの日時
+          orderDate: new Date().getTime().toString(),
+
+          // userInfo: {
+          //   name: this.destinationName,
+          //   email: this.destinationEmail,
+          //   zipcode: this.destinationZipcode,
+          //   address: this.destinationAddress,
+          //   tel: this.destinationTel,
+          // },
         }
+        this['shoppingCart/sendOrder'](orderDetails)
         console.log(orderDetails)
       }
     },
   },
+  ...mapActions(['shoppingCart/sendOrder']),
 }
 </script>

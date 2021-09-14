@@ -13,4 +13,10 @@ router.get('/auth', userController.userAuth)
 
 router.post('/newcart', userController.newCart)
 
+router.post('/addcart', userController.addCart)
+
+router.post('/orders', userController.getAllOrders)
+
+router.post('/send-order', userController.sendOrder)
+
 module.exports = router
