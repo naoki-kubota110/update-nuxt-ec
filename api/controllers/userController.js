@@ -71,10 +71,10 @@ module.exports = {
       res.sendStatus(403)
     }
   },
-  getAllOrders: async (req,res) => {
-    console.log("getAllOrders呼び出し")
+  getAllOrders: async (req, res) => {
+    console.log('getAllOrders呼び出し')
     console.log(req.body)
-    const orders = await User.findOne({_id:req.body.id})
+    const orders = await User.findOne({ _id: req.body.id })
     console.log(orders)
     res.send(orders)
   },
@@ -86,12 +86,12 @@ module.exports = {
       itemInfo: req.body.itemInfo,
     }
     const newItem = await User.findOneAndUpdate(
-      {_id:req.body.userId},
-      {$addToSet: {orders:payload}}
-      )
-      res.status(200).json(newItem.orders)
+      { _id: req.body.userId },
+      { $addToSet: { orders: payload } }
+    )
+    res.status(200).json(newItem.orders)
   },
-  addCart: async (req,res) => {
+  addCart: async (req, res) => {
     console.log(req.body.payload.orderId)
     const updateData = {
       itemId: req.body.payload.itemId,
@@ -102,19 +102,31 @@ module.exports = {
     }
     console.log(updateData)
     const addItem = await User.findOneAndUpdate(
-      {"orders.orderId":req.body.payload.orderId},
-    {$push: {"orders.$.itemInfo":updateData}}
+      { 'orders.orderId': req.body.payload.orderId },
+      { $push: { 'orders.$.itemInfo': updateData } }
     )
     res.send(addItem)
   },
-  deleteCart: async (req,res) => {
-    console.log("deletecart呼び出し")
+
+  sendOrder(res, req) {
+    console.log(req.body.payload)
+    const orderData = {}
+    console.log(orderData)
+    User.update({ date: orderData }, { $set: { itemInfo: orderData } }).then(
+      (response) => {
+        res.header('Content-Type', 'application/json; charset=utf-8')
+        res.send({ response })
+      }
+    )
+  },
+  deleteCart: async (req, res) => {
+    console.log('deletecart呼び出し')
     console.log(req.body)
     const xxx = await User.findOneAndUpdate(
-      {"orders.orderId":req.body.orderId},
-      {$pull: {"orders.$.itemInfo": {"_id": ObjectId(req.body.itemId)}}}
+      { 'orders.orderId': req.body.orderId },
+      { $pull: { 'orders.$.itemInfo': { _id: ObjectId(req.body.itemId) } } }
     )
     console.log(xxx)
     res.send(xxx)
-  }
+  },
 }

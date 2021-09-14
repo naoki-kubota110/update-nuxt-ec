@@ -1,19 +1,21 @@
 <template>
   <div>
-    <!-- <div v-show="firstViewItem">トップページ</div> -->
     <ul class="itemList">
       <li v-for="item in firstViewItemList" :key="item.Item.itemCode">
         <p>
           <router-link :to="{ path: `/item/${item.Item.itemCode}` }">
-            <img :src="item.Item.mediumImageUrls[0].imageUrl" />
+            <img
+              height="164px"
+              width="164px"
+              :src="item.Item.mediumImageUrls[0].imageUrl"
+            />
           </router-link>
         </p>
-        <!-- <p>{{ item.Item.itemName }}</p> -->
+        {{ item.Item.itemName }}
         <p>{{ [item.Item.itemPrice].toLocaleString() }}円</p>
       </li>
     </ul>
     <p>{{ cartData }}</p>
-    <!-- <div v-show="searchedItem">検索アイテム</div> -->
   </div>
 </template>
 
@@ -69,11 +71,6 @@ export default {
     if (this.$auth.loggedIn) {
       const data = { id: this.$auth.user.id }
       console.log(data)
-
-      // this.$axios.$post('/api/cart/shoppingcart', data).then((response) => {
-      //   this.cartData = response
-      //   console.log(response[0].orders[0].status)
-      // })
     }
   },
 }
@@ -85,10 +82,19 @@ h1 {
 }
 ul.itemList {
   display: flex;
-  // flex-direction: row;
   flex-wrap: wrap;
+  margin-top: 30px;
+  background: #eee;
+  overflow: hidden;
 }
 li {
   list-style: none;
+  margin-left: 30px;
+  margin-top: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-wrap: wrap;
+  width: 164px;
 }
 </style>

@@ -1,28 +1,31 @@
 <template>
   <header>
-    <div>らくらくEC</div>
-    
-    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-      <h2>
-        ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }}
-        <div v-if="!$auth.loggedIn">
-          <nuxt-link to="/user/login">| Login | </nuxt-link>
-          <nuxt-link to="/user/register">|register |</nuxt-link>
-        </div>
-        <div v-if="$auth.loggedIn">
+    <h1 class="title"><nuxt-link to="/"> らくらくEC </nuxt-link></h1>
+
+    <nav class="nav">
+      <ul class="menu-group">
+        <li class="menu-search">
+          <input v-model="searchWord" type="text" />
+          <button type="submit" @click="searchItem">
+            検索 <i class="fa fa-search"></i>
+          </button>
+        </li>
+        <!-- ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} -->
+        <li v-if="!$auth.loggedIn" class="menu-item">
+          <nuxt-link to="/user/login"> ログイン </nuxt-link>
+          <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
+        </li>
+        <li v-if="$auth.loggedIn" class="menu-item">
           <button @click="logout()">Logout</button>
-        </div>
-      </h2>
-    </div>
-    <div class="search">
-      <input v-model="searchWord" type="text" />
-      <button type="submit" @click="searchItem">検索</button>
-    </div>
-    <div>
-      <li>ログイン</li>
-      <li>お気に入り</li>
-      <li><nuxt-link to="/orders/cart">ショッピングカート</nuxt-link></li>
-    </div>
+        </li>
+        <li class="menu-item">
+          <nuxt-link to="/user/favorite">お気に入り</nuxt-link>
+        </li>
+        <li class="menu-item">
+          <nuxt-link to="/orders/cart">カート </nuxt-link>
+        </li>
+      </ul>
+    </nav>
   </header>
 </template>
 
@@ -62,6 +65,7 @@ export default {
             this.searchedItems = response.data
             this['item/searchItem'](response.data.Items)
             this.$router.push('/')
+            console.log(response.data)
           })
 
           .catch((err) => {
@@ -75,26 +79,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-nav {
+header {
   display: flex;
-  flex-direction: row;
-  justify-content: right;
-  justify-items: right;
+  width: 100%;
+  height: 100px;
+  background-color: #eee;
+  align-items: center;
 }
-div.search {
-  text-align: center;
-}
-li {
-  text-align: right;
-  list-style: none;
-  margin-right: 20px;
+.title {
+  margin-right: auto;
 }
 
-header {
-  background-color: pink;
-  height: 100px;
+.menu-item {
+  list-style: none;
+  display: inline-block;
+  padding: 10px;
 }
-input {
-  margin-top: 40px;
+.menu-search {
+  list-style: none;
+  display: inline-block;
+  padding: 350px;
 }
 </style>
