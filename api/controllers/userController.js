@@ -148,7 +148,14 @@ module.exports = {
       { 'orders.orderId': req.body.orderId },
       { $pull: { 'orders.$.itemInfo': { _id: ObjectId(req.body.itemId) } } }
     )
-    console.log(xxx)
     res.send(xxx)
   },
+  cancelOrder: async (req,res) => {
+    console.log("キャンセルオーダーコントローラー")
+    console.log(req.body)
+    await User.findOneAndUpdate(
+      { 'orders.orderId': req.body.orderId },
+      { $set: { 'orders.$.status': 9} }
+    )
+  }
 }

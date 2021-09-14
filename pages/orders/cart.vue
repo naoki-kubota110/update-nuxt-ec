@@ -12,7 +12,7 @@
           <th>合計</th>
           <th>削除</th>
         </tr>
-        <tr v-for="item in cartData.itemInfo" :key="item.itemId">
+        <tr v-for="item in cartData.itemInfo" :key="item._id">
           <th>{{ item.itemName }}</th>
           <th><img :src="item.itemImage" /></th>
           <th>{{ item.itemPrice }}円</th>
@@ -36,6 +36,12 @@ import OrderForm from '../../components/OrderForm.vue'
 
 export default {
   components: { OrderForm },
+  middleware({ store, redirect }){
+    if(!store.$auth.loggedIn){
+      alert("このページはログイン中のユーザーのみ閲覧可能です")
+      redirect('/user/login');
+    }
+    },
   data() {
     return {
       value: 1,
@@ -72,15 +78,14 @@ export default {
   },
   methods: {
     deleteItem(id) {
-      // const deleteArry = this.$store.getters["shoppingCart/cartItem"][0].itemInfo
-      // console.log(deleteArry)
-      // deleteArry.splice(index,1)
-      // console.log(deleteArry)
-      const data = {
-        itemId: id,
+      if(this.$store.getters['shoppingCart/cartItem'].length){
+
+        const data = {
+          itemId: id,
         orderId: this.$store.getters['shoppingCart/cartItem'][0].orderId,
       }
       this['shoppingCart/deleteCart'](data)
+        }
     },
     ...mapActions([
       'shoppingCart/newCart',
