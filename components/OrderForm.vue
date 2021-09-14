@@ -58,6 +58,10 @@
             v-slot="{ errors }"
             name="郵便番号"
             rules="required"
+            :validate="{
+              required: true,
+              regex: '^(070|080|090)-\\d{4}-\\d{4}$',
+            }"
           >
             <input
               v-model="destinationZipcode"
@@ -97,16 +101,38 @@
           <label>支払い方法：</label>
           <ValidationProvider v-slot="{ errors }" rules="required">
             <input
+              v-model="paymentMethod"
+              :paymentCredit="false"
               name="支払い方法"
               type="radio"
-              value="代金引換"
+              value="1"
               checked
+              @click="paymentCredit = !paymentCredit"
             /><span>代金引換</span>
-            <input name="支払い方法" type="radio" value="クレジット" /><span
-              >クレジット</span
-            >
+            <input
+              v-model="paymentMethod"
+              name="支払い方法"
+              type="radio"
+              value="2"
+              @click="paymentCredit = 'true'"
+            /><span>クレジット</span>
             <span>{{ errors[0] }}</span>
-            <div><span>クレジット番号：</span><input type="text" /></div>
+          </ValidationProvider>
+
+          <ValidationProvider
+            v-if="paymentCredit"
+            v-slot="{ errors }"
+            rules="required"
+          >
+            <div>
+              <span>クレジット番号：</span
+              ><input
+                v-model="creditCardNumber"
+                name="クレジット番号"
+                type="text"
+              />
+              <span>{{ errors[0] }}</span>
+            </div>
           </ValidationProvider>
         </div>
 
@@ -117,14 +143,16 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
-  // asyncData() {
-  //   return this.$axios.$get('/api/cart/shoppingcart').then((response) => {
-  //     return {
-  //       cartData: response.data,
-  //     }
-  //   })
-  // },
+  asyncData() {
+    return this.$axios.$get('/api/cart/shoppingcart').then((response) => {
+      return {
+        cartData: response.data,
+      }
+    })
+  },
 
   data() {
     return {
@@ -134,17 +162,48 @@ export default {
       destinationZipcode: '',
       destinationAddress: '',
       destinationDate: '',
-      paymentMethod: '',
+      paymentMethod: '1',
       creditCardNumber: '',
+
+      paymentCredit: false,
     }
   },
 
   methods: {
     sendOrder() {
       if (confirm('注文を確定しますか?')) {
-        console.log('バリデーション')
+        console.log(this.cartData)
+        const orderDetails = {
+          // id: String,
+          orderId: String,
+          status: Number(this.paymentMethod),
+          // addCartDate: new Date().getTime().toString(),
+          // itemInfo: Array,
+          // 注文入力フォームのデータ
+          destinationName: this.destinationName,
+          destinationEmail: this.destinationEmail,
+          destinationZipcode: this.destinationZipcode,
+          destinationAddress: this.destinationAddress,
+          destinationTel: this.destinationTel,
+          destinationDate: this.destinationDate,
+          paymentMethod: this.paymentMethod,
+          creditCardNumber: this.creditCardNumber,
+          // 注文ボタンを押したときの日時
+          orderDate: new Date().getTime().toString(),
+
+          // userInfo: {
+          //   name: this.destinationName,
+          //   email: this.destinationEmail,
+          //   zipcode: this.destinationZipcode,
+          //   address: this.destinationAddress,
+          //   tel: this.destinationTel,
+          // },
+        }
+        this['shoppingCart/sendOrder'](orderDetails)
+        console.log(orderDetails)
       }
     },
   },
+  ...mapActions(['shoppingCart/sendOrder']),
 }
 </script>

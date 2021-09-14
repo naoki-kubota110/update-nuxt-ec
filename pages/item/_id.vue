@@ -27,16 +27,13 @@
         <p><button @click="addCart">カートに入れる</button></p>
       </li>
     </ul>
-    <OrderForm />
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-import OrderForm from '../../components/OrderForm.vue'
 
 export default {
-  components: { OrderForm },
   data() {
     return {
       value: 1,
@@ -52,14 +49,14 @@ export default {
   methods: {
     addCart() {
       // const cart = this.$store.state.shoppingCart.cart
-      if(this.$auth.loggedIn){
+      if (this.$auth.loggedIn) {
         const data = {
-          id: this.$auth.user.id
+          id: this.$auth.user.id,
         }
         const item = {
           orderId: new Date().getTime().toString(),
           status: 0,
-          userId:this.$auth.user.id,
+          userId: this.$auth.user.id,
           addCartDate: new Date().toLocaleString(),
           itemInfo: [
             {
@@ -71,19 +68,18 @@ export default {
             },
           ],
         }
-        this.$axios.$post("/api/user/orders",data)
-        .then((res) => {
+        this.$axios.$post('/api/user/orders', data).then((res) => {
           // statusが０のオーダーだけを取得
-          const addOrder = res.orders.filter(order => {
+          const addOrder = res.orders.filter((order) => {
             return order.status === 0
           })
           // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
-          if(!res.orders.length || !addOrder.length){
-          alert("カートに追加しますか？")
-          this['shoppingCart/newCart'](item)
-          // ユーザーのオーダー配列にstatusが０のオブジェクトがある
-          }else{
-            console.log("addorder呼び出し")
+          if (!res.orders.length || !addOrder.length) {
+            alert('カートに追加しますか？')
+            this['shoppingCart/newCart'](item)
+            // ユーザーのオーダー配列にstatusが０のオブジェクトがある
+          } else {
+            console.log('addorder呼び出し')
             const payload = {
               orderId: addOrder[0].orderId,
               itemId: this.selectedItem[0].Item.itemCode,
@@ -92,10 +88,10 @@ export default {
               itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
               buyNum: this.value,
             }
-            this["shoppingCart/addCart"](payload)
+            this['shoppingCart/addCart'](payload)
           }
         })
-      }else{
+      } else {
         const item = {
           orderId: new Date().getTime().toString(),
           status: 0,
@@ -112,9 +108,14 @@ export default {
         }
         this['shoppingCart/newCart'](item)
       }
-
     },
     ...mapActions(['shoppingCart/newCart', 'shoppingCart/addCart']),
   },
 }
 </script>
+
+<style lang="scss" scoped>
+li {
+  list-style: none;
+}
+</style>
