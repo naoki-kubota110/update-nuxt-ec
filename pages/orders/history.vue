@@ -40,8 +40,6 @@
             </div>
           </th>
           <th>
-            <!-- {{item.status === 9? "キャンセル済み": 
-            '<button @click="cancelOrder(item.orderId)">キャンセル</button>'}} -->
             <div v-if="item.status === 9">
               キャンセル済み
             </div>
@@ -61,9 +59,6 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex'
-// import OrderForm from '../../components/OrderForm.vue'
-
 export default {
     middleware({ store, redirect }){
     if(!store.$auth.loggedIn){

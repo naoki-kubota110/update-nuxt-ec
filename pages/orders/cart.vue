@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>ショッピングカート画面</h1>
-    <p>{{ cartData }}</p>
     <div v-if="cartLength !== 0">
       <table>
         <tr>
@@ -52,7 +51,11 @@ export default {
       return this.$store.getters['shoppingCart/cartItem'][0]
     },
     cartLength() {
-      return this.$store.getters['shoppingCart/cartItem'].length
+      if(this.$store.getters['shoppingCart/cartItem'].length ===0){
+        return this.$store.getters['shoppingCart/cartItem'].length
+      }else{
+        return this.$store.getters['shoppingCart/cartItem'][0].itemInfo.length
+      }
     },
     sumPrice() {
       if (this.$store.getters['shoppingCart/cartItem'].length !== 0) {
