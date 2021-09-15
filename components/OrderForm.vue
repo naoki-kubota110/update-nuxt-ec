@@ -153,13 +153,6 @@ export default {
       required: true,
     },
   },
-  // asyncData() {
-  //   return this.$axios.$get('/api/cart/shoppingcart').then((response) => {
-  //     return {
-  //       cartData: response.data,
-  //     }
-  //   })
-  // },
 
   data() {
     return {
@@ -181,6 +174,7 @@ export default {
       if (confirm('注文を確定しますか?')) {
         const orderDetails = {
           // id: String,
+          userId:this.$auth.user.id,
           orderId: this.orderId,
           status: Number(this.paymentMethod),
           // addCartDate: new Date().getTime().toString(),
@@ -196,7 +190,6 @@ export default {
           creditCardNumber: this.creditCardNumber,
           // 注文ボタンを押したときの日時
           orderDate: new Date().getTime().toString(),
-
           // userInfo: {
           //   name: this.destinationName,
           //   email: this.destinationEmail,
@@ -207,6 +200,7 @@ export default {
         }
         console.log(orderDetails)
         this['shoppingCart/sendOrder'](orderDetails)
+
       }
     },
     ...mapActions(['shoppingCart/sendOrder']),
