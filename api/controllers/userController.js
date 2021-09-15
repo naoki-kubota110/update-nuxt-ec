@@ -57,6 +57,10 @@ module.exports = {
   },
   userAuth: async (req, res) => {
     try {
+      // console.log('userAuth呼び出し')
+      // const headers = req.headers
+      // console.log(headers)
+
       const bearToken = await req.headers['authorization']
       const bearer = await bearToken.split(' ')
       const token = await bearer[1]
@@ -104,49 +108,16 @@ module.exports = {
     res.send(addItem)
   },
 
-  sendOrder: async (req, res) => {
-    console.log('sendOrder発火')
+  sendOrder(res, req) {
     console.log(req.body.payload)
-
-    // console.log(req.body.payload.orderId)
-    const updateData = {
-      destinationName: req.body.payload.destinationName,
-      destinationEmail: req.body.payload.destinationEmail,
-      destinationZipcode: req.body.payload.destinationZipcode,
-      destinationAddress: req.body.payload.destinationAddress,
-      destinationTel: req.body.payload.destinationTel,
-      destinationDate: req.body.payload.destinationDate,
-      // paymentMethod: req.body.payload.paymentMethod,
-      creditCardNumber: req.body.payload.creditCardNumber,
-      orderDate: req.body.payload.orderDate,
-    }
-    console.log(updateData)
-    await User.findOneAndUpdate(
-      { 'orders.orderId': req.body.payload.orderId},
-      { $set: { 'orders.$.orderInfo': updateData}},
-      {upsert:true}
+    const orderData = {}
+    console.log(orderData)
+    User.update({ date: orderData }, { $set: { itemInfo: orderData } }).then(
+      (response) => {
+        res.header('Content-Type', 'application/json; charset=utf-8')
+        res.send({ response })
+      }
     )
-    await User.findOneAndUpdate(
-      { 'orders.orderId': req.body.payload.orderId},
-      { $set: { 'orders.$.status': req.body.payload.status} }
-    )
-
-    const userInfoData = {
-      name: req.body.payload.destinationName,
-      email: req.body.payload.destinationEmail,
-      zipcode: req.body.payload.destinationZipcode,
-      address: req.body.payload.destinationAddress,
-      tel: req.body.payload.destinationTel,
-    }
-    await User.findOneAndUpdate(
-      { _id: req.body.payload.userId },
-      {$set:{userInfo:userInfoData}},
-      {upsert:true}
-    )
-    // await User.findOneAndUpdate(
-    //   { 'orders.userInfo': req.body.payload.orderId},
-    //   { $set: { 'orders.$.status': req.body.payload.status} }
-    // )
   },
   deleteCart: async (req, res) => {
     console.log('deletecart呼び出し')

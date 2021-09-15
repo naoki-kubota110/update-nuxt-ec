@@ -189,7 +189,7 @@ export default {
           paymentMethod: this.paymentMethod,
           creditCardNumber: this.creditCardNumber,
           // 注文ボタンを押したときの日時
-          orderDate: new Date().getTime().toString(),
+          orderDate: new Date().toString(),
           // userInfo: {
           //   name: this.destinationName,
           //   email: this.destinationEmail,
