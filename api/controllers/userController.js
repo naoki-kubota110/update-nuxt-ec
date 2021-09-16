@@ -56,11 +56,8 @@ module.exports = {
     }
   },
   userAuth: async (req, res) => {
+    console.log("user auth")
     try {
-      // console.log('userAuth呼び出し')
-      // const headers = req.headers
-      // console.log(headers)
-
       const bearToken = await req.headers['authorization']
       const bearer = await bearToken.split(' ')
       const token = await bearer[1]
@@ -72,10 +69,7 @@ module.exports = {
     }
   },
   getAllOrders: async (req, res) => {
-    console.log('getAllOrders呼び出し')
-    console.log(req.body)
     const orders = await User.findOne({ _id: req.body.id })
-    console.log(orders)
     res.send(orders)
   },
   newCart: async (req, res) => {
@@ -92,7 +86,6 @@ module.exports = {
     res.status(200).json(newItem.orders)
   },
   addCart: async (req, res) => {
-    console.log(req.body.payload.orderId)
     const updateData = {
       itemId: req.body.payload.itemId,
       itemName: req.body.payload.itemName,
@@ -124,7 +117,7 @@ module.exports = {
       creditCardNumber: req.body.payload.creditCardNumber,
       orderDate: req.body.payload.orderDate,
     }
-    console.log(updateData)
+
     await User.findOneAndUpdate(
       { 'orders.orderId': req.body.payload.orderId},
       { $set: { 'orders.$.orderInfo': updateData}},
