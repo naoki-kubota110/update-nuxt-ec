@@ -26,12 +26,14 @@ export const mutations = {
   sendOrder(state, payload) {
     state.cart = payload
   },
-  deleteCart(state, index) {
-    state.cart
-      .filter((order) => {
-        return order.status === 0
-      })[0]
-      .itemInfo.splice(index, 1)
+  deleteCart(state, id) {
+    const arry = state.cart.filter(order => {
+      return order.status === 0
+    })
+    const deleteItem = arry[0].itemInfo.filter(item=> {
+      return item._id !== id
+    })
+    arry[0].itemInfo = deleteItem
   },
 }
 
@@ -57,6 +59,6 @@ export const actions = {
     console.log('deletecart actions 呼び出し')
     console.log(payload.idx)
     this.$axios.$post('/api/user/deletecart', payload)
-    commit('deleteCart', payload.idx)
+    commit('deleteCart', payload.itemId)
   },
 }

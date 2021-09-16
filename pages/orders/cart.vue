@@ -81,10 +81,10 @@ export default {
   },
   methods: {
     deleteItem(id) {
+      console.log(id)
       if(this.$store.getters['shoppingCart/cartItem'].length){
-
         const data = {
-          itemId: id,
+        itemId: id,
         orderId: this.$store.getters['shoppingCart/cartItem'][0].orderId,
       }
       this['shoppingCart/deleteCart'](data)
