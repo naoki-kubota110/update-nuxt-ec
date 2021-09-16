@@ -54,7 +54,7 @@ export default {
           id: this.$auth.user.id,
         }
         const item = {
-          orderId: new Date().toString(),
+          orderId: new Date().getTime().toString(),
           status: 0,
           userId: this.$auth.user.id,
           addCartDate: new Date().toString(),
