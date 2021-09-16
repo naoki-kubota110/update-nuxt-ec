@@ -1,6 +1,6 @@
 const express = require('express')
-const router = express.Router({mergeParams: true})
 const orderController = require("../controllers/orderController")
+const router = express.Router()
 
 // ユーザーのオーダー情報すべての取得
 router.post('/all-orders', orderController.getAllOrders)

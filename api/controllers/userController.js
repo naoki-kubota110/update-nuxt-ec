@@ -34,7 +34,6 @@ module.exports = {
       } else {
         const match = await bcrypt.compare(req.body.password, user.password)
         if (!match) {
-          console.log('パスワードが一致しない')
           res.json({ message: 'password not correct' })
         } else {
           const payload = {

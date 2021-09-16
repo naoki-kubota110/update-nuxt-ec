@@ -10,12 +10,6 @@ import { mapActions } from 'vuex'
 // import OrderForm from '../../components/OrderForm.vue'
 
 export default {
-  data() {
-    return {
-    }
-  },
-  computed: {
-  },
   created() {
     if(this.$auth.loggedIn){
       const data = {
