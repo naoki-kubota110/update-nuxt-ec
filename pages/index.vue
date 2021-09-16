@@ -11,7 +11,9 @@
             />
           </router-link>
         </p>
-        {{ item.Item.itemName }}
+        <router-link :to="{ path: `/item/${item.Item.itemCode}` }">
+          {{ item.Item.itemName }}
+        </router-link>
         <p>{{ [item.Item.itemPrice].toLocaleString() }}円</p>
       </li>
     </ul>
@@ -90,11 +92,15 @@ ul.itemList {
 li {
   list-style: none;
   margin-left: 30px;
-  margin-top: 10px;
+  margin-top: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  // white-space: nowrap;
   flex-wrap: wrap;
   width: 164px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 </style>

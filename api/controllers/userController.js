@@ -122,13 +122,13 @@ module.exports = {
     }
     console.log(updateData)
     await User.findOneAndUpdate(
-      { 'orders.orderId': req.body.payload.orderId},
-      { $set: { 'orders.$.orderInfo': updateData}},
-      {upsert:true}
+      { 'orders.orderId': req.body.payload.orderId },
+      { $set: { 'orders.$.orderInfo': updateData } },
+      { upsert: true }
     )
     await User.findOneAndUpdate(
-      { 'orders.orderId': req.body.payload.orderId},
-      { $set: { 'orders.$.status': req.body.payload.status} }
+      { 'orders.orderId': req.body.payload.orderId },
+      { $set: { 'orders.$.status': req.body.payload.status } }
     )
 
     const userInfoData = {
@@ -140,8 +140,8 @@ module.exports = {
     }
     await User.findOneAndUpdate(
       { _id: req.body.payload.userId },
-      {$set:{userInfo:userInfoData}},
-      {upsert:true}
+      { $set: { userInfo: userInfoData } },
+      { upsert: true }
     )
     // await User.findOneAndUpdate(
     //   { 'orders.userInfo': req.body.payload.orderId},
@@ -157,12 +157,12 @@ module.exports = {
     )
     res.send(xxx)
   },
-  cancelOrder: async (req,res) => {
-    console.log("キャンセルオーダーコントローラー")
+  cancelOrder: async (req, res) => {
+    console.log('キャンセルオーダーコントローラー')
     console.log(req.body)
     await User.findOneAndUpdate(
       { 'orders.orderId': req.body.orderId },
-      { $set: { 'orders.$.status': 9} }
+      { $set: { 'orders.$.status': 9 } }
     )
-  }
+  },
 }

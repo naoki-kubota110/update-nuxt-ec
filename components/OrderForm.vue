@@ -74,7 +74,7 @@
 
         <div>
           <label>住所：</label>
-          <ValidationProvider v-slot="{ errors }" rules="required|date">
+          <ValidationProvider v-slot="{ errors }" rules="required">
             <input
               v-model="destinationAddress"
               name="住所"

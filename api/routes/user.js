@@ -21,6 +21,6 @@ router.post('/orders', userController.getAllOrders)
 
 router.post('/send-order', userController.sendOrder)
 
-router.post("/cancel-order", userController.cancelOrder)
+router.post('/cancel-order', userController.cancelOrder)
 
 module.exports = router

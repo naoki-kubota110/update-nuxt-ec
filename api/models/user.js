@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-
 const orderSubSchema = new mongoose.Schema({
   itemId: String,
   itemName: String,
@@ -7,57 +6,55 @@ const orderSubSchema = new mongoose.Schema({
   itemImage: String,
   buyNum: Number,
 })
-
 const orderInfoSchema = new mongoose.Schema({
   destinationName: {
     type: String,
+    // unique: true,
     default: '',
-    unique: false,
   },
   destinationEmail: {
     type: String,
+    // unique: true,
     default: '',
-    unique: true,
   },
   destinationZipcode: {
     type: String,
+    // unique: true,
     default: '',
-    unique: true,
   },
   destinationAddress: {
     type: String,
+    // unique: true,
     default: '',
-    unique: true,
   },
   destinationTel: {
     type: String,
+    // unique: true,
     default: '',
-    unique: true,
   },
   destinationDate: {
     type: String,
+    // unique: true,
     default: '',
-    unique: true,
   },
   paymentMethod: {
     type: String,
-    default: 0,
-    unique: true,
+    // unique: true,
+    default: '',
   },
   creditCardNumber: {
     type: String,
+    // unique: true,
     default: '',
-    unique: true,
   },
   // 注文ボタンを押したときの日時
   orderDate: {
     type: String,
+    // unique: true,
     default: '',
-    unique: true,
   },
 })
-
-const orderSchema = new mongoose.Schema({
+const OrderSchema = new mongoose.Schema({
   id: String,
   orderId: String,
   status: Number,
@@ -67,10 +64,8 @@ const orderSchema = new mongoose.Schema({
   orderInfo: {
     type: orderInfoSchema,
     default: {},
-    unique: true,
   },
 })
-
 const userInfoSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -78,32 +73,26 @@ const userInfoSchema = new mongoose.Schema({
   address: String,
   tel: String,
 })
-
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     require: true,
-    unique: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true,
   },
   password: {
     type: String,
     required: true,
   },
   orders: {
-    type: [orderSchema],
+    type: [OrderSchema],
     default: [],
-    unique: true,
   },
   userInfo: {
     type: userInfoSchema,
     default: {},
-    unique: true,
   },
 })
-
 module.exports = mongoose.model('User', UserSchema)

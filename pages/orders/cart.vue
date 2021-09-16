@@ -32,15 +32,14 @@
 <script>
 import { mapActions } from 'vuex'
 import OrderForm from '../../components/OrderForm.vue'
-
 export default {
   components: { OrderForm },
-  middleware({ store, redirect }){
-    if(!store.$auth.loggedIn){
-      alert("このページはログイン中のユーザーのみ閲覧可能です")
-      redirect('/user/login');
+  middleware({ store, redirect }) {
+    if (!store.$auth.loggedIn) {
+      alert('このページはログイン中のユーザーのみ閲覧可能です')
+      redirect('/user/login')
     }
-    },
+  },
   data() {
     return {
       value: 1,
@@ -51,9 +50,9 @@ export default {
       return this.$store.getters['shoppingCart/cartItem'][0]
     },
     cartLength() {
-      if(this.$store.getters['shoppingCart/cartItem'].length ===0){
+      if (this.$store.getters['shoppingCart/cartItem'].length === 0) {
         return this.$store.getters['shoppingCart/cartItem'].length
-      }else{
+      } else {
         return this.$store.getters['shoppingCart/cartItem'][0].itemInfo.length
       }
     },
@@ -81,14 +80,13 @@ export default {
   },
   methods: {
     deleteItem(id) {
-      if(this.$store.getters['shoppingCart/cartItem'].length){
-
+      if (this.$store.getters['shoppingCart/cartItem'].length) {
         const data = {
           itemId: id,
-        orderId: this.$store.getters['shoppingCart/cartItem'][0].orderId,
-      }
-      this['shoppingCart/deleteCart'](data)
+          orderId: this.$store.getters['shoppingCart/cartItem'][0].orderId,
         }
+        this['shoppingCart/deleteCart'](data)
+      }
     },
     ...mapActions([
       'shoppingCart/newCart',

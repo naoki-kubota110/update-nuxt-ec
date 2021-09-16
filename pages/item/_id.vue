@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ $store.state.shoppingCart.cart }}
+    <!-- {{ $store.state.shoppingCart.cart }} -->
     <h1>商品詳細</h1>
     <ul class="itemList">
       <li v-for="item in selectedItem" :key="item.Item.itemCode">
@@ -89,7 +89,9 @@ export default {
               itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
               buyNum: this.value,
             }
-            this['shoppingCart/addCart'](payload)
+            if (confirm('カートに追加しますか？')) {
+              this['shoppingCart/addCart'](payload)
+            }
           }
         })
       } else {
