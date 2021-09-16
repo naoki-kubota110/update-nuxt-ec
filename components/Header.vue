@@ -16,7 +16,7 @@
           <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
         </li>
         <li v-if="$auth.loggedIn" class="menu-item">
-          <button @click="logout()">Logout</button>
+          <button @click="logout">Logout</button>
         </li>
         <li class="menu-item">
           <nuxt-link to="/user/favorite">お気に入り</nuxt-link>
@@ -46,8 +46,9 @@ export default {
   },
   methods: {
     logout() {
-      confirm('本当にログアウトしますか？')
-      this.$auth.logout()
+      if (confirm('本当にログアウトしますか？')) {
+        this.$auth.logout()
+      }
     },
     searchItem() {
       const apiKey = config.RAKUTEN_API_KEY
