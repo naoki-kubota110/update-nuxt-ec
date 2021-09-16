@@ -67,38 +67,8 @@ const OrderSchema = new mongoose.Schema({
   orderInfo:{
     type: orderInfoSchema,
     default: {},
+    // unique: true,
   }
 })
 
-const userInfoSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  zipcode: String,
-  address: String,
-  tel: String,
-})
-
-const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    require: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  orders: {
-    type: [OrderSchema],
-    default: [],
-  },
-  userInfo: {
-    type: userInfoSchema,
-    default: {},
-  },
-})
-
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('Order', OrderSchema)

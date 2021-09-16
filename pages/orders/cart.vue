@@ -21,7 +21,7 @@
         </tr>
       </table>
       <h2>合計金額:{{ sumPrice }}</h2>
-      <p><OrderForm :order-id="cartData.orderId" /></p>
+      <div><OrderForm :order-id="cartData.orderId" /></div>
     </div>
     <div v-else>
       <h1>カートが空です</h1>
@@ -41,11 +41,6 @@ export default {
       redirect('/user/login');
     }
     },
-  data() {
-    return {
-      value: 1,
-    }
-  },
   computed: {
     cartData() {
       return this.$store.getters['shoppingCart/cartItem'][0]
@@ -75,14 +70,13 @@ export default {
     const data = {
       id: this.$auth.user.id,
     }
-    this.$axios.$post('/api/user/orders', data).then((res) => {
+    this.$axios.$post('/api/user/all-orders', data).then((res) => {
       this['shoppingCart/getOrderItem'](res.orders)
     })
   },
   methods: {
     deleteItem(id) {
       if(this.$store.getters['shoppingCart/cartItem'].length){
-
         const data = {
           itemId: id,
         orderId: this.$store.getters['shoppingCart/cartItem'][0].orderId,

@@ -40,13 +40,13 @@ export const actions = {
     commit('setOrderItem', carts)
   },
   newCart({ commit }, item) {
-    this.$axios.$post('/api/user/newcart', item)
+    this.$axios.$post('/api/user/new-cart', item)
     this.$router.push('/orders/cart')
   },
-  addCart({ commit }, payload) {
-    console.log('addCartのアクション呼び出し')
+  addCart({ commit }, payload){
     console.log(payload)
-    this.$axios.$post('/api/user/addcart', { payload })
+    this.$axios.$post('/api/user/add-cart', { payload })
+    this.$router.push('/orders/cart')
   },
   sendOrder({ commit }, payload) {
     console.log('store/sendOrder発火')
@@ -56,7 +56,7 @@ export const actions = {
   deleteCart({ commit }, payload) {
     console.log('deletecart actions 呼び出し')
     console.log(payload.idx)
-    this.$axios.$post('/api/user/deletecart', payload)
+    this.$axios.$post('/api/user/delete-cart', payload)
     commit('deleteCart', payload.idx)
   },
 }
