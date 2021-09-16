@@ -12,48 +12,39 @@ const orderInfoSchema = new mongoose.Schema({
   destinationName: {
     type: String,
     default: '',
-    unique: false,
   },
   destinationEmail: {
     type: String,
     default: '',
-    unique: true,
   },
   destinationZipcode: {
     type: String,
     default: '',
-    unique: true,
   },
   destinationAddress: {
     type: String,
     default: '',
-    unique: true,
   },
   destinationTel: {
     type: String,
     default: '',
-    unique: true,
   },
   destinationDate: {
     type: String,
     default: '',
-    unique: true,
   },
   paymentMethod: {
     type: String,
     default: 0,
-    unique: true,
   },
   creditCardNumber: {
     type: String,
     default: '',
-    unique: true,
   },
   // 注文ボタンを押したときの日時
   orderDate: {
     type: String,
     default: '',
-    unique: true,
   },
 })
 
@@ -67,7 +58,6 @@ const orderSchema = new mongoose.Schema({
   orderInfo: {
     type: orderInfoSchema,
     default: {},
-    unique: true,
   },
 })
 
@@ -97,12 +87,10 @@ const UserSchema = new mongoose.Schema({
   orders: {
     type: [orderSchema],
     default: [],
-    unique: true,
   },
   userInfo: {
     type: userInfoSchema,
     default: {},
-    unique: true,
   },
 })
 
