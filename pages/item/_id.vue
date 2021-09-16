@@ -54,10 +54,10 @@ export default {
           id: this.$auth.user.id,
         }
         const item = {
-          orderId: new Date().getTime().toString(),
+          orderId: new Date().toString(),
           status: 0,
           userId: this.$auth.user.id,
-          addCartDate: new Date().toLocaleString(),
+          addCartDate: new Date().toString(),
           itemInfo: [
             {
               itemId: this.selectedItem[0].Item.itemCode,
@@ -68,15 +68,16 @@ export default {
             },
           ],
         }
-        this.$axios.$post('/api/user/orders', data).then((res) => {
+        this.$axios.$post('/api/order/all-orders', data).then((res) => {
           // statusが０のオーダーだけを取得
           const addOrder = res.orders.filter((order) => {
             return order.status === 0
           })
           // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
           if (!res.orders.length || !addOrder.length) {
-            alert('カートに追加しますか？')
-            this['shoppingCart/newCart'](item)
+            if (confirm('カートに追加しますか？')) {
+              this['shoppingCart/newCart'](item)
+            }
             // ユーザーのオーダー配列にstatusが０のオブジェクトがある
           } else {
             console.log('addorder呼び出し')

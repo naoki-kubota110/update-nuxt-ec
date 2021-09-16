@@ -11,63 +11,64 @@ const orderSubSchema = new mongoose.Schema({
 const orderInfoSchema = new mongoose.Schema({
   destinationName: {
     type: String,
-    // unique: true,
-    default: ""
+    default: '',
+    unique: false,
   },
   destinationEmail: {
     type: String,
-    // unique: true,
-    default: ""
+    default: '',
+    unique: true,
   },
   destinationZipcode: {
     type: String,
-    // unique: true,
-    default: ""
+    default: '',
+    unique: true,
   },
   destinationAddress: {
     type: String,
-    // unique: true,
-    default: ""
+    default: '',
+    unique: true,
   },
   destinationTel: {
     type: String,
-    // unique: true,
-    default: ""
+    default: '',
+    unique: true,
   },
   destinationDate: {
     type: String,
-    // unique: true,
-    default: ""
+    default: '',
+    unique: true,
   },
   paymentMethod: {
     type: String,
-    // unique: true,
-    default: ""
+    default: 0,
+    unique: true,
   },
   creditCardNumber: {
     type: String,
-    // unique: true,
-    default: "",
+    default: '',
+    unique: true,
   },
   // 注文ボタンを押したときの日時
   orderDate: {
     type: String,
-    // unique: true,
-    default: "",
+    default: '',
+    unique: true,
   },
 })
 
-const OrderSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
   id: String,
   orderId: String,
   status: Number,
   addCartDate: String,
   itemInfo: [orderSubSchema],
   // 注文入力フォームのデータ
-  orderInfo:{
+  orderInfo: {
     type: orderInfoSchema,
     default: {},
-  }
+    unique: true,
+  },
 })
 
 const userInfoSchema = new mongoose.Schema({
@@ -82,22 +83,26 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     require: true,
+    unique: true,
   },
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
     required: true,
   },
   orders: {
-    type: [OrderSchema],
+    type: [orderSchema],
     default: [],
+    unique: true,
   },
   userInfo: {
     type: userInfoSchema,
     default: {},
+    unique: true,
   },
 })
 

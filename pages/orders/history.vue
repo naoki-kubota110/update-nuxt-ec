@@ -80,7 +80,7 @@ export default {
   },
   methods:{
     cancelOrder(id){
-      this.$axios.$post('/api/user/cancel-order', {orderId: id})
+      this.$axios.$post('/api/order/cancel-order', {orderId: id})
     }
   }
 }

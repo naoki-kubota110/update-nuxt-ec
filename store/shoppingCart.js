@@ -15,23 +15,14 @@ export const mutations = {
   setOrderItem(state, carts) {
     state.cart = carts
   },
-  newCart(state, item) {
-    // state.cart = []
-    // state.cart = item
-    // console.log(state.cart)
-  },
-  addCart(state, item) {
-    state.cart = item
-  },
-  sendOrder(state, payload) {
-    state.cart = payload
-  },
-  deleteCart(state, index) {
-    state.cart
-      .filter((order) => {
-        return order.status === 0
-      })[0]
-      .itemInfo.splice(index, 1)
+  deleteCart(state, id) {
+    const arry = state.cart.filter(order => {
+      return order.status === 0
+    })
+    const deleteItem = arry[0].itemInfo.filter(item=> {
+      return item._id !== id
+    })
+    arry[0].itemInfo = deleteItem
   },
 }
 
@@ -40,23 +31,22 @@ export const actions = {
     commit('setOrderItem', carts)
   },
   newCart({ commit }, item) {
-    this.$axios.$post('/api/user/new-cart', item)
+    this.$axios.$post('/api/order/new-cart', item)
     this.$router.push('/orders/cart')
   },
   addCart({ commit }, payload){
     console.log(payload)
-    this.$axios.$post('/api/user/add-cart', { payload })
+    this.$axios.$post('/api/order/add-cart', { payload })
     this.$router.push('/orders/cart')
   },
   sendOrder({ commit }, payload) {
     console.log('store/sendOrder発火')
-    this.$axios.$post('/api/user/send-order', { payload })
-    // commit('sendOrder', payload)
+    this.$axios.$post('/api/order/send-order', { payload })
   },
   deleteCart({ commit }, payload) {
     console.log('deletecart actions 呼び出し')
-    console.log(payload.idx)
-    this.$axios.$post('/api/user/delete-cart', payload)
-    commit('deleteCart', payload.idx)
+
+    this.$axios.$post('/api/order/delete-cart', payload)
+    commit('deleteCart', payload.itemId)
   },
 }

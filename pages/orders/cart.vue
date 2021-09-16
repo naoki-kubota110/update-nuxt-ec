@@ -70,15 +70,16 @@ export default {
     const data = {
       id: this.$auth.user.id,
     }
-    this.$axios.$post('/api/user/all-orders', data).then((res) => {
+    this.$axios.$post('/api/order/all-orders', data).then((res) => {
       this['shoppingCart/getOrderItem'](res.orders)
     })
   },
   methods: {
     deleteItem(id) {
+      console.log(id)
       if(this.$store.getters['shoppingCart/cartItem'].length){
         const data = {
-          itemId: id,
+        itemId: id,
         orderId: this.$store.getters['shoppingCart/cartItem'][0].orderId,
       }
       this['shoppingCart/deleteCart'](data)
