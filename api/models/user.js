@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-
 const orderSubSchema = new mongoose.Schema({
   itemId: String,
   itemName: String,
@@ -7,7 +6,6 @@ const orderSubSchema = new mongoose.Schema({
   itemImage: String,
   buyNum: Number,
 })
-
 const orderInfoSchema = new mongoose.Schema({
   destinationName: {
     type: String,
@@ -47,7 +45,6 @@ const orderInfoSchema = new mongoose.Schema({
     default: '',
   },
 })
-
 const orderSchema = new mongoose.Schema({
   id: String,
   orderId: String,
@@ -60,7 +57,6 @@ const orderSchema = new mongoose.Schema({
     default: {},
   },
 })
-
 const userInfoSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -68,7 +64,6 @@ const userInfoSchema = new mongoose.Schema({
   address: String,
   tel: String,
 })
-
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,

@@ -44,6 +44,53 @@ export default {
       searchedItems: '',
     }
   },
+  created() {
+    if (this.$store.state.item.itemflg === true) {
+      const apiKey = config.RAKUTEN_API_KEY
+      axios
+        .get(
+          'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+          {
+            params: {
+              applicationId: apiKey,
+              keyword: 'スーパーセール',
+              hits: 30,
+            },
+          }
+        )
+        .then((response) => {
+          this.searchedItems = response.data
+          this['item/searchItem'](response.data.Items)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } else {
+      const apiKey = config.RAKUTEN_API_KEY
+      axios
+        .get(
+          'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+          {
+            params: {
+              applicationId: apiKey,
+              keyword: this.searchWord,
+              hits: 30,
+            },
+          }
+        )
+        .then((response) => {
+          this.searchedItems = response.data
+          this['item/searchItem'](response.data.Items)
+          this.$store.commit('item/flgChange')
+          this.$router.push('/')
+        })
+
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  },
+
   methods: {
     logout() {
       if (confirm('本当にログアウトしますか？')) {
@@ -68,8 +115,8 @@ export default {
           .then((response) => {
             this.searchedItems = response.data
             this['item/searchItem'](response.data.Items)
+            this.$store.commit('item/flgChange')
             this.$router.push('/')
-            console.log(response.data)
           })
 
           .catch((err) => {
