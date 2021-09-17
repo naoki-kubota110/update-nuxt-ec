@@ -67,7 +67,6 @@ export default {
     },
   },
   created() {
-    
     const data = {
       id: this.$auth.user.id,
     }
