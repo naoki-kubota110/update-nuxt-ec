@@ -74,7 +74,7 @@
 
         <div>
           <label>住所：</label>
-          <ValidationProvider v-slot="{ errors }" rules="required|date">
+          <ValidationProvider v-slot="{ errors }" rules="required">
             <input
               v-model="destinationAddress"
               name="住所"
@@ -219,16 +219,6 @@ export default {
           creditCardNumber: this.creditCardNumber,
           // 注文ボタンを押したときの日時
           orderDate: new Date().toString(),
-<<<<<<< HEAD
-          // userInfo: {
-          //   name: this.destinationName,
-          //   email: this.destinationEmail,
-          //   zipcode: this.destinationZipcode,
-          //   address: this.destinationAddress,
-          //   tel: this.destinationTel,
-          // },
-=======
->>>>>>> 081e219d2da3693e423c95248a53da4bb938ab5d
         }
         console.log(orderDetails)
         this['shoppingCart/sendOrder'](orderDetails)

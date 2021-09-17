@@ -60,12 +60,15 @@ export default {
   },
   methods: {
     registerUser() {
-      console.log(this.user)
-      this.$axios.post('/api/user/register', this.user).then((response) => {
-        console.log(response)
+      console.log("register")
+      this.$axios.post('/api/user/register', this.user)
+      .then((res) => {
+        console.log(res)
         this.$auth.loginWith('local', {
           data: this.user,
-        })
+        }).catch(err => {
+        console.log(err)
+      })
       })
     },
   },

@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
     middleware({ store, redirect }){
     if(!store.$auth.loggedIn){
@@ -66,22 +67,29 @@ export default {
       redirect('/user/login');
     }
     },
-  data() {
-    return {
-    }
-  },
-  computed: {
-    historyArray(){
-      return this.$store.getters["order/historyData"]
-    },
-    historyLength(){
-      return this.$store.getters["order/historyData"].length
-    }
+      computed: {
+        historyArray(){
+          return this.$store.getters["order/historyData"]
+        },
+        historyLength(){
+          return this.$store.getters["order/historyData"].length
+        }
+      },
+    created() {
+      const data = {
+        id: this.$auth.user.id,
+      }
+      this.$axios.$post('/api/order/orders', data).then((res) => {
+        this["order/getOrders"](res.orders)
+      })
   },
   methods:{
     cancelOrder(id){
-      this.$axios.$post('/api/user/cancel-order', {orderId: id})
-    }
+      this.$axios.$post('/api/order/cancel-order', {orderId: id})
+    },
+    ...mapActions([
+      'order/getOrders',
+    ]),
   }
 }
 </script>
