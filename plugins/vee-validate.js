@@ -11,7 +11,7 @@ import ja from 'vee-validate/dist/locale/ja.json'
 // ルールの追加
 extend('date', {
   // エラーメッセージを設定する
-  message: '明日以降の日付で選択してください',
+  message: '明日以降の日付を選択してください',
   validate(value) {
     const today = new Date()
     const year = today.getFullYear()

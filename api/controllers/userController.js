@@ -11,7 +11,7 @@ module.exports = {
   },
   // ユーザーの新規登録
   userRegister: async (req, res) => {
-    console.log("userRegister")
+    // console.log("userRegister")
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, saltRounds)
       const newUser = await new User({
@@ -27,7 +27,7 @@ module.exports = {
   },
   // ユーザーのログイン処理
   userLogin: async (req, res) => {
-    console.log("user login")
+    console.log('user login')
     try {
       const user = await User.findOne({ email: req.body.email })
       if (!user) {
@@ -53,10 +53,10 @@ module.exports = {
   },
   // ユーザーの認証処理
   userAuth: async (req, res) => {
-    console.log("user Auth")
-      try {
-        console.log("try")
-        const bearToken = await req.headers['authorization']
+    console.log('user Auth')
+    try {
+      console.log('try')
+      const bearToken = await req.headers['authorization']
       // console.log(bearToken)
       const bearer = await bearToken.split(' ')
       // console.log(bearer)

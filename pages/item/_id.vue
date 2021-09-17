@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ $store.state.shoppingCart.cart }}
+    <!-- {{ $store.state.shoppingCart.cart }} -->
     <h1>商品詳細</h1>
     <ul class="itemList">
       <li v-for="item in selectedItem" :key="item.Item.itemCode">
@@ -41,11 +41,18 @@ export default {
   },
   computed: {
     selectedItem() {
+      // if (this.$store.state.item.shopItems !== []) {
       return this.$store.state.item.shopItems.filter(
         (item) => item.Item.itemCode === this.$route.params.id
       )
+      // } else {
+      //   return false
+      // }
     },
   },
+  // destroyed() {
+  //   this.$store.state.item.itemflg = !this.$store.state.item.itemflg
+  // },
   methods: {
     addCart() {
       // const cart = this.$store.state.shoppingCart.cart
@@ -70,9 +77,11 @@ export default {
         }
         this.$axios.$post('/api/order/all-orders', data).then((res) => {
           // statusが０のオーダーだけを取得
+          console.log(res.orders)
           const addOrder = res.orders.filter((order) => {
             return order.status === 0
           })
+
           // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
           if (!res.orders.length || !addOrder.length) {
             if (confirm('カートに追加しますか？')) {
@@ -89,7 +98,9 @@ export default {
               itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
               buyNum: this.value,
             }
-            this['shoppingCart/addCart'](payload)
+            if (confirm('カートに追加しますか？')) {
+              this['shoppingCart/addCart'](payload)
+            }
           }
         })
       } else {
