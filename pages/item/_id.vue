@@ -34,7 +34,7 @@
 import { mapActions } from 'vuex'
 
 export default {
-    data() {
+  data() {
     return {
       value: 1,
     }
@@ -46,6 +46,16 @@ export default {
       )
     },
   },
+  // mounted() {
+  //   window.addEventListener('beforeunload', () => {
+  //     this.$router.push('/')
+  //     console.log('はっか')
+  //   })
+  // },
+  // destroyed() {
+  //   window.removeEventListener('beforeunload', () => {
+  //     this.$router.push('/')
+  //   })
   // created(){
   //   if(this.$auth.loggedIn){
   //     this["order/getOrders"]({id: this.$auth.user.id})
@@ -70,36 +80,33 @@ export default {
             },
           ],
         }
-          // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
-          if (this.$store.getters["order/CartDataArry"].length === 0) {
-            console.log("neworder")
-            if (confirm('カートに追加しますか？')) {
-              this['order/newCart'](item)
-            }
-            // ユーザーのオーダー配列にstatusが０のオブジェクトがある
-          } else {
-            console.log('addorder呼び出し')
-            const payload = {
-              orderId: this.$store.getters["order/CartDataArry"][0].orderId,
-              itemId: this.selectedItem[0].Item.itemCode,
-              itemName: this.selectedItem[0].Item.itemName,
-              itemPrice: this.selectedItem[0].Item.itemPrice,
-              itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
-              buyNum: this.value,
-            }
-            if (confirm('カートに追加しますか？')) {
-              this['order/addCart'](payload)
-            }
+        // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
+        if (this.$store.getters['order/CartDataArry'].length === 0) {
+          console.log('neworder')
+          if (confirm('カートに追加しますか？')) {
+            this['order/newCart'](item)
           }
-        }else{
-          alert("カートに追加するにはログインしてください")
-          this.$router.push('/user/login')
+          // ユーザーのオーダー配列にstatusが０のオブジェクトがある
+        } else {
+          console.log('addorder呼び出し')
+          const payload = {
+            orderId: this.$store.getters['order/CartDataArry'][0].orderId,
+            itemId: this.selectedItem[0].Item.itemCode,
+            itemName: this.selectedItem[0].Item.itemName,
+            itemPrice: this.selectedItem[0].Item.itemPrice,
+            itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
+            buyNum: this.value,
+          }
+          if (confirm('カートに追加しますか？')) {
+            this['order/addCart'](payload)
+          }
         }
+      } else {
+        alert('カートに追加するにはログインしてください')
+        this.$router.push('/user/login')
+      }
     },
-    ...mapActions([
-      'order/getOrders',
-      'order/newCart',
-      'order/addCart',]),
+    ...mapActions(['order/getOrders', 'order/newCart', 'order/addCart']),
   },
 }
 </script>
