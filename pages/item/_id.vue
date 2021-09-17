@@ -41,11 +41,18 @@ export default {
   },
   computed: {
     selectedItem() {
+      // if (this.$store.state.item.shopItems !== []) {
       return this.$store.state.item.shopItems.filter(
         (item) => item.Item.itemCode === this.$route.params.id
       )
+      // } else {
+      //   return false
+      // }
     },
   },
+  // destroyed() {
+  //   this.$store.state.item.itemflg = !this.$store.state.item.itemflg
+  // },
   methods: {
     addCart() {
       // const cart = this.$store.state.shoppingCart.cart
@@ -73,6 +80,7 @@ export default {
           const addOrder = res.orders.filter((order) => {
             return order.status === 0
           })
+
           // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
           if (!res.orders.length || !addOrder.length) {
             if (confirm('カートに追加しますか？')) {

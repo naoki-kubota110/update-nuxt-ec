@@ -9,52 +9,43 @@ const orderSubSchema = new mongoose.Schema({
 const orderInfoSchema = new mongoose.Schema({
   destinationName: {
     type: String,
-    // unique: true,
     default: '',
   },
   destinationEmail: {
     type: String,
-    // unique: true,
     default: '',
   },
   destinationZipcode: {
     type: String,
-    // unique: true,
     default: '',
   },
   destinationAddress: {
     type: String,
-    // unique: true,
     default: '',
   },
   destinationTel: {
     type: String,
-    // unique: true,
     default: '',
   },
   destinationDate: {
     type: String,
-    // unique: true,
     default: '',
   },
   paymentMethod: {
     type: String,
-    // unique: true,
-    default: '',
+    default: 0,
   },
   creditCardNumber: {
     type: String,
-    // unique: true,
     default: '',
   },
   // 注文ボタンを押したときの日時
   orderDate: {
     type: String,
-    // unique: true,
     default: '',
   },
 })
-const OrderSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
   id: String,
   orderId: String,
   status: Number,
@@ -77,17 +68,19 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     require: true,
+    unique: true,
   },
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
     required: true,
   },
   orders: {
-    type: [OrderSchema],
+    type: [orderSchema],
     default: [],
   },
   userInfo: {

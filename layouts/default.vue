@@ -11,25 +11,21 @@ import { mapActions } from 'vuex'
 
 export default {
   data() {
-    return {
-    }
+    return {}
   },
-  computed: {
-  },
+  computed: {},
   created() {
-    if(this.$auth.loggedIn){
+    if (this.$auth.loggedIn) {
       const data = {
         id: this.$auth.user.id,
       }
       this.$axios.$post('/api/user/orders', data).then((res) => {
-        this["order/getOrders"](res.orders)
+        this['order/getOrders'](res.orders)
       })
     }
   },
-  methods:{
-        ...mapActions([
-      'order/getOrders',
-    ]),
-  }
+  methods: {
+    ...mapActions(['order/getOrders']),
+  },
 }
 </script>

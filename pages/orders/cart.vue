@@ -80,6 +80,7 @@ export default {
   },
   methods: {
     deleteItem(id) {
+      console.log(id)
       if (this.$store.getters['shoppingCart/cartItem'].length) {
         const data = {
           itemId: id,

@@ -12,7 +12,7 @@ module.exports = {
   },
   userRegister: async (req, res) => {
     // console.log("userRegister呼び出し")
-    console.log(req.body)
+    // console.log(req.body)
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, saltRounds)
       const newUser = await new User({
@@ -57,6 +57,10 @@ module.exports = {
   },
   userAuth: async (req, res) => {
     try {
+      // console.log('userAuth呼び出し')
+      // const headers = req.headers
+      // console.log(headers)
+
       const bearToken = await req.headers['authorization']
       const bearer = await bearToken.split(' ')
       const token = await bearer[1]
@@ -68,10 +72,10 @@ module.exports = {
     }
   },
   getAllOrders: async (req, res) => {
-    console.log('getAllOrders呼び出し')
-    console.log(req.body)
+    // console.log('getAllOrders呼び出し')
+    // console.log(req.body)
     const orders = await User.findOne({ _id: req.body.id })
-    console.log(orders)
+    // console.log(orders)
     res.send(orders)
   },
   newCart: async (req, res) => {
