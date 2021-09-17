@@ -41,17 +41,21 @@ export default {
   },
   computed: {
     selectedItem() {
-      // if (this.$store.state.item.shopItems !== []) {
       return this.$store.state.item.shopItems.filter(
         (item) => item.Item.itemCode === this.$route.params.id
       )
-      // } else {
-      //   return false
-      // }
     },
   },
+  // mounted() {
+  //   window.addEventListener('beforeunload', () => {
+  //     this.$router.push('/')
+  //     console.log('はっか')
+  //   })
+  // },
   // destroyed() {
-  //   this.$store.state.item.itemflg = !this.$store.state.item.itemflg
+  //   window.removeEventListener('beforeunload', () => {
+  //     this.$router.push('/')
+  //   })
   // },
   methods: {
     addCart() {
@@ -77,7 +81,6 @@ export default {
         }
         this.$axios.$post('/api/order/all-orders', data).then((res) => {
           // statusが０のオーダーだけを取得
-          console.log(res.orders)
           const addOrder = res.orders.filter((order) => {
             return order.status === 0
           })

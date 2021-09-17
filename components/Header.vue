@@ -1,13 +1,23 @@
 <template>
   <header>
-    <h1 class="title"><nuxt-link to="/"> らくらくEC </nuxt-link></h1>
+    <font-awesome-icon icon="coffee" />
+    <h1 class="title">
+      <nuxt-link to="/">
+        <img src="/ラクラクEC.png" class="header-logo" />
+      </nuxt-link>
+    </h1>
 
     <nav class="nav">
       <ul class="menu-group">
         <li class="menu-search">
-          <input v-model="searchWord" type="text" />
-          <button type="submit" @click="searchItem">
-            検索 <i class="fa fa-search"></i>
+          <input
+            v-model="searchWord"
+            class="search-box"
+            type="text"
+            placeholder="商品を検索"
+          />
+          <button class="search-btn" type="submit" @click="searchItem">
+            <fa :icon="faSearch" class="search-icon" />
           </button>
         </li>
         <!-- ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} -->
@@ -19,13 +29,19 @@
           <button @click="logout">Logout</button>
         </li>
         <li class="menu-item">
-          <nuxt-link to="/user/favorite">お気に入り</nuxt-link>
+          <nuxt-link to="/user/favorite">
+            <fa :icon="faStar" class="menu-icon" />お気に入り</nuxt-link
+          >
         </li>
         <li class="menu-item">
-          <nuxt-link to="/orders/cart">カート </nuxt-link>
+          <nuxt-link to="/orders/cart">
+            <fa :icon="faShoppingCart" class="menu-icon" />カート
+          </nuxt-link>
         </li>
         <li class="menu-item">
-          <nuxt-link to="/orders/history">注文履歴</nuxt-link>
+          <nuxt-link to="/orders/history">
+            <fa :icon="faStickyNote" class="menu-icon" />注文履歴</nuxt-link
+          >
         </li>
       </ul>
     </nav>
@@ -35,6 +51,12 @@
 <script>
 import axios from 'axios'
 import { mapActions } from 'vuex'
+import {
+  faSearch,
+  faStar,
+  faShoppingCart,
+  faStickyNote,
+} from '@fortawesome/free-solid-svg-icons'
 import config from '../config'
 
 export default {
@@ -43,6 +65,20 @@ export default {
       searchWord: '',
       searchedItems: '',
     }
+  },
+  computed: {
+    faSearch() {
+      return faSearch
+    },
+    faStar() {
+      return faStar
+    },
+    faShoppingCart() {
+      return faShoppingCart
+    },
+    faStickyNote() {
+      return faStickyNote
+    },
   },
   created() {
     if (this.$store.state.item.itemflg === true) {
@@ -150,5 +186,52 @@ header {
   list-style: none;
   display: inline-block;
   padding: 350px;
+}
+.search-box {
+  height: 35px;
+  width: 200px;
+  // padding: 0 10px;
+  // position: absolute;
+  // left: 0;
+  // top: 0;
+  border-radius: 25px;
+  outline: 0;
+  background: white;
+  padding-left: 20px;
+}
+.search-btn {
+  height: 40px;
+  width: 50px;
+  // position: absolute;
+  // left: 250px;
+  // top: 0;
+  background: #7fbfff;
+  color: #fff;
+  border: none;
+  border-radius: 0 25px 25px 0;
+}
+.search-btn:hover {
+  background-color: #6699ff;
+}
+// .search-btn .fa-search {
+//   font-size: 20px;
+//   position: absolute;
+//   top: 30%;
+//   left: 30%;
+// }
+.search-btn:hover {
+  color: #888;
+}
+.search-icon {
+  color: white;
+}
+.header-logo {
+  height: 90px;
+  width: 120px;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+.menu-icon {
+  padding-right: 5px;
 }
 </style>
