@@ -68,7 +68,7 @@ export default {
             },
           ],
         }
-        this.$axios.$post('/api/user/orders', data).then((res) => {
+        this.$axios.$post('/api/order/all-orders', data).then((res) => {
           // statusが０のオーダーだけを取得
           const addOrder = res.orders.filter((order) => {
             return order.status === 0
