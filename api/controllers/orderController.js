@@ -1,5 +1,5 @@
 require('express')
-const ObjectId = require('mongodb').ObjectId
+// const ObjectId = require('mongodb').ObjectId
 const User = require('../models/user')
 
 module.exports = {
@@ -78,7 +78,7 @@ module.exports = {
     console.log(req.body)
     const xxx = await User.findOneAndUpdate(
       { 'orders.orderId': req.body.orderId },
-      { $pull: { 'orders.$.itemInfo': { _id: ObjectId(req.body.itemId) } } }
+      { $pull: { 'orders.$.itemInfo': { itemId: req.body.itemId } } }
     )
     res.send(xxx)
   },

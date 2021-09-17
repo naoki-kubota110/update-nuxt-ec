@@ -1,6 +1,5 @@
 <template>
   <header>
-    <font-awesome-icon icon="coffee" />
     <h1 class="title">
       <nuxt-link to="/">
         <img src="/ラクラクEC.png" class="header-logo" />
@@ -30,17 +29,19 @@
         </li>
         <li class="menu-item">
           <nuxt-link to="/user/favorite">
-            <fa :icon="faStar" class="menu-icon" />お気に入り</nuxt-link
+            <span> <fa :icon="faStar" class="menu-icon" /></span
+            >お気に入り</nuxt-link
           >
         </li>
         <li class="menu-item">
           <nuxt-link to="/orders/cart">
-            <fa :icon="faShoppingCart" class="menu-icon" />カート
+            <span> <fa :icon="faShoppingCart" class="menu-icon" /></span>カート
           </nuxt-link>
         </li>
         <li class="menu-item">
           <nuxt-link to="/orders/history">
-            <fa :icon="faStickyNote" class="menu-icon" />注文履歴</nuxt-link
+            <span> <fa :icon="faStickyNote" class="menu-icon" /></span
+            >注文履歴</nuxt-link
           >
         </li>
       </ul>

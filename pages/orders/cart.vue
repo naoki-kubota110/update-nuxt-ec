@@ -17,10 +17,10 @@
           <th>{{ item.itemPrice }}円</th>
           <th>{{ item.buyNum }}個</th>
           <th>{{ item.itemPrice * item.buyNum }}</th>
-          <th><button @click="deleteItem(item._id)">delete</button></th>
+          <th><button @click="deleteItem(item.itemId)">delete</button></th>
         </tr>
       </table>
-      <h2>合計金額:{{ sumPrice }}</h2>
+      <h2>合計金額:{{ CartSumPrice }}</h2>
       <div><OrderForm :order-id="cartData.orderId" /></div>
     </div>
     <div v-else>
@@ -36,59 +36,53 @@ export default {
   components: { OrderForm },
   middleware({ store, redirect }) {
     if (!store.$auth.loggedIn) {
-      alert('このページはログイン中のユーザーのみ閲覧可能です')
       redirect('/user/login')
     }
   },
   computed: {
     cartData() {
-      return this.$store.getters['shoppingCart/cartItem'][0]
+      return this.$store.getters["order/CartDataArry"][0]
     },
     cartLength() {
-      if (this.$store.getters['shoppingCart/cartItem'].length === 0) {
-        return this.$store.getters['shoppingCart/cartItem'].length
+      if (this.$store.getters["order/CartDataArry"].length === 0) {
+        return this.$store.getters["order/CartDataArry"].length
       } else {
-        return this.$store.getters['shoppingCart/cartItem'][0].itemInfo.length
+        return this.$store.getters["order/CartDataArry"][0].itemInfo.length
       }
     },
-    sumPrice() {
-      if (this.$store.getters['shoppingCart/cartItem'].length !== 0) {
-        let a = 0
-        this.$store.getters['shoppingCart/cartItem'][0].itemInfo.forEach(
+    CartSumPrice() {
+      if (this.$store.getters["order/CartDataArry"].length !== 0) {
+        let sumPrice = 0
+        this.$store.getters["order/CartDataArry"][0].itemInfo.forEach(
           (item) => {
-            a += item.itemPrice * item.buyNum
+            sumPrice += (item.itemPrice * item.buyNum)
           }
         )
-        return a
+        return sumPrice
       } else {
-        return null
+        return 0
       }
     },
   },
-  created() {
-    const data = {
-      id: this.$auth.user.id,
-    }
-    this.$axios.$post('/api/order/all-orders', data).then((res) => {
-      this['shoppingCart/getOrderItem'](res.orders)
-    })
-  },
+  // created() {
+  //    if(this.$auth.loggedIn){
+  //     this["order/getOrders"]({id: this.$auth.user.id})
+  //    }
+  // },
   methods: {
     deleteItem(id) {
-      console.log(id)
-      if (this.$store.getters['shoppingCart/cartItem'].length) {
+      if (this.$store.getters["order/CartDataArry"].length) {
+        // カートない商品を削除するためにアイテム固有のIDと削除するオーダー情報を指定するIDを入れる
         const data = {
           itemId: id,
-          orderId: this.$store.getters['shoppingCart/cartItem'][0].orderId,
+          orderId: this.$store.getters["order/CartDataArry"][0].orderId,
         }
-        this['shoppingCart/deleteCart'](data)
+        this['order/deleteCart'](data)
       }
     },
     ...mapActions([
-      'shoppingCart/newCart',
-      'shoppingCart/addCart',
-      'shoppingCart/getOrderItem',
-      'shoppingCart/deleteCart',
+      "order/getOrders",
+      "order/deleteCart",
     ]),
   },
 }
