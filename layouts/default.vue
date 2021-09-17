@@ -6,7 +6,7 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 // import OrderForm from '../../components/OrderForm.vue'
 
 export default {
@@ -20,10 +20,18 @@ export default {
   //     })
   //   }
   // },
-  // methods:{
-  //       ...mapActions([
-  //     'order/getOrders',
-  //   ]),
-  // }
+    created() {
+    if(this.$store.getters["order/historyData"].length === 0){
+ console.log("注文履歴")
+      if(this.$auth.loggedIn){
+        this["order/getOrders"]({id: this.$auth.user.id})
+     }
+       }
+  },
+  methods:{
+    ...mapActions([
+      'order/getOrders',
+    ]),
+  }
 }
 </script>
