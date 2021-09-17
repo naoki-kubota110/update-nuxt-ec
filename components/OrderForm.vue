@@ -220,11 +220,10 @@ export default {
           // 注文ボタンを押したときの日時
           orderDate: new Date().toString(),
         }
-        console.log(orderDetails)
-        this['shoppingCart/sendOrder'](orderDetails)
+        this['order/sendOrder'](orderDetails)
       }
     },
-    ...mapActions(['shoppingCart/sendOrder']),
+    ...mapActions(['order/sendOrder']),
   },
 }
 </script>

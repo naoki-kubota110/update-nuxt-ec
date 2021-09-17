@@ -34,32 +34,27 @@
 import { mapActions } from 'vuex'
 
 export default {
-  data() {
+    data() {
     return {
       value: 1,
     }
   },
   computed: {
     selectedItem() {
-      // if (this.$store.state.item.shopItems !== []) {
       return this.$store.state.item.shopItems.filter(
         (item) => item.Item.itemCode === this.$route.params.id
       )
-      // } else {
-      //   return false
-      // }
     },
   },
-  // destroyed() {
-  //   this.$store.state.item.itemflg = !this.$store.state.item.itemflg
+  // created(){
+  //   if(this.$auth.loggedIn){
+  //     this["order/getOrders"]({id: this.$auth.user.id})
+  //   }
   // },
+
   methods: {
     addCart() {
-      // const cart = this.$store.state.shoppingCart.cart
       if (this.$auth.loggedIn) {
-        const data = {
-          id: this.$auth.user.id,
-        }
         const item = {
           orderId: new Date().getTime().toString(),
           status: 0,
@@ -75,23 +70,17 @@ export default {
             },
           ],
         }
-        this.$axios.$post('/api/order/all-orders', data).then((res) => {
-          // statusが０のオーダーだけを取得
-          console.log(res.orders)
-          const addOrder = res.orders.filter((order) => {
-            return order.status === 0
-          })
-
           // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
-          if (!res.orders.length || !addOrder.length) {
+          if (this.$store.getters["order/CartDataArry"].length === 0) {
+            console.log("neworder")
             if (confirm('カートに追加しますか？')) {
-              this['shoppingCart/newCart'](item)
+              this['order/newCart'](item)
             }
             // ユーザーのオーダー配列にstatusが０のオブジェクトがある
           } else {
             console.log('addorder呼び出し')
             const payload = {
-              orderId: addOrder[0].orderId,
+              orderId: this.$store.getters["order/CartDataArry"][0].orderId,
               itemId: this.selectedItem[0].Item.itemCode,
               itemName: this.selectedItem[0].Item.itemName,
               itemPrice: this.selectedItem[0].Item.itemPrice,
@@ -99,29 +88,18 @@ export default {
               buyNum: this.value,
             }
             if (confirm('カートに追加しますか？')) {
-              this['shoppingCart/addCart'](payload)
+              this['order/addCart'](payload)
             }
           }
-        })
-      } else {
-        const item = {
-          orderId: new Date().getTime().toString(),
-          status: 0,
-          addCartDate: new Date().toLocaleString(),
-          itemInfo: [
-            {
-              itemId: this.selectedItem[0].Item.itemCode,
-              itemName: this.selectedItem[0].Item.itemName,
-              itemPrice: this.selectedItem[0].Item.itemPrice,
-              itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
-              buyNum: this.value,
-            },
-          ],
+        }else{
+          alert("カートに追加するにはログインしてください")
+          this.$router.push('/user/login')
         }
-        this['shoppingCart/newCart'](item)
-      }
     },
-    ...mapActions(['shoppingCart/newCart', 'shoppingCart/addCart']),
+    ...mapActions([
+      'order/getOrders',
+      'order/newCart',
+      'order/addCart',]),
   },
 }
 </script>

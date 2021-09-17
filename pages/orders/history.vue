@@ -63,7 +63,6 @@ import { mapActions } from 'vuex'
 export default {
     middleware({ store, redirect }){
     if(!store.$auth.loggedIn){
-      alert("このページはログイン中のユーザーのみ閲覧可能です")
       redirect('/user/login');
     }
     },
@@ -75,20 +74,30 @@ export default {
           return this.$store.getters["order/historyData"].length
         }
       },
-    created() {
-      const data = {
-        id: this.$auth.user.id,
-      }
-      this.$axios.$post('/api/order/orders', data).then((res) => {
-        this["order/getOrders"](res.orders)
-      })
-  },
+//     created() {
+//     if(this.$store.getters["order/historyData"].length === 0){
+//  console.log("注文履歴")
+//       if(this.$auth.loggedIn){
+//         this["order/getOrders"]({id: this.$auth.user.id})
+//      }
+//        }
+//   },
+  //   async fetch({store}) {
+  //     console.log("注文履歴")
+  //   if(this.$store.getters["order/historyData"].length === 0){
+  //     if(this.$auth.loggedIn){
+  //       await store.dispatch("order/getOrders",{id: this.$auth.user.id})
+  //    }
+  //      }
+  // },
   methods:{
     cancelOrder(id){
-      this.$axios.$post('/api/order/cancel-order', {orderId: id})
+      // this.$axios.$post('/api/order/cancel-order', {orderId: id})
+      this["order/cancelOrder"](id)
     },
     ...mapActions([
       'order/getOrders',
+      'order/cancelOrder'
     ]),
   }
 }
