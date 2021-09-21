@@ -1,7 +1,7 @@
 <template>
   <div>
-  <h1>ショッピングカート画面</h1>
   <div v-if="cartLength !== 0">
+  <h1>ショッピングカート</h1>
   <div class="shopping-cart">
   <div class="column-labels">
     <label class="product-image">Image</label>
@@ -13,13 +13,14 @@
   </div>
 
   <div v-for="item in cartData.itemInfo" :key="item._id" class="product">
+    <router-link :to="{ path: `/item/${item.itemId}` }">
     <div class="product-image">
       <img :src="item.itemImage">
     </div>
     <div class="product-details">
       <div class="product-title">{{ item.itemName }}</div>
-      <!-- <p class="product-description">The best dog bones of all time. Holy crap. Your dog will be begging for these things! I got curious once and ate one myself. I'm a fan.</p> -->
     </div>
+          </router-link>
     <div class="product-price">{{ item.itemPrice.toLocaleString() }}</div>
     <div class="product-quantity">
       {{item.buyNum}}個
@@ -43,14 +44,23 @@
 </div>
       <div><OrderForm :order-id="cartData.orderId" /></div>
     </div>
-    <div v-else>
-      <h1>カートが空です</h1>
+    <div v-else class="empty-cart">
+      <h1>ショッピングカート</h1>
+      <div class="empty-content">
+      <p class="empty-text">カートの中には何も入っていません。</p>
+      <fa :icon="faShoppingCart" class="empty-icon" />
+      <button class="empty-button">お買い物を続ける</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import {
+  faLock,
+  faShoppingCart
+} from '@fortawesome/free-solid-svg-icons'
 import OrderForm from '../../components/OrderForm.vue'
 export default {
   components: { OrderForm },
@@ -60,6 +70,12 @@ export default {
     }
   },
   computed: {
+    faLock() {
+      return faLock
+    },
+    faShoppingCart(){
+      return faShoppingCart
+    },
     cartData() {
       return this.$store.getters["order/CartDataArry"][0]
     },
@@ -118,7 +134,7 @@ $font-bold: 'HelveticaNeue-Medium', 'Helvetica Neue Medium';
 .product-price { float: left; width: 12%; }
 .product-quantity { float: left; width: 10%; }
 .product-removal { float: left; width: 9%; }
-.product-line-price { float: left; width: 12%; text-align: right; }
+.product-line-price { float: left; width: 12%; text-align: center; }
 
 /* This is used as the traditional .clearfix class */
 .group:before,
@@ -184,9 +200,11 @@ label {
   border-bottom: 1px solid $color-border;
   
   .product-image {
+    // float:left;
+    // width: 20%;
     text-align: center;
     img {
-      width: 100px;
+      width: 120px;
     }
   }
   
@@ -195,17 +213,17 @@ label {
       margin-right: 20px;
       font-family: $font-bold;
     }
-    .product-description {
-      margin: 5px 20px 5px 0;
-      line-height: 1.4em;
-    }
+    // .product-description {
+    //   margin: 5px 20px 5px 0;
+    //   line-height: 1.4em;
+    // }
   }
   
-  .product-quantity {
-    input {
-      width: 40px;
-    }
-  }
+  // .product-quantity {
+  //   input {
+  //     width: 40px;
+  //   }
+  // }
   
   .remove-product {
     border: 0;
@@ -264,10 +282,43 @@ label {
 .checkout:hover {
   background-color: #494;
 }
+.menu-icon {
+  font-size: 100px;
+  color: #555555;
+  margin:0 auto;
+}
+
+.empty-cart {
+  h1 {
+    font-weight: $font-bold;
+  }
+  .empty-content {
+    float: center;
+    .empty-text {
+      font-size: 30px;
+      float: center;
+    }
+    .empty-icon {
+    font-size: 100px;
+    display: block;
+    float: center;
+    color: #555555;
+    }
+    .empty-button {
+      float: right
+    }
+  }
+}
 
 /* Make adjustments for tablet */
 @media screen and (max-width: 650px) {
-  
+  h1{
+    font-size: 20px;
+    font-weight: $font-bold;
+  }
+  .product {
+    width: auto;
+  }
   .shopping-cart {
     margin: 0;
     padding-top: 20px;
@@ -280,25 +331,25 @@ label {
   
   .product-image {
     float: right;
-    width: auto;
+    width: 30%;
     img {
       margin: 0 0 10px 10px;
     }
   }
   
   .product-details {
-    float: none;
+    float: left;
     margin-bottom: 10px;
-    width: auto;
+    width: 70%;
   }
   
   .product-price {
     clear: both;
-    width: 70px;
+    width: 30%;
   }
   
   .product-quantity {
-    width: 100px;
+    width: 20%;
     input {
       margin-left: 20px;
     }
@@ -309,44 +360,11 @@ label {
   }
   
   .product-removal {
-    width: auto;
+    width: 20%;
   }
-  
   .product-line-price {
     float: right;
-    width: 70px;
-  }
-
-}
-
-
-/* Make more adjustments for phone */
-@media screen and (max-width: 350px) {
-  .product-removal {
-    float: right;
-  }
-  
-  .product-line-price {
-    float: right;
-    clear: left;
-    width: auto;
-    margin-top: 10px;
-  }
-  
-  .product .product-line-price:before {
-    content: 'Item Total: $';
-  }
-  
-  .totals {
-    .totals-item {
-      label {
-        width: 60%;
-      }
-      
-      .totals-value {
-        width: 40%;
-      }
-    }
+    width: 30%;
   }
 }
 </style>
