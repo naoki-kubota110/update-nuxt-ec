@@ -21,25 +21,31 @@
         </li>
         <!-- ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} -->
         <li v-if="!$auth.loggedIn" class="menu-item">
-          <nuxt-link to="/user/login"> ログイン </nuxt-link>
+          <nuxt-link to="/user/login">
+            <button class="log-btn">
+              <span> <fa :icon="faLockOpen" class="menu-icon" /></span>ログイン
+            </button>
+          </nuxt-link>
           <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
         </li>
         <li v-if="$auth.loggedIn" class="menu-item">
-          <button @click="logout">Logout</button>
+          <button class="log-btn" @click="logout">
+            <span> <fa :icon="faLock" class="menu-icon" /></span>ログアウト
+          </button>
         </li>
         <li class="menu-item">
-          <nuxt-link to="/user/favorite">
+          <nuxt-link to="/user/favorite" class="menu-text">
             <span> <fa :icon="faStar" class="menu-icon" /></span
             >お気に入り</nuxt-link
           >
         </li>
         <li class="menu-item">
-          <nuxt-link to="/orders/cart">
+          <nuxt-link to="/orders/cart" class="menu-text">
             <span> <fa :icon="faShoppingCart" class="menu-icon" /></span>カート
           </nuxt-link>
         </li>
         <li class="menu-item">
-          <nuxt-link to="/orders/history">
+          <nuxt-link to="/orders/history" class="menu-text">
             <span> <fa :icon="faStickyNote" class="menu-icon" /></span
             >注文履歴</nuxt-link
           >
@@ -57,6 +63,8 @@ import {
   faStar,
   faShoppingCart,
   faStickyNote,
+  faLock,
+  faLockOpen,
 } from '@fortawesome/free-solid-svg-icons'
 import config from '../config'
 
@@ -80,6 +88,12 @@ export default {
     faStickyNote() {
       return faStickyNote
     },
+    faLock() {
+      return faLock
+    },
+    faLockOpen() {
+      return faLockOpen
+    },
   },
   created() {
     if (this.$store.state.item.itemflg === true) {
@@ -98,30 +112,8 @@ export default {
         .then((response) => {
           this.searchedItems = response.data
           this['item/searchItem'](response.data.Items)
+          // console.log(response.data)
         })
-        .catch((err) => {
-          console.log(err)
-        })
-    } else {
-      const apiKey = config.RAKUTEN_API_KEY
-      axios
-        .get(
-          'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
-          {
-            params: {
-              applicationId: apiKey,
-              keyword: this.searchWord,
-              hits: 30,
-            },
-          }
-        )
-        .then((response) => {
-          this.searchedItems = response.data
-          this['item/searchItem'](response.data.Items)
-          this.$store.commit('item/flgChange')
-          this.$router.push('/')
-        })
-
         .catch((err) => {
           console.log(err)
         })
@@ -167,6 +159,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$hover_color: #6699ff;
+
 header {
   display: flex;
   width: 100%;
@@ -177,7 +171,11 @@ header {
 .title {
   margin-right: auto;
 }
-
+.menu-text {
+  &:hover {
+    color: $hover_color;
+  }
+}
 .menu-item {
   list-style: none;
   display: inline-block;
@@ -191,10 +189,6 @@ header {
 .search-box {
   height: 35px;
   width: 200px;
-  // padding: 0 10px;
-  // position: absolute;
-  // left: 0;
-  // top: 0;
   border-radius: 25px;
   outline: 0;
   background: white;
@@ -203,26 +197,17 @@ header {
 .search-btn {
   height: 40px;
   width: 50px;
-  // position: absolute;
-  // left: 250px;
-  // top: 0;
   background: #7fbfff;
   color: #fff;
   border: none;
   border-radius: 0 25px 25px 0;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $hover_color;
+  }
 }
-.search-btn:hover {
-  background-color: #6699ff;
-}
-// .search-btn .fa-search {
-//   font-size: 20px;
-//   position: absolute;
-//   top: 30%;
-//   left: 30%;
-// }
-.search-btn:hover {
-  color: #888;
-}
+
 .search-icon {
   color: white;
 }
@@ -234,5 +219,15 @@ header {
 }
 .menu-icon {
   padding-right: 5px;
+}
+.log-btn {
+  background-color: #7fbfff;
+  border-width: 1px;
+  padding: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $hover_color;
+  }
 }
 </style>
