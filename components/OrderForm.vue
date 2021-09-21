@@ -264,7 +264,6 @@ export default {
 }
 </script>
 
-//
 <style lang="scss" scoped>
 h1 {
   margin-top: 30px;
@@ -287,14 +286,10 @@ h1 {
   border-left: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   padding: 18px 20px 18px 40px;
-  // padding-top: 18px;
-  // padding-bottom: 18px;
-  // width: 100%;
   display: flex;
   align-items: center;
   margin-left: 350px;
   margin-right: 280px;
-  // margin-right: 500px;
 }
 @media screen and (max-width: 480px) {
   .Form-Item {
@@ -404,10 +399,6 @@ h1 {
   border-radius: 6px;
   margin-top: 32px;
   padding: 10px 5px 10px 5px;
-  // margin-left: auto;
-  // margin-right: auto;
-  // padding-top: 20px;
-  // padding-bottom: 20px;
   width: 80px;
   display: block;
   letter-spacing: 0.05em;
@@ -429,5 +420,3 @@ h1 {
   }
 }
 </style>
-
-// v-if="destinationDate !== ''"
