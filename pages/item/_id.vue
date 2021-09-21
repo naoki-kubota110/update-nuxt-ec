@@ -68,7 +68,6 @@ import axios from 'axios'
 import { mapActions } from 'vuex'
 import { faShoppingCart, faStar } from '@fortawesome/free-solid-svg-icons'
 import config from '../../config'
-
 export default {
   data() {
     return {
@@ -103,7 +102,6 @@ export default {
         console.log(err)
       })
   },
-
   methods: {
     addCart() {
       if (this.$auth.loggedIn) {

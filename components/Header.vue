@@ -148,6 +148,7 @@ export default {
           .then((response) => {
             console.log(response.data)
             this.searchedItems = response.data
+
             this['item/searchItem'](response.data.Items)
             this.$store.commit('item/flgChange')
             this.$router.push('/')
@@ -186,34 +187,34 @@ $sp: 480px; // スマホ
 
 $hover_color: #6699ff;
 
-.box {
-  @include pc {
-    background-color: red;
-  }
-  @include tab {
-    background-color: blue;
-  }
-  @include sp {
-    background-color: yellow;
-  }
-}
-li.menu-search {
-  @include pc {
-    background-color: red;
-    list-style: none;
-    display: inline-block;
-    padding: 0 200px 0 480px;
-  }
-  @include tab {
-    background-color: blue;
-    list-style: none;
-    display: inline-block;
-    padding: 0 0 0 0;
-  }
-  @include sp {
-    background-color: yellow;
-  }
-}
+// .box {
+//   @include pc {
+//     background-color: red;
+//   }
+//   @include tab {
+//     background-color: blue;
+//   }
+//   @include sp {
+//     background-color: yellow;
+//   }
+// }
+// li.menu-search {
+//   @include pc {
+//     background-color: red;
+//     list-style: none;
+//     display: inline-block;
+//     padding: 0 200px 0 480px;
+//   }
+//   @include tab {
+//     background-color: blue;
+//     list-style: none;
+//     display: inline-block;
+//     padding: 0 0 0 0;
+//   }
+//   @include sp {
+//     background-color: yellow;
+//   }
+// }
 
 header {
   display: flex;
