@@ -175,7 +175,6 @@ li {
   width: 164px;
 }
 .item-name {
-  // white-space: nowrap;
   list-style: none;
   overflow: hidden;
   text-overflow: ellipsis;

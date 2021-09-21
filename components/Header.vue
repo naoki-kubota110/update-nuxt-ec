@@ -1,66 +1,63 @@
 <template>
-  <header>
-    <h1 class="title">
-      <nuxt-link to="/">
-        <img src="/ラクラクEC.png" class="header-logo" />
-      </nuxt-link>
-            <!-- <input
-            v-model="searchWord"
-            class="search-box"
-            type="text"
-            placeholder="商品を検索"
-          />
-          <button class="search-btn" type="submit" @click="searchItem">
-            <fa :icon="faSearch" class="search-icon" />
-          </button> -->
-    </h1>
-<!-- 
-    <nav class="nav">
-      <ul class="menu-group">
-        <li class="menu-search">
-          <input
-            v-model="searchWord"
-            class="search-box"
-            type="text"
-            placeholder="商品を検索"
-          />
-          <button class="search-btn" type="submit" @click="searchItem">
-            <fa :icon="faSearch" class="search-icon" />
-          </button>
-        </li>
-        <li v-if="!$auth.loggedIn" class="menu-item">
-          <nuxt-link to="/user/login">
-            <button class="log-btn">
-              <span> <fa :icon="faLockOpen" class="menu-icon" /></span>ログイン
+  <div>
+    <!-- <h1 class="box">ハロー</h1> -->
+    <header>
+      <h1 class="title">
+        <nuxt-link to="/">
+          <img src="/ラクラクEC.png" class="header-logo" />
+        </nuxt-link>
+      </h1>
+
+      <nav>
+        <ul class="menu-group">
+          <li class="menu-search">
+            <input
+              v-model="searchWord"
+              class="search-box"
+              type="text"
+              placeholder="商品を検索"
+            />
+            <button class="search-btn" type="submit" @click="searchItem">
+              <fa :icon="faSearch" class="search-icon" />
             </button>
-          </nuxt-link>
-          <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
-        </li>
-        <li v-if="$auth.loggedIn" class="menu-item">
-          <button class="log-btn" @click="logout">
-            <span> <fa :icon="faLock" class="menu-icon" /></span>ログアウト
-          </button>
-        </li>
-        <li class="menu-item">
-          <nuxt-link to="/user/favorite" class="menu-text">
-            <span> <fa :icon="faStar" class="menu-icon" /></span
-            >お気に入り</nuxt-link
-          >
-        </li>
-        <li class="menu-item">
-          <nuxt-link to="/orders/cart" class="menu-text">
-            <span> <fa :icon="faShoppingCart" class="menu-icon" /></span>カート
-          </nuxt-link>
-        </li>
-        <li class="menu-item">
-          <nuxt-link to="/orders/history" class="menu-text">
-            <span> <fa :icon="faStickyNote" class="menu-icon" /></span
-            >注文履歴</nuxt-link
-          >
-        </li>
-      </ul>
-    </nav> -->
-  </header>
+          </li>
+          <!-- ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} -->
+          <li v-if="!$auth.loggedIn" class="menu-item">
+            <nuxt-link to="/user/login">
+              <button class="log-btn">
+                <span> <fa :icon="faLockOpen" class="menu-icon" /></span
+                >ログイン
+              </button>
+            </nuxt-link>
+            <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
+          </li>
+          <li v-if="$auth.loggedIn" class="menu-item">
+            <button class="log-btn" @click="logout">
+              <span> <fa :icon="faLock" class="menu-icon" /></span>ログアウト
+            </button>
+          </li>
+          <li class="menu-item">
+            <nuxt-link to="/user/favorite" class="menu-text">
+              <span> <fa :icon="faStar" class="menu-icon" /></span
+              >お気に入り</nuxt-link
+            >
+          </li>
+          <li class="menu-item">
+            <nuxt-link to="/orders/cart" class="menu-text">
+              <span> <fa :icon="faShoppingCart" class="menu-icon" /></span
+              >カート
+            </nuxt-link>
+          </li>
+          <li class="menu-item">
+            <nuxt-link to="/orders/history" class="menu-text">
+              <span> <fa :icon="faStickyNote" class="menu-icon" /></span
+              >注文履歴</nuxt-link
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+  </div>
 </template>
 
 <script>
@@ -120,7 +117,6 @@ export default {
         .then((response) => {
           this.searchedItems = response.data
           this['item/searchItem'](response.data.Items)
-          // console.log(response.data)
         })
         .catch((err) => {
           console.log(err)
@@ -150,8 +146,9 @@ export default {
             }
           )
           .then((response) => {
+            console.log(response.data)
             this.searchedItems = response.data
-            
+
             this['item/searchItem'](response.data.Items)
             this.$store.commit('item/flgChange')
             this.$router.push('/')
@@ -168,34 +165,92 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$pc: 1024px; // PC
+$tab: 680px; // タブレット
+$sp: 480px; // スマホ
+
+@mixin pc {
+  @media (max-width: ($pc)) {
+    @content;
+  }
+}
+@mixin tab {
+  @media (max-width: ($tab)) {
+    @content;
+  }
+}
+@mixin sp {
+  @media (max-width: ($sp)) {
+    @content;
+  }
+}
+
 $hover_color: #6699ff;
+
+// .box {
+//   @include pc {
+//     background-color: red;
+//   }
+//   @include tab {
+//     background-color: blue;
+//   }
+//   @include sp {
+//     background-color: yellow;
+//   }
+// }
+// li.menu-search {
+//   @include pc {
+//     background-color: red;
+//     list-style: none;
+//     display: inline-block;
+//     padding: 0 200px 0 480px;
+//   }
+//   @include tab {
+//     background-color: blue;
+//     list-style: none;
+//     display: inline-block;
+//     padding: 0 0 0 0;
+//   }
+//   @include sp {
+//     background-color: yellow;
+//   }
+// }
 
 header {
   display: flex;
-  width: 100%;
+  // width: 100%;
   height: 100px;
   background-color: #eee;
   align-items: center;
-}
-.title {
-  margin-right: auto;
-}
-.menu-text {
-  &:hover {
-    color: $hover_color;
+
+  h1.title {
+    // margin-right: auto;
+    .header-logo {
+      height: 90px;
+      width: 120px;
+      margin-left: 5px;
+      margin-top: 10px;
+    }
+  }
+  li {
+    .menu-text {
+      &:hover {
+        color: $hover_color;
+      }
+    }
   }
 }
-.menu-item {
+li.menu-item {
   list-style: none;
   display: inline-block;
   padding: 10px;
 }
-.menu-search {
+li.menu-search {
   list-style: none;
   display: inline-block;
-  padding: 350px;
+  padding: 0 200px 0 480px;
 }
-.search-box {
+input.search-box {
   height: 35px;
   width: 200px;
   border-radius: 25px;
@@ -203,7 +258,7 @@ header {
   background: white;
   padding-left: 20px;
 }
-.search-btn {
+button.search-btn {
   height: 40px;
   width: 50px;
   background: #7fbfff;
@@ -211,7 +266,15 @@ header {
   border: none;
   border-radius: 0 25px 25px 0;
   cursor: pointer;
-
+  &:hover {
+    background-color: $hover_color;
+  }
+}
+button.log-btn {
+  background-color: #7fbfff;
+  border-width: 1px;
+  // padding: 5px;
+  cursor: pointer;
   &:hover {
     background-color: $hover_color;
   }
@@ -220,23 +283,8 @@ header {
 .search-icon {
   color: white;
 }
-.header-logo {
-  height: 90px;
-  width: 120px;
-  margin-left: 5px;
-  margin-top: 10px;
-}
+
 .menu-icon {
   padding-right: 5px;
-}
-.log-btn {
-  background-color: #7fbfff;
-  border-width: 1px;
-  padding: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: $hover_color;
-  }
 }
 </style>
