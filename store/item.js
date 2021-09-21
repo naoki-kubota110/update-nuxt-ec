@@ -16,6 +16,7 @@ export const mutations = {
 
 export const actions = {
   searchItem({ commit }, searchedItems) {
+    
     commit('searchItem', searchedItems)
   },
 }
