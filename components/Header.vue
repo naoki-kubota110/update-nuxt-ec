@@ -4,8 +4,17 @@
       <nuxt-link to="/">
         <img src="/ラクラクEC.png" class="header-logo" />
       </nuxt-link>
+            <input
+            v-model="searchWord"
+            class="search-box"
+            type="text"
+            placeholder="商品を検索"
+          />
+          <button class="search-btn" type="submit" @click="searchItem">
+            <fa :icon="faSearch" class="search-icon" />
+          </button>
     </h1>
-
+<!-- 
     <nav class="nav">
       <ul class="menu-group">
         <li class="menu-search">
@@ -19,7 +28,6 @@
             <fa :icon="faSearch" class="search-icon" />
           </button>
         </li>
-        <!-- ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} -->
         <li v-if="!$auth.loggedIn" class="menu-item">
           <nuxt-link to="/user/login"> ログイン </nuxt-link>
           <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
@@ -45,7 +53,7 @@
           >
         </li>
       </ul>
-    </nav>
+    </nav> -->
   </header>
 </template>
 
@@ -151,6 +159,7 @@ export default {
           )
           .then((response) => {
             this.searchedItems = response.data
+            
             this['item/searchItem'](response.data.Items)
             this.$store.commit('item/flgChange')
             this.$router.push('/')

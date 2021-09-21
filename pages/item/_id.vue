@@ -32,11 +32,18 @@
 
 <script>
 import { mapActions } from 'vuex'
-
+import axios from 'axios'
+import config from '../../config'
 export default {
   data() {
     return {
       value: 1,
+      itemDetailData:{
+        itemId: "",
+        itemName: "",
+        itemPrice: null,
+        itemImage: "",
+      }
     }
   },
   computed: {
@@ -45,6 +52,29 @@ export default {
         (item) => item.Item.itemCode === this.$route.params.id
       )
     },
+  },
+  mounted(){
+    const apiKey = config.RAKUTEN_API_KEY
+    axios
+          .get(
+            'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+            {
+              params: {
+                applicationId: apiKey,
+                itemCode: this.$route.params.id,
+              },
+            }
+          )
+          .then((response) => {
+            // this.searchedItems = response.data
+            console.log(response.data)
+            // this['item/searchItem'](response.data.Items)
+            // this.$store.commit('item/flgChange')
+            // this.$router.push('/')
+          })
+          .catch((err) => {
+            console.log(err)
+          })
   },
   // mounted() {
   //   window.addEventListener('beforeunload', () => {
