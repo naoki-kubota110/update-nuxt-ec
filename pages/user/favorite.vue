@@ -1,30 +1,29 @@
 <template>
   <div>
+    <!-- <p>{{ favoriteItem }}</p> -->
     <h1>お気に入り商品</h1>
-    <div v-if="cartLength !== 0">
-      <table>
-        <tr>
-          <th>名前</th>
-          <th>写真</th>
-          <th>価格</th>
-          <th>お気に入り</th>
-        </tr>
-        <tr v-for="item in cartData.itemInfo" :key="item._id">
-          <!-- <router-link :to="{ path: `/item/${item.Item.itemCode}` }"> -->
+    <table>
+      <tr>
+        <th>名前</th>
+        <th>写真</th>
+        <th>価格</th>
+        <!-- <th>お気に入り</th> -->
+      </tr>
+      <tr v-for="item in favoriteItem" :key="item.index">
+        <router-link :to="{ path: `/item/${item.favoriteId}` }">
           <th>{{ item.itemName }}</th>
-          <!-- </router-link> -->
-          <th><img :src="item.itemImage" /></th>
-          <th>{{ item.itemPrice }}円</th>
-
-          <th>
-            <button @click="deleteItem(item.itemId)">お気に入り解除</button>
-          </th>
-        </tr>
-      </table>
-    </div>
-    <div v-else>
-      <!-- <h1>お気に入り登録商品はありません</h1> -->
-    </div>
+        </router-link>
+        <!-- <router-link :to="{ path: `/item/${item.favoriteId}` }"> -->
+        <th><img :src="item.itemImage" /></th>
+        <!-- </router-link> -->
+        <th>{{ [item.itemPrice].toLocaleString() }}円</th>
+        <th>
+          <button @click="deleteFavoriteItem(item.favoriteId, item.userId)">
+            お気に入り解除
+          </button>
+        </th>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -37,34 +36,26 @@ export default {
     }
   },
   computed: {
-    cartData() {
-      return this.$store.getters['order/CartDataArry'][0]
-    },
-    cartLength() {
-      if (this.$store.getters['order/CartDataArry'].length === 0) {
-        return this.$store.getters['order/CartDataArry'].length
-      } else {
-        return this.$store.getters['order/CartDataArry'][0].itemInfo.length
-      }
+    favoriteItem() {
+      return this.$store.state.users.favoriteItem
     },
   },
-  // created() {
-  //    if(this.$auth.loggedIn){
-  //     this["order/getOrders"]({id: this.$auth.user.id})
-  //    }
-  // },
+  created() {
+    if (this.$auth.loggedIn) {
+      this['users/getFavoriteItem']({ id: this.$auth.user.id })
+    }
+  },
   methods: {
-    deleteItem(id) {
-      if (this.$store.getters['order/CartDataArry'].length) {
-        // カートない商品を削除するためにアイテム固有のIDと削除するオーダー情報を指定するIDを入れる
-        const data = {
-          itemId: id,
-          orderId: this.$store.getters['order/CartDataArry'][0].orderId,
-        }
-        this['order/deleteCart'](data)
+    deleteFavoriteItem(favoriteId, userId) {
+      const deleteData = {
+        favoriteId,
+        userId,
+      }
+      if (confirm('お気に入りを解除しますか？')) {
+        this['users/deleteFavoriteItem'](deleteData)
       }
     },
-    ...mapActions(['order/getOrders', 'order/deleteCart']),
+    ...mapActions(['users/deleteFavoriteItem', 'users/getFavoriteItem']),
   },
 }
 </script>

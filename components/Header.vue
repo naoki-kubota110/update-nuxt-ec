@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <h1 class="box">ハロー</h1> -->
     <header>
       <h1 class="title">
         <nuxt-link to="/">
@@ -8,54 +7,52 @@
         </nuxt-link>
       </h1>
 
-      <nav>
-        <ul class="menu-group">
-          <li class="menu-search">
-            <input
-              v-model="searchWord"
-              class="search-box"
-              type="text"
-              placeholder="商品を検索"
-            />
-            <button class="search-btn" type="submit" @click="searchItem">
-              <fa :icon="faSearch" class="search-icon" />
+      <div>
+        <li class="menu-search">
+          <input
+            v-model="searchWord"
+            class="search-box"
+            type="text"
+            placeholder="商品を検索"
+          />
+          <button class="search-btn" type="submit" @click="searchItem">
+            <fa :icon="faSearch" class="search-icon" />
+          </button>
+        </li>
+      </div>
+      <!-- ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} -->
+      <span class="menu">
+        <li v-if="!$auth.loggedIn" class="menu-item">
+          <nuxt-link to="/user/login">
+            <button class="log-btn">
+              <span> <fa :icon="faLockOpen" class="menu-icon" /></span>ログイン
             </button>
-          </li>
-          <!-- ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} -->
-          <li v-if="!$auth.loggedIn" class="menu-item">
-            <nuxt-link to="/user/login">
-              <button class="log-btn">
-                <span> <fa :icon="faLockOpen" class="menu-icon" /></span
-                >ログイン
-              </button>
-            </nuxt-link>
-            <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
-          </li>
-          <li v-if="$auth.loggedIn" class="menu-item">
-            <button class="log-btn" @click="logout">
-              <span> <fa :icon="faLock" class="menu-icon" /></span>ログアウト
-            </button>
-          </li>
-          <li class="menu-item">
-            <nuxt-link to="/user/favorite" class="menu-text">
-              <span> <fa :icon="faStar" class="menu-icon" /></span
-              >お気に入り</nuxt-link
-            >
-          </li>
-          <li class="menu-item">
-            <nuxt-link to="/orders/cart" class="menu-text">
-              <span> <fa :icon="faShoppingCart" class="menu-icon" /></span
-              >カート
-            </nuxt-link>
-          </li>
-          <li class="menu-item">
-            <nuxt-link to="/orders/history" class="menu-text">
-              <span> <fa :icon="faStickyNote" class="menu-icon" /></span
-              >注文履歴</nuxt-link
-            >
-          </li>
-        </ul>
-      </nav>
+          </nuxt-link>
+          <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
+        </li>
+        <li v-if="$auth.loggedIn" class="menu-item">
+          <button class="log-btn" @click="logout">
+            <span> <fa :icon="faLock" class="menu-icon" /></span>ログアウト
+          </button>
+        </li>
+        <li class="menu-item">
+          <nuxt-link to="/user/favorite" class="menu-text">
+            <span> <fa :icon="faStar" class="menu-icon" /></span
+            >お気に入り</nuxt-link
+          >
+        </li>
+        <li class="menu-item">
+          <nuxt-link to="/orders/cart" class="menu-text">
+            <span> <fa :icon="faShoppingCart" class="menu-icon" /></span>カート
+          </nuxt-link>
+        </li>
+        <li class="menu-item-last">
+          <nuxt-link to="/orders/history" class="menu-text">
+            <span> <fa :icon="faStickyNote" class="menu-icon" /></span
+            >注文履歴</nuxt-link
+          >
+        </li>
+      </span>
     </header>
   </div>
 </template>
@@ -165,66 +162,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$pc: 1024px; // PC
-$tab: 680px; // タブレット
-$sp: 480px; // スマホ
-
-@mixin pc {
-  @media (max-width: ($pc)) {
-    @content;
-  }
-}
-@mixin tab {
-  @media (max-width: ($tab)) {
-    @content;
-  }
-}
-@mixin sp {
-  @media (max-width: ($sp)) {
-    @content;
-  }
-}
-
 $hover_color: #6699ff;
-
-// .box {
-//   @include pc {
-//     background-color: red;
-//   }
-//   @include tab {
-//     background-color: blue;
-//   }
-//   @include sp {
-//     background-color: yellow;
-//   }
-// }
-// li.menu-search {
-//   @include pc {
-//     background-color: red;
-//     list-style: none;
-//     display: inline-block;
-//     padding: 0 200px 0 480px;
-//   }
-//   @include tab {
-//     background-color: blue;
-//     list-style: none;
-//     display: inline-block;
-//     padding: 0 0 0 0;
-//   }
-//   @include sp {
-//     background-color: yellow;
-//   }
-// }
 
 header {
   display: flex;
-  // width: 100%;
+  width: 100%;
   height: 100px;
   background-color: #eee;
   align-items: center;
+  justify-content: space-between;
 
   h1.title {
-    // margin-right: auto;
     .header-logo {
       height: 90px;
       width: 120px;
@@ -239,52 +187,142 @@ header {
       }
     }
   }
-}
-li.menu-item {
-  list-style: none;
-  display: inline-block;
-  padding: 10px;
-}
-li.menu-search {
-  list-style: none;
-  display: inline-block;
-  padding: 0 200px 0 480px;
-}
-input.search-box {
-  height: 35px;
-  width: 200px;
-  border-radius: 25px;
-  outline: 0;
-  background: white;
-  padding-left: 20px;
-}
-button.search-btn {
-  height: 40px;
-  width: 50px;
-  background: #7fbfff;
-  color: #fff;
-  border: none;
-  border-radius: 0 25px 25px 0;
-  cursor: pointer;
-  &:hover {
-    background-color: $hover_color;
+
+  li.menu-item {
+    list-style: none;
+    display: inline-block;
+    padding: 10px;
   }
-}
-button.log-btn {
-  background-color: #7fbfff;
-  border-width: 1px;
-  // padding: 5px;
-  cursor: pointer;
-  &:hover {
-    background-color: $hover_color;
+  li.menu-item-last {
+    list-style: none;
+    display: inline-block;
+    padding: 10px 10px 10px 10px;
+  }
+  li.menu-search {
+    list-style: none;
+    display: inline-block;
+  }
+  input.search-box {
+    height: 35px;
+    width: 200px;
+    border-radius: 25px;
+    outline: 0;
+    background-color: white;
+    padding-left: 20px;
+  }
+  button.search-btn {
+    height: 40px;
+    width: 50px;
+    background-color: #7fbfff;
+    color: #fff;
+    border: none;
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
+    &:hover {
+      background-color: $hover_color;
+    }
+  }
+  button.log-btn {
+    background-color: #7fbfff;
+    border-width: 1px;
+    padding: 5px;
+    cursor: pointer;
+    &:hover {
+      background-color: $hover_color;
+    }
+  }
+  .search-icon {
+    color: white;
+  }
+  .menu-icon {
+    padding-right: 5px;
+  }
+  .menu {
+    display: inline-block;
+    text-align: right;
+    margin-right: 10px;
   }
 }
 
-.search-icon {
-  color: white;
+// タブレット対応
+@media screen and (max-width: 1024px) {
+  header {
+    font-size: 12px;
+    h1.title {
+      .header-logo {
+        height: 90px;
+        width: 80px;
+        margin-left: 5px;
+        margin-top: 5px;
+      }
+    }
+    li.menu-item {
+      padding: 5px;
+    }
+    input.search-box {
+      font-size: 12px;
+      height: 30px;
+      width: 150px;
+    }
+    button.search-btn {
+      height: 30px;
+      width: 30px;
+      font-size: 12px;
+    }
+    button.log-btn {
+      font-size: 12px;
+      padding: 1px;
+    }
+    .menu-icon {
+      padding-right: 1px;
+    }
+  }
 }
+// スマホ対応
+@media screen and (max-width: 650px) {
+  header {
+    width: 100%;
+    height: 180px;
+    background-color: #eee;
+    align-items: center;
+    justify-content: initial;
 
-.menu-icon {
-  padding-right: 5px;
+    h1.title {
+      .header-logo {
+        height: 90px;
+        width: 100px;
+        margin: 0 0 0 5px;
+        display: inline-block;
+      }
+    }
+    li.menu-search {
+      display: flex;
+    }
+    input.search-box {
+      height: 30px;
+      width: 150px;
+      margin-left: 10px;
+      display: inline-block;
+    }
+    button.search-btn {
+      height: 35px;
+      width: 40px;
+      margin-left: 5px;
+      margin-left: 5px;
+    }
+    button.log-btn {
+      padding: 5px;
+    }
+    .menu-icon {
+      padding-right: 5px;
+      display: flex;
+    }
+    .menu {
+      display: initial;
+      display: none;
+      flex-wrap: wrap;
+      background-color: red;
+    }
+  }
 }
 </style>

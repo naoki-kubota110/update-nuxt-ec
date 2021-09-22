@@ -67,5 +67,33 @@ module.exports = {
     } catch (err) {
       res.sendStatus(403)
     }
-  }
+  },
+  userAddFavorite: async (req, res) => {
+    try {
+      const favoriteItem = {
+        favoriteId: req.body.itemInfo[0].itemId,
+        itemName: req.body.itemInfo[0].itemName,
+        itemImage: req.body.itemInfo[0].itemImage,
+        itemPrice: req.body.itemInfo[0].itemPrice,
+      }
+      await User.findOneAndUpdate(
+        { _id: req.body.userId },
+        { $addToSet: { userFavorite: favoriteItem } }
+      )
+      res.sendStatus(200)
+    } catch (err) {
+      //  エラーハンドリング
+    }
+  },
+  userDeleteFavorite: async (req, res) => {
+    const deleteData = await User.findOneAndUpdate(
+      { 'userFavorite.favoriteId': req.body.favoriteId },
+      { $pull: { userFavorite: { favoriteId: req.body.favoriteId } } }
+    )
+    res.send(deleteData)
+  },
+  userGetFavorite: async (req, res) => {
+    const favoriteArray = await User.findOne({ _id: req.body.id })
+    res.send(favoriteArray)
+  },
 }

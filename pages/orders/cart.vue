@@ -1,55 +1,61 @@
 <template>
   <div>
-  <div v-if="cartLength !== 0">
-  <h1>ショッピングカート</h1>
-  <div class="shopping-cart">
-  <div class="column-labels">
-    <label class="product-image">Image</label>
-    <label class="product-details">Product</label>
-    <label class="product-price">価格</label>
-    <label class="product-quantity">数量</label>
-    <label class="product-removal">削除</label>
-    <label class="product-line-price">合計</label>
-  </div>
+    <div v-if="cartLength !== 0">
+      <h1>ショッピングカート</h1>
+      <div class="shopping-cart">
+        <div class="column-labels">
+          <label class="product-image">Image</label>
+          <label class="product-details">Product</label>
+          <label class="product-price">価格</label>
+          <label class="product-quantity">数量</label>
+          <label class="product-removal">削除</label>
+          <label class="product-line-price">合計</label>
+        </div>
 
-  <div v-for="item in cartData.itemInfo" :key="item._id" class="product">
-    <router-link :to="{ path: `/item/${item.itemId}` }">
-    <div class="product-image">
-      <img :src="item.itemImage">
-    </div>
-    <div class="product-details">
-      <div class="product-title">{{ item.itemName }}</div>
-    </div>
+        <div v-for="item in cartData.itemInfo" :key="item._id" class="product">
+          <router-link :to="{ path: `/item/${item.itemId}` }">
+            <div class="product-image">
+              <img :src="item.itemImage" />
+            </div>
+            <div class="product-details">
+              <div class="product-title">{{ item.itemName }}</div>
+            </div>
           </router-link>
-    <div class="product-price">{{ item.itemPrice.toLocaleString() }}</div>
-    <div class="product-quantity">
-      {{item.buyNum}}個
-    </div>
-    <div class="product-removal">
-      <button class="remove-product" @click="deleteItem(item.itemId)">削除</button>
-    </div>
-    <div class="product-line-price">{{ (item.itemPrice * item.buyNum).toLocaleString() }}</div>
-   </div>
-  <div class="totals">
-    <div class="totals-item totals-item-total">
-      <label>注文合計金額</label>
-      <div id="cart-total" class="totals-value">{{ CartSumPrice.toLocaleString() }}</div>
-    </div>
-    <div class="totals-item">
-      <label>内消費税(10%)</label>
-      <div id="cart-tax" class="totals-value">{{ Math.floor((CartSumPrice  * 0.1 / 1.1).toLocaleString())}}</div>
-    </div>
-  </div>
-      <button class="checkout">注文に進む</button>
-</div>
+          <div class="product-price">{{ item.itemPrice.toLocaleString() }}</div>
+          <div class="product-quantity">{{ item.buyNum }}個</div>
+          <div class="product-removal">
+            <button class="remove-product" @click="deleteItem(item.itemId)">
+              削除
+            </button>
+          </div>
+          <div class="product-line-price">
+            {{ (item.itemPrice * item.buyNum).toLocaleString() }}
+          </div>
+        </div>
+        <div class="totals">
+          <div class="totals-item totals-item-total">
+            <label>注文合計金額</label>
+            <div id="cart-total" class="totals-value">
+              {{ CartSumPrice.toLocaleString() }}
+            </div>
+          </div>
+          <div class="totals-item">
+            <label>内消費税(10%)</label>
+            <div id="cart-tax" class="totals-value">
+              {{ Math.floor(((CartSumPrice * 0.1) / 1.1).toLocaleString()) }}
+            </div>
+          </div>
+        </div>
+        <button class="checkout">注文に進む</button>
+      </div>
       <div><OrderForm :order-id="cartData.orderId" /></div>
     </div>
     <div v-else class="empty-cart">
       <h1>ショッピングカート</h1>
       <div class="empty-content">
-      <p class="empty-text">カートの中には何も入っていません。</p>
-      <fa :icon="faShoppingCart" class="empty-icon" />
-      <button class="empty-button">お買い物を続ける</button>
+        <p class="empty-text">カートの中には何も入っていません。</p>
+        <fa :icon="faShoppingCart" class="empty-icon" />
+        <button class="empty-button">お買い物を続ける</button>
       </div>
     </div>
   </div>
@@ -57,10 +63,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import {
-  faLock,
-  faShoppingCart
-} from '@fortawesome/free-solid-svg-icons'
+import { faLock, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import OrderForm from '../../components/OrderForm.vue'
 export default {
   components: { OrderForm },
@@ -73,25 +76,25 @@ export default {
     faLock() {
       return faLock
     },
-    faShoppingCart(){
+    faShoppingCart() {
       return faShoppingCart
     },
     cartData() {
-      return this.$store.getters["order/CartDataArry"][0]
+      return this.$store.getters['order/CartDataArry'][0]
     },
     cartLength() {
-      if (this.$store.getters["order/CartDataArry"].length === 0) {
-        return this.$store.getters["order/CartDataArry"].length
+      if (this.$store.getters['order/CartDataArry'].length === 0) {
+        return this.$store.getters['order/CartDataArry'].length
       } else {
-        return this.$store.getters["order/CartDataArry"][0].itemInfo.length
+        return this.$store.getters['order/CartDataArry'][0].itemInfo.length
       }
     },
     CartSumPrice() {
-      if (this.$store.getters["order/CartDataArry"].length !== 0) {
+      if (this.$store.getters['order/CartDataArry'].length !== 0) {
         let sumPrice = 0
-        this.$store.getters["order/CartDataArry"][0].itemInfo.forEach(
+        this.$store.getters['order/CartDataArry'][0].itemInfo.forEach(
           (item) => {
-            sumPrice += (item.itemPrice * item.buyNum)
+            sumPrice += item.itemPrice * item.buyNum
           }
         )
         return sumPrice
@@ -102,20 +105,17 @@ export default {
   },
   methods: {
     deleteItem(id) {
-      console.log(id,"delete Item")
-      if (this.$store.getters["order/CartDataArry"].length) {
+      console.log(id, 'delete Item')
+      if (this.$store.getters['order/CartDataArry'].length) {
         // カートない商品を削除するためにアイテム固有のIDと削除するオーダー情報を指定するIDを入れる
         const data = {
           itemId: id,
-          orderId: this.$store.getters["order/CartDataArry"][0].orderId,
+          orderId: this.$store.getters['order/CartDataArry'][0].orderId,
         }
         this['order/deleteCart'](data)
       }
     },
-    ...mapActions([
-      "order/getOrders",
-      "order/deleteCart",
-    ]),
+    ...mapActions(['order/getOrders', 'order/deleteCart']),
   },
 }
 </script>
@@ -124,38 +124,62 @@ export default {
 /* Global settings */
 $color-border: #eee;
 $color-label: #aaa;
-$font-default: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-default: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue',
+  Helvetica, Arial, sans-serif;
 $font-bold: 'HelveticaNeue-Medium', 'Helvetica Neue Medium';
 
-
 /* Global "table" column settings */
-.product-image { float: left; width: 20%; }
-.product-details { float: left; width: 37%; }
-.product-price { float: left; width: 12%; }
-.product-quantity { float: left; width: 10%; }
-.product-removal { float: left; width: 9%; }
-.product-line-price { float: left; width: 12%; text-align: center; }
+.product-image {
+  float: left;
+  width: 20%;
+}
+.product-details {
+  float: left;
+  width: 37%;
+}
+.product-price {
+  float: left;
+  width: 12%;
+}
+.product-quantity {
+  float: left;
+  width: 10%;
+}
+.product-removal {
+  float: left;
+  width: 9%;
+}
+.product-line-price {
+  float: left;
+  width: 12%;
+  text-align: center;
+}
 
 /* This is used as the traditional .clearfix class */
 .group:before,
 .group:after {
-    content: '';
-    display: table;
-} 
+  content: '';
+  display: table;
+}
 .group:after {
-    clear: both;
+  clear: both;
 }
 .group {
-    zoom: 1;
+  zoom: 1;
 }
 
 /* Apply clearfix in a few places */
-.shopping-cart, .column-labels, .product, .totals-item {
+.shopping-cart,
+.column-labels,
+.product,
+.totals-item {
   @extend .group;
 }
 
 /* Apply dollar signs */
-.product .product-price:before, .product .product-line-price:before, .totals-value:before {
+.product .product-price:before,
+.product .product-line-price:before,
+.totals-value:before {
   content: '￥';
 }
 
@@ -178,7 +202,6 @@ label {
   margin-top: -45px;
 }
 
-
 /* Column headers */
 .column-labels {
   label {
@@ -186,19 +209,20 @@ label {
     margin-bottom: 15px;
     border-bottom: 1px solid $color-border;
   }
-  
-  .product-image, .product-details, .product-removal {
+
+  .product-image,
+  .product-details,
+  .product-removal {
     text-indent: -9999px;
   }
 }
-
 
 /* Product entries */
 .product {
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid $color-border;
-  
+
   .product-image {
     // float:left;
     // width: 20%;
@@ -207,7 +231,7 @@ label {
       width: 120px;
     }
   }
-  
+
   .product-details {
     .product-title {
       margin-right: 20px;
@@ -218,13 +242,13 @@ label {
     //   line-height: 1.4em;
     // }
   }
-  
+
   // .product-quantity {
   //   input {
   //     width: 40px;
   //   }
   // }
-  
+
   .remove-product {
     border: 0;
     padding: 4px 8px;
@@ -234,12 +258,11 @@ label {
     font-size: 12px;
     border-radius: 3px;
   }
-  
+
   .remove-product:hover {
     background-color: #a44;
   }
 }
-
 
 /* Totals section */
 .totals {
@@ -248,21 +271,21 @@ label {
     clear: both;
     width: 100%;
     margin-bottom: 10px;
-    
+
     label {
       float: left;
       clear: both;
       width: 79%;
       text-align: right;
     }
-    
+
     .totals-value {
       float: right;
       width: 21%;
       text-align: right;
     }
   }
-  
+
   .totals-item-total {
     font-family: $font-bold;
   }
@@ -285,7 +308,7 @@ label {
 .menu-icon {
   font-size: 100px;
   color: #555555;
-  margin:0 auto;
+  margin: 0 auto;
 }
 
 .empty-cart {
@@ -299,20 +322,20 @@ label {
       float: center;
     }
     .empty-icon {
-    font-size: 100px;
-    display: block;
-    float: center;
-    color: #555555;
+      font-size: 100px;
+      display: block;
+      float: center;
+      color: #555555;
     }
     .empty-button {
-      float: right
+      float: right;
     }
   }
 }
 
 /* Make adjustments for tablet */
 @media screen and (max-width: 650px) {
-  h1{
+  h1 {
     font-size: 20px;
     font-weight: $font-bold;
   }
@@ -324,11 +347,11 @@ label {
     padding-top: 20px;
     border-top: 1px solid $color-border;
   }
-  
+
   .column-labels {
     display: none;
   }
-  
+
   .product-image {
     float: right;
     width: 30%;
@@ -336,29 +359,29 @@ label {
       margin: 0 0 10px 10px;
     }
   }
-  
+
   .product-details {
     float: left;
     margin-bottom: 10px;
     width: 70%;
   }
-  
+
   .product-price {
     clear: both;
     width: 30%;
   }
-  
+
   .product-quantity {
     width: 20%;
     input {
       margin-left: 20px;
     }
   }
-  
+
   .product-quantity:before {
     content: 'x';
   }
-  
+
   .product-removal {
     width: 20%;
   }

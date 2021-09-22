@@ -45,7 +45,7 @@
                 <span> <fa :icon="faShoppingCart" class="menu-icon" /></span
                 ><span>カートに入れる</span></button
               ><br />
-              <button class="addfavorite-btn" @click="toggleFavorite">
+              <button class="addfavorite-btn" @click="addFavorite">
                 <span> <fa :icon="faStar" class="menu-icon" /></span
                 ><span>お気に入りへ追加</span>
               </button>
@@ -146,10 +146,30 @@ export default {
         this.$router.push('/user/login')
       }
     },
-    toggleFavorite() {
+    addFavorite() {
+      const favoriteItem = {
+        favoriteId: new Date().getTime().toString(),
+        userId: this.$auth.user.id,
+        itemInfo: [
+          {
+            itemId: this.selectedItem[0].Item.itemCode,
+            itemName: this.selectedItem[0].Item.itemName,
+            itemPrice: this.selectedItem[0].Item.itemPrice,
+            itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
+          },
+        ],
+      }
+      if (confirm('お気に入りに追加しますか？')) {
+        this['users/addFavoriteItem'](favoriteItem)
+      }
       console.log('お気に入り追加')
     },
-    ...mapActions(['order/getOrders', 'order/newCart', 'order/addCart']),
+    ...mapActions([
+      'order/getOrders',
+      'order/newCart',
+      'order/addCart',
+      'users/addFavoriteItem',
+    ]),
   },
 }
 </script>
