@@ -182,13 +182,16 @@ h1 {
   text-align: center;
   margin: 50px 0 30px 0;
 }
+ul {
+  padding: 0;
+}
 li {
   list-style: none;
   border-top: 1px solid $border_color;
   border-right: 1px solid $border_color;
   border-left: 1px solid $border_color;
   border-bottom: 1px solid $border_color;
-  margin: 10px 300px 0 300px;
+  margin: 10px 100px 0 100px;
   padding: 0 30px 0 30px;
   background: #eee;
   font-size: 18px;
@@ -223,7 +226,7 @@ li {
 .img-position {
   display: flex;
   flex-wrap: wrap;
-  margin-left: 200px;
+  text-align: left;
 }
 .cost-position {
   margin-left: 50px;
@@ -245,5 +248,47 @@ li {
 .item-img {
   height: 160px;
   width: 160px;
+}
+
+@media screen and (max-width: 1024px) {
+  li {
+    margin: 10px 20px 0 20px;
+    font-size: 16px;
+  }
+  .img-position {
+    margin: 0;
+  }
+  .addcart-btn {
+    width: 150px;
+  }
+  .addfavorite-btn {
+    width: 150px;
+  }
+  .cost-position {
+    margin-left: 20px;
+  }
+  .addcart-btn {
+    margin-top: 0px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  li {
+    margin: 0 30px;
+    font-size: 14px;
+  }
+  .addcart-btn {
+    height: 35px;
+    width: 130px;
+    font-size: 12px;
+  }
+  .addfavorite-btn {
+    height: 35px;
+    width: 130px;
+    font-size: 12px;
+  }
+  .menu-icon {
+    padding-right: 3px;
+  }
 }
 </style>
