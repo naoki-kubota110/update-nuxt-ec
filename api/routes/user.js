@@ -12,4 +12,11 @@ router.post('/login', userController.userLogin)
 // token認証
 router.get('/auth', userController.userAuth)
 
+// お気に入り登録
+router.post('/add-favorite', userController.userAddFavorite)
+// お気に入り削除
+router.post('/delete-favorite', userController.userDeleteFavorite)
+// お気に入りデータ取得
+router.post('/get-favorite', userController.userGetFavorite)
+
 module.exports = router

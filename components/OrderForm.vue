@@ -19,7 +19,7 @@
               placeholder="例）山田太郎"
               type="text"
             />
-            <span>{{ errors[0] }}</span>
+            <div class="validation-position">{{ errors[0] }}</div>
           </ValidationProvider>
         </div>
 
@@ -38,7 +38,7 @@
               placeholder="例）0000000000"
               type="text"
             />
-            <span>{{ errors[0] }}</span>
+            <div class="validation-position">{{ errors[0] }}</div>
           </ValidationProvider>
         </div>
 
@@ -58,7 +58,7 @@
               placeholder="例）sample@gmail.com"
               type="text"
             />
-            <span>{{ errors[0] }}</span>
+            <div class="validation-position">{{ errors[0] }}</div>
           </ValidationProvider>
         </div>
 
@@ -81,7 +81,7 @@
               placeholder="例）0000000"
               type="text"
             />
-            <span>{{ errors[0] }}</span>
+            <div class="validation-position">{{ errors[0] }}</div>
           </ValidationProvider>
         </div>
 
@@ -97,7 +97,7 @@
               placeholder="例）東京都×××区××1丁目"
               type="text"
             />
-            <span>{{ errors[0] }}</span>
+            <div class="validation-position">{{ errors[0] }}</div>
           </ValidationProvider>
         </div>
 
@@ -116,7 +116,7 @@
               name="配達日"
               type="date"
             />
-            <span>{{ errors[0] }}</span>
+            <div class="validation-position">{{ errors[0] }}</div>
           </ValidationProvider>
         </div>
 
@@ -137,7 +137,7 @@
               <option value="12:00-17:00">午後（12:00-17:00）</option>
               <option value="17:00-21:00">夜間（17:00-21:00）</option>
             </select>
-            <span>{{ errors[0] }}</span>
+            <div class="validation-position">{{ errors[0] }}</div>
           </div>
         </ValidationProvider>
 
@@ -164,7 +164,7 @@
               value="2"
               @click="paymentCredit = 'true'"
             /><span class="Form-Item-Radio-Name">クレジット</span>
-            <span>{{ errors[0] }}</span>
+            <div class="validation-position">{{ errors[0] }}</div>
           </ValidationProvider>
         </div>
 
@@ -189,7 +189,7 @@
               type="text"
             />
 
-            <span>{{ errors[0] }}</span>
+            <div class="validation-position">{{ errors[0] }}</div>
           </ValidationProvider>
         </div>
 
@@ -265,40 +265,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.validation-position {
+  margin-top: 5px;
+  margin-left: 100px;
+}
 h1 {
   margin-top: 30px;
   text-align: center;
 }
 .Form {
   margin-top: 80px;
-  // margin-left: auto;
-  // margin-right: auto;
   max-width: 720px;
-}
-@media screen and (max-width: 480px) {
-  .Form {
-    margin-top: 40px;
-  }
 }
 .Form-Item {
   border-top: 1px solid #ddd;
   border-right: 1px solid #ddd;
   border-left: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  padding: 18px 20px 18px 40px;
+  padding: 10px 20px 10px 40px;
   display: flex;
   align-items: center;
-  margin-left: 350px;
-  margin-right: 280px;
-}
-@media screen and (max-width: 480px) {
-  .Form-Item {
-    padding-left: 14px;
-    padding-right: 14px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-    flex-wrap: wrap;
-  }
+  margin-left: 250px;
+  margin-right: 250px;
 }
 .Form-Item:nth-child(5) {
   border-bottom: 1px solid #ddd;
@@ -310,23 +298,9 @@ h1 {
   font-weight: bold;
   font-size: 18px;
 }
-
-@media screen and (max-width: 480px) {
-  .Form-Item-Label {
-    max-width: inherit;
-    display: flex;
-    align-items: center;
-    font-size: 15px;
-  }
-}
 .Form-Item-Label.isMsg {
   margin-top: 8px;
   margin-bottom: auto;
-}
-@media screen and (max-width: 480px) {
-  .Form-Item-Label.isMsg {
-    margin-top: 0;
-  }
 }
 .Form-Item-Label-Required {
   border-radius: 6px;
@@ -340,24 +314,15 @@ h1 {
   color: #fff;
   font-size: 14px;
 }
-@media screen and (max-width: 480px) {
-  .Form-Item-Label-Required {
-    border-radius: 4px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    width: 32px;
-    font-size: 10px;
-  }
-}
 .Form-Item-Input {
   border: 1px solid #ddd;
   border-radius: 6px;
-  margin-left: 40px;
+  margin-left: 100px;
   padding-left: 1em;
   padding-right: 1em;
   height: 28px;
   flex: 1;
-  width: 300px;
+  width: 280px;
   max-width: 410px;
   background: #eaedf2;
   font-size: 18px;
@@ -365,36 +330,26 @@ h1 {
 .Form-Item-Select {
   border: 1px solid #ddd;
   border-radius: 6px;
-  margin-left: 40px;
+  margin-left: 100px;
   margin-right: 5px;
   padding-left: 1em;
   padding-right: 1em;
   height: 28px;
   flex: 1;
-  width: 300px;
-  max-width: 338px;
+  width: 280px;
+  max-width: 320px;
   background: #eaedf2;
   font-size: 18px;
 }
 .Form-Item-Radio {
   font-size: 18px;
-  margin-left: 50px;
+  margin-left: 90px;
   width: 0.9em;
   height: 0.9em;
 }
 .Form-Item-Radio-Name {
   font-size: 18px;
 }
-@media screen and (max-width: 480px) {
-  .Form-Item-Input {
-    margin-left: 0;
-    margin-top: 18px;
-    height: 40px;
-    flex: inherit;
-    font-size: 15px;
-  }
-}
-
 .Form-Btn {
   border-radius: 6px;
   margin-top: 32px;
@@ -410,13 +365,203 @@ h1 {
   margin-top: 20px;
   cursor: pointer;
 }
-@media screen and (max-width: 480px) {
-  .Form-Btn {
-    margin-top: 24px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    width: 160px;
+
+@media screen and (max-width: 1024px) {
+  h1 {
+    margin-top: 30px;
+    text-align: center;
+  }
+  .Form {
+    margin-top: 80px;
+    max-width: 720px;
+  }
+  .Form-Item {
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 18px 20px 18px 20px;
+    display: flex;
+    align-items: center;
+    margin-left: 280px;
+    margin-right: 280px;
+  }
+  .Form-Item:nth-child(5) {
+    border-bottom: 1px solid #ddd;
+  }
+  .Form-Item-Label {
+    width: 100%;
+    max-width: 248px;
+    letter-spacing: 0.05em;
+    font-weight: bold;
     font-size: 16px;
   }
+  .Form-Item-Label.isMsg {
+    margin-top: 8px;
+    margin-bottom: auto;
+  }
+  .Form-Item-Label-Required {
+    border-radius: 6px;
+    margin-right: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 48px;
+    display: inline-block;
+    text-align: center;
+    background: #5bc8ac;
+    color: #fff;
+    font-size: 14px;
+  }
+  .Form-Item-Input {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-left: 40px;
+    padding-left: 1em;
+    padding-right: 1em;
+    height: 28px;
+    flex: 1;
+    width: 300px;
+    max-width: 410px;
+    background: #eaedf2;
+    font-size: 16px;
+  }
+  .Form-Item-Select {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-left: 40px;
+    margin-right: 5px;
+    padding-left: 1em;
+    padding-right: 1em;
+    height: 28px;
+    flex: 1;
+    width: 300px;
+    max-width: 338px;
+    background: #eaedf2;
+    font-size: 16px;
+  }
+  .Form-Item-Radio {
+    font-size: 16px;
+    margin-left: 50px;
+    width: 0.9em;
+    height: 0.9em;
+  }
+  .Form-Item-Radio-Name {
+    font-size: 16px;
+  }
+  .Form-Btn {
+    border-radius: 6px;
+    margin-top: 32px;
+    padding: 10px 5px 10px 5px;
+    width: 80px;
+    display: block;
+    letter-spacing: 0.05em;
+    background: #5bc8ac;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0 auto;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+}
+
+// スマホ対応
+@media screen and (max-width: 650px) {
+  // h1 {
+  //   margin-top: 30px;
+  //   text-align: center;
+  // }
+  // .Form {
+  //   margin-top: 80px;
+  //   max-width: 720px;
+  // }
+  // .Form-Item {
+  //   border-top: 1px solid #ddd;
+  //   border-right: 1px solid #ddd;
+  //   border-left: 1px solid #ddd;
+  //   border-bottom: 1px solid #ddd;
+  //   padding: 18px 20px 18px 40px;
+  //   display: flex;
+  //   align-items: center;
+  //   margin-left: 350px;
+  //   margin-right: 280px;
+  // }
+  // .Form-Item:nth-child(5) {
+  //   border-bottom: 1px solid #ddd;
+  // }
+  // .Form-Item-Label {
+  //   width: 100%;
+  //   max-width: 248px;
+  //   letter-spacing: 0.05em;
+  //   font-weight: bold;
+  //   font-size: 16px;
+  // }
+  // .Form-Item-Label.isMsg {
+  //   margin-top: 8px;
+  //   margin-bottom: auto;
+  // }
+  // .Form-Item-Label-Required {
+  //   border-radius: 6px;
+  //   margin-right: 8px;
+  //   padding-top: 8px;
+  //   padding-bottom: 8px;
+  //   width: 48px;
+  //   display: inline-block;
+  //   text-align: center;
+  //   background: #5bc8ac;
+  //   color: #fff;
+  //   font-size: 14px;
+  // }
+  // .Form-Item-Input {
+  //   border: 1px solid #ddd;
+  //   border-radius: 6px;
+  //   margin-left: 40px;
+  //   padding-left: 1em;
+  //   padding-right: 1em;
+  //   height: 28px;
+  //   flex: 1;
+  //   width: 300px;
+  //   max-width: 410px;
+  //   background: #eaedf2;
+  //   font-size: 16px;
+  // }
+  // .Form-Item-Select {
+  //   border: 1px solid #ddd;
+  //   border-radius: 6px;
+  //   margin-left: 40px;
+  //   margin-right: 5px;
+  //   padding-left: 1em;
+  //   padding-right: 1em;
+  //   height: 28px;
+  //   flex: 1;
+  //   width: 300px;
+  //   max-width: 338px;
+  //   background: #eaedf2;
+  //   font-size: 16px;
+  // }
+  // .Form-Item-Radio {
+  //   font-size: 16px;
+  //   margin-left: 50px;
+  //   width: 0.9em;
+  //   height: 0.9em;
+  // }
+  // .Form-Item-Radio-Name {
+  //   font-size: 16px;
+  // }
+  // .Form-Btn {
+  //   border-radius: 6px;
+  //   margin-top: 32px;
+  //   padding: 10px 5px 10px 5px;
+  //   width: 80px;
+  //   display: block;
+  //   letter-spacing: 0.05em;
+  //   background: #5bc8ac;
+  //   color: #fff;
+  //   font-weight: bold;
+  //   font-size: 16px;
+  //   margin: 0 auto;
+  //   margin-top: 20px;
+  //   cursor: pointer;
+  // }
 }
 </style>

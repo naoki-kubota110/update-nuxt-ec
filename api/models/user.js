@@ -1,3 +1,4 @@
+const { String } = require('core-js')
 const mongoose = require('mongoose')
 const orderSubSchema = new mongoose.Schema({
   itemId: String,
@@ -64,6 +65,12 @@ const userInfoSchema = new mongoose.Schema({
   address: String,
   tel: String,
 })
+const userFavoriteSchema = new mongoose.Schema({
+  favoriteId: String,
+  itemName: String,
+  itemImage: String,
+  itemPrice: Number,
+})
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -78,6 +85,10 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  userFavorite: {
+    type: [userFavoriteSchema],
+    default: [],
   },
   orders: {
     type: [orderSchema],
