@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>注文履歴</h1>
   <div v-if="historyLength !== 0">
+  <h1>注文履歴</h1>
   <div class="column-labels">
     <label class="product-image">お届け先</label>
     <label class="product-details">注文情報</label>
@@ -19,33 +19,39 @@
         <br>
         合計：￥{{(info.itemPrice * info.buyNum).toLocaleString()}}
         </div>
-      </div>
+    </div>
     <div class="product-menu">
-      <div>お届け先情報</div>
-      <div>{{item.orderInfo.destinationName}}</div>
-      <div>〒{{item.orderInfo.destinationZipcode}}</div>
+      <div>お届け先</div>
+      <div>〒{{(item.orderInfo.destinationZipcode).slice(0,3) + "-" + (item.orderInfo.destinationZipcode).slice(3,7)}}</div>
       <div>{{item.orderInfo.destinationAddress}}</div>
-      <div>{{item.orderInfo.destinationTel}}</div>
       <div>配達予定時刻</div>
       <div>{{item.orderInfo.destinationDate}}</div>
       <div v-if="item.status === 9" class="cancel-order">
-          <button><del>キャンセル済み</del></button>
+        <button><del>キャンセル済み</del></button>
       </div>
       <div v-else>
         <button @click="cancelOrder(item.orderId)">キャンセルする</button>
        </div>
-      <!-- <button @click="cancelOrder(item.orderId)">キャンセルする</button> -->
     </div>
    </div>
     </div>
-    <div v-else>
-      <h1>カートが空です</h1>
+    <div v-else class="empty-cart">
+      <div class="empty-content">
+        <p class="empty-text">注文履歴はありません。</p>
+        <div class="empty-icon">
+         <fa :icon="faShoppingCart"/>
+        </div>
+        <div class="button05" @click.prevent="backHome">
+          <a href="">お買い物を続ける</a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 export default {
   middleware({ store, redirect }){
     if(!store.$auth.loggedIn){
@@ -58,12 +64,18 @@ export default {
     },
     historyLength(){
       return this.$store.getters["order/historyData"].length
-    }
+    },
+    faShoppingCart() {
+      return faShoppingCart
+    },
   },
   methods:{
     cancelOrder(id){
       alert("ご注文をキャンセルしますか？")
       this["order/cancelOrder"](id)
+    },
+    backHome(){
+      this.$router.push("/")
     },
     ...mapActions([
       'order/getOrders',
@@ -162,6 +174,54 @@ label {
     text-align: center;
   }
 
+}
+  .empty-cart {
+  margin-top: 80px;
+  .empty-content {
+    .empty-text {
+      text-align: center;
+      font-size: 30px;
+    }
+    .empty-icon {
+      // margin: 0 auto;
+      font-size: 150px;
+      // text-align: center;
+    display: flex;
+    justify-content: center;
+      color: #555555;
+      margin-bottom: 20px;
+    }
+  }
+  .button05 a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 1em 2em;
+  width: 150px;
+  color: #333;
+  font-size: 15px;
+  font-weight: 700;
+  background-color: #cccccc;
+  box-shadow: 0 5px 0 #aaaaaa;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.button05 a::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-top: 3px solid #333333;
+  border-right: 3px solid #333333;
+  transform: rotate(45deg);
+}
+
+.button05 a:hover {
+  transform: translateY(3px);
+  text-decoration: none;
+  box-shadow: 0 2px 0 #aaaaaa;
+}
 }
 
 
