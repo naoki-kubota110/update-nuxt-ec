@@ -11,7 +11,6 @@
           <label class="product-removal">削除</label>
           <label class="product-line-price">合計</label>
         </div>
-
         <div v-for="item in cartData.itemInfo" :key="item._id" class="product">
           <router-link :to="{ path: `/item/${item.itemId}` }">
             <div class="product-image">
@@ -51,11 +50,14 @@
       <div><OrderForm :order-id="cartData.orderId" /></div>
     </div>
     <div v-else class="empty-cart">
-      <h1>ショッピングカート</h1>
       <div class="empty-content">
         <p class="empty-text">カートの中には何も入っていません。</p>
-        <fa :icon="faShoppingCart" class="empty-icon" />
-        <button class="empty-button">お買い物を続ける</button>
+        <div class="empty-icon">
+         <fa :icon="faShoppingCart"/>
+        </div>
+        <div class="button05" @click.prevent="backHome">
+          <a href="">お買い物を続ける</a>
+        </div>
       </div>
     </div>
   </div>
@@ -114,6 +116,9 @@ export default {
         }
         this['order/deleteCart'](data)
       }
+    },
+    backHome(){
+      this.$router.push("/")
     },
     ...mapActions(['order/getOrders', 'order/deleteCart']),
   },
@@ -237,17 +242,7 @@ label {
       margin-right: 20px;
       font-family: $font-bold;
     }
-    // .product-description {
-    //   margin: 5px 20px 5px 0;
-    //   line-height: 1.4em;
-    // }
   }
-
-  // .product-quantity {
-  //   input {
-  //     width: 40px;
-  //   }
-  // }
 
   .remove-product {
     border: 0;
@@ -312,25 +307,52 @@ label {
 }
 
 .empty-cart {
-  h1 {
-    font-weight: $font-bold;
-  }
+  margin-top: 80px;
   .empty-content {
-    float: center;
     .empty-text {
+      text-align: center;
       font-size: 30px;
-      float: center;
     }
     .empty-icon {
-      font-size: 100px;
-      display: block;
-      float: center;
+      // margin: 0 auto;
+      font-size: 150px;
+      // text-align: center;
+    display: flex;
+    justify-content: center;
       color: #555555;
-    }
-    .empty-button {
-      float: right;
+      margin-bottom: 20px;
     }
   }
+  .button05 a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 1em 2em;
+  width: 150px;
+  color: #333;
+  font-size: 15px;
+  font-weight: 700;
+  background-color: #cccccc;
+  box-shadow: 0 5px 0 #aaaaaa;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.button05 a::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-top: 3px solid #333333;
+  border-right: 3px solid #333333;
+  transform: rotate(45deg);
+}
+
+.button05 a:hover {
+  transform: translateY(3px);
+  text-decoration: none;
+  box-shadow: 0 2px 0 #aaaaaa;
+}
 }
 
 /* Make adjustments for tablet */
@@ -388,6 +410,22 @@ label {
   .product-line-price {
     float: right;
     width: 30%;
+  }
+  .empty-cart {
+    margin-top: 80px;
+    .empty-content {
+    .empty-text {
+      font-size: 20px;
+    }
+    .empty-icon {
+      font-size: 120px;
+    }
+  }
+  .button05 a {
+  width: 120px;
+  font-size: 12px;
+  font-weight: 700;
+  }
   }
 }
 </style>
