@@ -38,7 +38,16 @@ export const mutations = {
     const cart = state.orders.filter(order =>{
       return order.status === 0
     })
-    cart[0].status = payload
+    const orderInfo = {
+      destinationAddress: payload.destinationAddress,
+      destinationDate: payload.destinationDate,
+      destinationEmail: payload.destinationEmail,
+      destinationName: payload.destinationName,
+      destinationTel: payload.destinationTel,
+      destinationZipcode: payload.destinationZipcode,
+    }
+    cart[0].orderInfo = orderInfo
+    cart[0].status = payload.status
   },
   deleteCart(state, id) {
     const arry = state.orders.filter(order => {
@@ -92,7 +101,8 @@ export const actions = {
   sendOrder({ commit }, payload) {
     console.log('store/sendOrder発火')
     this.$axios.$post('/api/order/send-order', { payload })
-    commit("setOrder", payload.status)
+    console.log(payload)
+    commit("setOrder", payload)
     this.$router.push('/orders/complete')
   },
   // 注文キャンセル処理
