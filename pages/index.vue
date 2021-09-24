@@ -6,32 +6,27 @@
           <swiper :options="swiperOption">
             <swiper-slide
               ><img
-                height="300px"
-                width="500px"
+                class="swiper-img"
                 src="https://heyagoto.com/wp-content/uploads/2020/07/20200712-1.jpg"
             /></swiper-slide>
             <swiper-slide
               ><img
-                height="300px"
-                width="500px"
+                class="swiper-img"
                 src="https://static-buyma-com.akamaized.net/imgdata/item/210711/0071307921/371518570/428.jpg"
             /></swiper-slide>
             <swiper-slide
               ><img
-                height="300px"
-                width="500px"
+                class="swiper-img"
                 src="https://www.yamagishi-p.co.jp/interiorblog/wp-content/uploads/2016/03/linterno-1024x768.jpg"
             /></swiper-slide>
             <swiper-slide
               ><img
-                height="300px"
-                width="500px"
+                class="swiper-img"
                 src="https://www.rafila-fan.com/img/category/category_img/ba_slid_00-206_r4.jpg?x=640"
             /></swiper-slide>
             <swiper-slide
               ><img
-                height="300px"
-                width="500px"
+                class="swiper-img"
                 src="https://shopping.line-scdn.net/0hWv43GGCQCFkJSiD5nHF3DlsXFCh_O1FOdnISe34PSGwjLktaNHxAa34aBWt0c0hcPS5CPyQdXm4kf0sIZihFUS1KUzkkL08HYSpHPyxME2h2e01cYigV/r800_trim"
             /></swiper-slide>
 
@@ -47,21 +42,20 @@
 
       <ul class="itemList">
         <li v-for="item in firstViewItemList" :key="item.Item.itemCode">
-          <p>
+          <div>
             <router-link :to="{ path: `/item/${item.Item.itemCode}` }">
               <img
-                height="164px"
-                width="164px"
+                class="item-img"
                 :src="item.Item.mediumImageUrls[0].imageUrl"
               />
             </router-link>
-          </p>
+          </div>
           <router-link :to="{ path: `/item/${item.Item.itemCode}` }">
-            <p class="item-name">{{ item.Item.itemName }}</p>
+            <div class="item-name">{{ item.Item.itemName }}</div>
           </router-link>
-          <p class="item-price">
+          <div class="item-price">
             {{ [item.Item.itemPrice].toLocaleString() }}円
-          </p>
+          </div>
         </li>
       </ul>
     </div>
@@ -72,9 +66,8 @@
           <p>
             <router-link :to="{ path: `/item/${item.Item.itemCode}` }">
               <img
-                height="164px"
-                width="164px"
                 :src="item.Item.mediumImageUrls[0].imageUrl"
+                class="item-img"
               />
             </router-link>
           </p>
@@ -98,9 +91,9 @@ export default {
     return {
       swiperOption: {
         speed: 1000, // スライドの切り替わりスピード
-        slidesPerView: 3,
+        slidesPerView: 1,
         centeredSlides: true, // スライダーを真ん中に
-        // spaceBetween: 5, // 各スライドの余白
+        spaceBetween: 30, // 各スライドの余白
         loop: true, // 無限ループ
 
         autoplay: {
@@ -121,16 +114,17 @@ export default {
           prevEl: '.swiper-button-prev',
         },
 
-        // breakpoints: {
-        //   // レスポンシブ対応
-        //   1200: {
-        //     slidesPerView: 2,
-        //   },
-        //   600: {
-        //     slidesPerView: 1.2,
-        //     spaceBetween: 0,
-        //   },
-        // },
+        breakpoints: {
+          // レスポンシブ対応
+          1024: {
+            slidesPerView: 3,
+            // spaceBetween: 100,
+          },
+          650: {
+            slidesPerView: 2,
+            spaceBetween: 30,
+          },
+        },
       },
 
       cartData: '',
@@ -159,22 +153,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  background-color: red;
-}
 ul.itemList {
+  padding: 0;
   display: flex;
   flex-wrap: wrap;
-  margin-top: 30px;
   background: #eee;
   overflow: hidden;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 li {
   list-style: none;
-  margin-left: 30px;
+  // padding: 0 15px 0 15px;
+  margin-left: 20px;
+  // margin-right: 20px;
   width: 164px;
 }
 .item-name {
+  margin-top: 10px;
+  margin-bottom: 10px;
   list-style: none;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -187,7 +185,42 @@ li {
   text-align: right;
   margin-right: 10px;
 }
+.item-img {
+  margin-top: 30px;
+  width: 164px;
+  height: 164px;
+}
 .swiper {
   margin-top: 30px;
+}
+.swiper-img {
+  height: 300px;
+  width: 400px;
+}
+
+@media screen and (max-width: 1024px) {
+  .swiper-img {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  ul.itemList {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  li {
+    width: 124px;
+  }
+  .item-img {
+    width: 124px;
+    height: 124px;
+    // margin-right: 50px;
+  }
+  .swiper-img {
+    height: 300px;
+    width: 350px;
+    // padding: 0 auto;
+  }
 }
 </style>
