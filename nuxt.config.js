@@ -18,7 +18,12 @@ export default {
   css: [{ src: '~/assets/sass/app.scss', lang: 'scss' }],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@plugins/vee-validate', '@/plugins/swiper'],
+  plugins: [
+    '@plugins/vee-validate',
+    '@/plugins/swiper',
+    // { src: '~/plugins/vue-burger-menu', ssr: false },
+    { src: '~/plugins/slide-menu', ssr: false },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

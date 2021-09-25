@@ -120,12 +120,11 @@
           </ValidationProvider>
         </div>
 
-        <ValidationProvider v-slot="{ errors }" rules="required">
-          <div class="Form-Item">
-            <label class="Form-Item-Label">
-              <span class="Form-Item-Label-Required">必須</span>配達時間</label
-            >
-
+        <div class="Form-Item">
+          <label class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>配達時間</label
+          >
+          <ValidationProvider v-slot="{ errors }" rules="required">
             <select
               v-model="destinationTime"
               class="Form-Item-Select"
@@ -138,8 +137,8 @@
               <option value="17:00-21:00">夜間（17:00-21:00）</option>
             </select>
             <div class="validation-position">{{ errors[0] }}</div>
-          </div>
-        </ValidationProvider>
+          </ValidationProvider>
+        </div>
 
         <div class="Form-Item">
           <label class="Form-Item-Label">
@@ -336,7 +335,7 @@ h1 {
   padding-right: 1em;
   height: 28px;
   flex: 1;
-  width: 280px;
+  width: 315px;
   max-width: 315px;
   background: #eaedf2;
   font-size: 18px;
@@ -373,20 +372,16 @@ h1 {
 }
 
 @media screen and (max-width: 1024px) {
+  .validation-position {
+    margin-left: 50px;
+  }
   .Form {
     margin-top: 80px;
     max-width: 720px;
   }
   .Form-Item {
-    // border-top: 1px solid #ddd;
-    // border-right: 1px solid #ddd;
-    // border-left: 1px solid #ddd;
-    // border-bottom: 1px solid #ddd;
-    // padding: 18px 20px 18px 20px;
-    // display: flex;
-    // align-items: center;
-    margin-left: 50px;
-    margin-right: 50px;
+    margin-left: 40px;
+    margin-right: 40px;
   }
 
   .Form-Item-Label {
@@ -425,7 +420,7 @@ h1 {
   .Form-Item-Select {
     border: 1px solid #ddd;
     border-radius: 6px;
-    margin-left: 0px;
+    margin-left: 30px;
     margin-right: 5px;
     padding-left: 1em;
     padding-right: 1em;
@@ -470,6 +465,9 @@ h1 {
 
 // スマホ対応
 @media screen and (max-width: 650px) {
+  .validation-position {
+    margin-left: 20px;
+  }
   .Form {
     margin-top: 80px;
     max-width: 720px;
@@ -515,13 +513,13 @@ h1 {
     font-size: 12px;
   }
   .Form-Item-Select {
-    margin-left: 50px;
+    margin-left: 5px;
     margin-right: 5px;
     padding-left: 1em;
     padding-right: 1em;
     height: 28px;
-    width: 150px;
-    max-width: 158px;
+    width: 200px;
+    max-width: 175px;
     font-size: 12px;
   }
   .Form-Item-Radio {

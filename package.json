@@ -35,7 +35,9 @@
     "sass-loader": "10",
     "swiper": "6",
     "vee-validate": "^3.4.12",
-    "vue-awesome-swiper": "^4.1.1"
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-burger-menu": "^2.0.5",
+    "vue-tasty-burgers": "^1.2.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",

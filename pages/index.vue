@@ -165,9 +165,7 @@ ul.itemList {
 }
 li {
   list-style: none;
-  // padding: 0 15px 0 15px;
   margin-left: 20px;
-  // margin-right: 20px;
   width: 164px;
 }
 .item-name {
@@ -215,12 +213,10 @@ li {
   .item-img {
     width: 124px;
     height: 124px;
-    // margin-right: 50px;
   }
   .swiper-img {
     height: 300px;
     width: 350px;
-    // padding: 0 auto;
   }
 }
 </style>
