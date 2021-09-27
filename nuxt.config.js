@@ -18,7 +18,11 @@ export default {
   css: [{ src: '~/assets/sass/app.scss', lang: 'scss' }],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@plugins/vee-validate', '@/plugins/swiper'],
+  plugins: [
+    '@plugins/vee-validate',
+    '@/plugins/swiper',
+    // { src: '~/plugins/vue-burger-menu', ssr: false },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -69,7 +73,7 @@ export default {
     babel: {
       plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
     },
-    transpile: ['vee-validate/dist/rules'],
+    transpile: ['vee-validate/dist/rules', 'tasty-burger-button'],
   },
   serverMiddleware: ['~/api/index.js'],
 }

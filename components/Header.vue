@@ -53,117 +53,75 @@
           >
         </li>
       </span>
+      <!--ハンバーガーメニューのボタン-->
+      <div class="hamburger__btn" @click="ActiveBtn = !ActiveBtn">
+        <span class="line line_01" :class="{ btn_line01: ActiveBtn }"></span>
+        <span class="line line_02" :class="{ btn_line02: ActiveBtn }"></span>
+        <span class="line line_03" :class="{ btn_line03: ActiveBtn }"></span>
+      </div>
+      <!--サイドメニュー-->
+      <transition name="hamburger__menu">
+        <div v-show="ActiveBtn" class="hamburger__menu">
+          <ul>
+            <li v-if="!$auth.loggedIn" class="menu-item">
+              <nuxt-link to="/user/login">
+                <button class="log-btn">
+                  <span> <fa :icon="faLockOpen" class="menu-icon" /></span
+                  >ログイン
+                </button>
+              </nuxt-link>
+              <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
+            </li>
+            <li v-if="$auth.loggedIn" class="menu-item">
+              <button class="log-btn" @click="logout">
+                <span> <fa :icon="faLock" class="menu-icon" /></span>ログアウト
+              </button>
+            </li>
+            <li class="menu-item">
+              <nuxt-link to="/user/favorite" class="menu-text">
+                <span> <fa :icon="faStar" class="menu-icon" /></span
+                >お気に入り</nuxt-link
+              >
+            </li>
+            <li class="menu-item">
+              <nuxt-link to="/orders/cart" class="menu-text">
+                <span> <fa :icon="faShoppingCart" class="menu-icon" /></span
+                >カート
+              </nuxt-link>
+            </li>
+            <li class="menu-item-last">
+              <nuxt-link to="/orders/history" class="menu-text">
+                <span> <fa :icon="faStickyNote" class="menu-icon" /></span
+                >注文履歴</nuxt-link
+              >
+            </li>
+          </ul>
+        </div>
+      </transition>
     </header>
-
-    <!-- <header class="site-header">
-      <div class="site-header__top">
-        <div class="wrapper site-header__wrapper">
-          <div class="site-header__start">
-            <ul class="">
-              <li class=""><a href="#">About</a></li>
-              <li class=""><a href="#">Contact</a></li>
-            </ul>
-          </div>
-          <div class="site-header__middle">
-            <nuxt-link to="/">
-              <img src="/ラクラクEC.png" class="header-logo"
-            /></nuxt-link>
-          </div>
-          <div class="site-header__end top">
-            <a href="#">Login</a>
-            <a href="#" class="button">Some action</a>
-          </div>
-        </div>
-      </div>
-      <div class="site-header__bottom">
-        <div class="wrapper site-header__wrapper">
-          <div class="site-header__start">
-            <nav class="nav">
-              <button class="nav__toggle" aria-expanded="false" type="button">
-                menu
-              </button>
-              <ul class="nav__wrapper">
-                <li class="nav__item">
-                  <nuxt-link to="/user/favorite" class="menu-text">
-                    <span> <fa :icon="faStar" class="menu-icon" /></span
-                    >お気に入り</nuxt-link
-                  >
-                </li>
-                <li class="nav__item">
-                  <nuxt-link to="/orders/cart" class="menu-text">
-                    <span> <fa :icon="faShoppingCart" class="menu-icon" /></span
-                    >カート
-                  </nuxt-link>
-                </li>
-                <li class="nav__item">
-                  <nuxt-link to="/orders/history" class="menu-text">
-                    <span> <fa :icon="faStickyNote" class="menu-icon" /></span
-                    >注文履歴</nuxt-link
-                  >
-                </li>
-                <li class="nav__item"><a href="#">Hire us</a></li>
-                <li class="nav__item"><a href="#">Contact</a></li>
-              </ul>
-            </nav>
-          </div>
-
-          <div class="site-header__end bottom">
-            <div class="search">
-              <button class="search__toggle" aria-label="Open search">
-                Search
-              </button>
-              <form class="search__form" action="">
-                <label class="sr-only" for="search">Search</label>
-                <input
-                  id="search"
-                  type="search"
-                  name=""
-                  placeholder="What's on your mind?"
-                />
-              </form>
-            </div>
-            <a href="#" class="cart">
-              <svg
-                version="1.1"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g>
-                  <title>Cart</title>
-                  <path
-                    d="m95.398 23.699c-1.8008-2.3008-4.6016-3.6992-7.5-3.6992h-60.898l-1.8984-7.3984c-1.1016-4.3008-4.8984-7.3008-9.3008-7.3008h-10.199c-1.6992 0-3.1016 1.3984-3.1016 3.1016 0 1.6992 1.3984 3.1016 3.1016 3.1016h10.199c1.5 0 2.8008 1 3.1992 2.5l12.199 48.602c1.1016 4.3008 4.8984 7.3008 9.3008 7.3008h39.898c4.3984 0 8.3008-3 9.3008-7.3008l7.5-30.801c0.69922-2.8047 0.10156-5.8047-1.8008-8.1055zm-4.2969 6.6992-7.5 30.801c-0.39844 1.5-1.6992 2.5-3.1992 2.5h-39.902c-1.5 0-2.8008-1-3.1992-2.5l-8.6992-34.898h59.301c1 0 2 0.5 2.6016 1.3008 0.59766 0.79688 0.89453 1.7969 0.59766 2.7969z"
-                  />
-                  <path
-                    d="m42.602 73.898c-5.6992 0-10.398 4.6992-10.398 10.398s4.6992 10.398 10.398 10.398c5.6992 0.003907 10.398-4.6953 10.398-10.395s-4.6992-10.402-10.398-10.402zm0 14.5c-2.3008 0-4.1016-1.8008-4.1016-4.1016s1.8008-4.1016 4.1016-4.1016c2.3008 0 4.1016 1.8008 4.1016 4.1016-0.003906 2.2031-1.9023 4.1016-4.1016 4.1016z"
-                  />
-                  <path
-                    d="m77 73.898c-5.6992 0-10.398 4.6992-10.398 10.398s4.6992 10.398 10.398 10.398 10.398-4.6992 10.398-10.398c-0.097657-5.6953-4.6992-10.398-10.398-10.398zm0 14.5c-2.3008 0-4.1016-1.8008-4.1016-4.1016s1.8008-4.1016 4.1016-4.1016 4.1016 1.8008 4.1016 4.1016c0 2.2031-1.9023 4.1016-4.1016 4.1016z"
-                  />
-                </g>
-              </svg>
-            </a>
-            <a href="#">
-              <svg
-                version="1.1"
-                viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <title>Profile</title>
-                <path
-                  d="m65.57 52.5c6.9336-4.5078 11.574-11.797 12.723-19.988 1.1484-8.1875-1.3047-16.473-6.7344-22.715-5.4258-6.2422-13.289-9.8242-21.559-9.8242s-16.133 3.582-21.559 9.8242c-5.4297 6.2422-7.8828 14.527-6.7344 22.715 1.1484 8.1914 5.7891 15.48 12.723 19.988-10.012 3.2812-18.73 9.6406-24.914 18.172-6.1836 8.5273-9.5117 18.793-9.5156 29.328h7.1445c0-15.312 8.168-29.461 21.426-37.117 13.262-7.6523 29.598-7.6523 42.859 0 13.258 7.6562 21.426 21.805 21.426 37.117h7.1445c-0.003906-10.535-3.332-20.801-9.5156-29.328-6.1836-8.5312-14.902-14.891-24.914-18.172zm-37-23.93c0-5.6836 2.2578-11.133 6.2773-15.152 4.0195-4.0156 9.4688-6.2734 15.152-6.2734s11.133 2.2578 15.152 6.2734c4.0195 4.0195 6.2773 9.4688 6.2773 15.152 0 5.6836-2.2578 11.137-6.2773 15.152-4.0195 4.0195-9.4688 6.2773-15.152 6.2773s-11.133-2.2578-15.152-6.2773c-4.0195-4.0156-6.2773-9.4688-6.2773-15.152z"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </header> -->
+    <!-- ＝＝＝Vue-burger-menuでのハンバーガーメニュー実装 → SSR時にエラー＝＝ -->
+    <!-- <client-only>
+      <slide right class="phone-menu">
+        <nuxt-link to="/user/favorite" class="menu-text">
+          <span> お気に入り</span></nuxt-link
+        >
+        <nuxt-link to="/orders/cart" class="menu-text">
+          <span>カート</span>
+        </nuxt-link>
+        <nuxt-link to="/orders/history" class="menu-text">
+          <span>注文履歴</span></nuxt-link
+        >
+      </slide>
+    </client-only> -->
+    <!-- ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝-->
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import { mapActions } from 'vuex'
+// import { Slide } from 'vue-burger-menu'
+
 import {
   faSearch,
   faStar,
@@ -175,10 +133,14 @@ import {
 import config from '../config'
 
 export default {
+  components: {
+    // Slide, // Register your component
+  },
   data() {
     return {
       searchWord: '',
       searchedItems: '',
+      ActiveBtn: false,
     }
   },
   computed: {
@@ -300,7 +262,7 @@ header {
   li.menu-item-last {
     list-style: none;
     display: inline-block;
-    padding: 10px 10px 10px 10px;
+    padding: 10px;
   }
   li.menu-search {
     list-style: none;
@@ -380,6 +342,9 @@ header {
     .menu-icon {
       padding-right: 1px;
     }
+    // .phone-menu {
+    //   display: none;
+    // }
   }
 }
 // スマホ対応
@@ -400,236 +365,137 @@ header {
       }
     }
     li.menu-search {
+      position: absolute;
+      top: 80px;
+      left: 33%;
       display: flex;
     }
     input.search-box {
       height: 30px;
-      width: 150px;
+      width: 140px;
       margin-left: 10px;
       display: inline-block;
     }
     button.search-btn {
       height: 35px;
-      width: 40px;
+      width: 35px;
       margin-left: 5px;
       margin-left: 5px;
     }
+
     button.log-btn {
-      padding: 5px;
+      font-size: 22px;
+      padding: 1px;
+      margin-left: 12px;
     }
+
     .menu-icon {
       padding-right: 5px;
       display: flex;
+      font-size: 18px;
+      display: none;
     }
     .menu {
-      // display: initial;
-      // display: flex;
+      display: flex;
       display: none;
       flex-wrap: wrap;
-      background-color: red;
     }
-  }
-}
 
-// ==========================
-.brand {
-  font-weight: bold;
-  font-size: 27px;
-}
+    .hamburger__btn {
+      // justify-content: center;
+      position: absolute;
+      top: 10px;
+      right: 100px;
 
-.site-header__top {
-  background-color: #def7ff;
-}
-.site-header__top ul {
-  display: flex;
-}
-.site-header__top li:not(:last-child) {
-  margin-right: 1.5rem;
-}
-.site-header__top .site-header__start {
-  display: none;
-}
-.site-header__bottom {
-  position: relative;
-  background-color: #c7f2ff;
-}
-@media (max-width: 939px) {
-  .site-header__bottom .site-header__end {
-    order: -1;
-  }
-}
-.site-header__wrapper {
-  display: flex;
-  justify-content: space-between;
-}
+      // position: fixed;
+      // top: 10.5px;
+      // left: 400px;
+      // width: 70px;
+      // height: 72px;
+      cursor: pointer;
+      z-index: 50;
 
-.site-header__wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-}
-@media (min-width: 940px) {
-  .site-header__wrapper {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
-}
-.site-header__end {
-  display: flex;
-  align-items: center;
-}
+      .line {
+        position: absolute;
+        top: 0;
+        left: 20px;
+        width: 45px;
+        height: 2px;
+        background: #333333;
+        text-align: center;
+      }
 
-.site-header__end.top > * + * {
-  margin-left: 1.5rem;
-}
+      .line_01 {
+        top: 16px;
+        transition: 0.4s ease;
+      }
 
-@media (min-width: 940px) {
-  .site-header__end.bottom > *:not(:last-child) {
-    margin-right: 1.5rem;
-  }
-}
+      .line_02 {
+        top: 26px;
+        transition: 0.4s ease;
+      }
 
-@media (max-width: 939px) {
-  .site-header__end.bottom .cart {
-    margin-right: 1.5rem;
-  }
-}
+      .line_03 {
+        top: 36px;
+        transition: 0.4s ease;
+      }
+    }
 
-@media (max-width: 939px) {
-  .site-header__end.bottom .search {
-    margin-left: 0;
-  }
-}
-.site-header__end.bottom svg {
-  width: 22px;
-  height: 22px;
-}
+    .btn_line01 {
+      transform: translateY(10px) rotate(-45deg);
+      transition: 0.4s ease;
+    }
+    .btn_line02 {
+      transition: 0.4s ease;
+      opacity: 0;
+    }
+    .btn_line03 {
+      transform: translateY(-10px) rotate(45deg);
+      transition: 0.4s ease;
+    }
+    // サイドメニュー
+    .hamburger__menu-enter-active,
+    .hamburger__menu-leave-active {
+      transition: opacity 0.4s;
+    }
+    .hamburger__menu-enter,
+    .hamburger__menu-leave-to {
+      opacity: 0;
+    }
+    .hamburger__menu-leave,
+    .hamburger__menu-enter-to {
+      opacity: 1;
+    }
 
-@media (min-width: 940px) {
-  .nav__wrapper {
-    display: flex;
-  }
-}
+    .hamburger__menu {
+      background-color: rgba(197, 197, 197, 0.671);
+      z-index: 30;
+      padding: 2rem 1rem;
+      position: fixed;
+      width: 200px;
+      height: 80rem;
+      top: 0;
+      right: 0;
 
-@media (max-width: 939px) {
-  .nav__wrapper {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    left: 0;
-    z-index: -1;
-    background-color: #d9f0f7;
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(-100%);
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-  }
-  .nav__wrapper.active {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+      ul {
+        padding: 0;
+        padding-top: 40px;
+      }
 
-.nav__item:not(:last-child) {
-  margin-right: 1.5rem;
-}
+      li {
+        padding: 20px 0;
+        list-style: none;
+        line-height: 1;
+      }
 
-.nav__item a {
-  display: block;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-@media (max-width: 939px) {
-  .nav__item a {
-    padding: 1rem;
-  }
-}
-.nav__item svg {
-  display: inline-block;
-  vertical-align: middle;
-  width: 28px;
-  height: 28px;
-  margin-right: 1rem;
-}
-@media (min-width: 940px) {
-  .nav__item svg {
-    display: block;
-    margin: 0 auto 0.5rem;
-  }
-}
-.nav__item.active a {
-  border-left-color: #222;
-}
-@media (min-width: 800px) {
-  .nav__item.active a {
-    border-bottom-color: #222;
-  }
-}
-.nav__toggle {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-}
-@media (min-width: 940px) {
-  .nav__toggle {
-    display: none;
-  }
-}
-.search {
-  display: flex;
-}
-.search__toggle {
-  appearance: none;
-  order: 1;
-  font-size: 0;
-  width: 34px;
-  height: 34px;
-  // background: url('../img/header-3/search.svg') center/22px no-repeat;
-  border: 0;
-}
-@media (max-width: 939px) {
-  .search__toggle {
-    position: absolute;
-    right: 5.5rem;
-    top: 0.65rem;
-  }
-}
-// .search__toggle.active {
-//   // background: url('../img/header-5/close.svg') center/22px no-repeat;
-// }
-
-.search__form {
-  display: none;
-}
-.search__form.active {
-  display: block;
-}
-@media (max-width: 799px) {
-  .search__form {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 100%;
-    background-color: red;
-  }
-  .search__form input {
-    width: 100%;
-  }
-}
-.search__form input {
-  min-width: 200px;
-  appearance: none;
-  border: 0;
-  background-color: #fff;
-  border-radius: 0;
-  font-size: 16px;
-  padding: 0.5rem;
-}
-@media (max-width: 799px) {
-  .search__form input {
-    border-bottom: 1px solid #979797;
+      a {
+        color: rgb(66, 66, 66);
+        text-decoration: none;
+        font-size: 22px;
+        margin: 0 4vw;
+        padding-bottom: 8px;
+      }
+    }
   }
 }
 </style>
