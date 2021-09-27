@@ -14,6 +14,7 @@
             rules="required|max:50"
           >
             <input
+              id="Form-Item-name"
               v-model="destinationName"
               class="Form-Item-Input"
               placeholder="例）山田太郎"

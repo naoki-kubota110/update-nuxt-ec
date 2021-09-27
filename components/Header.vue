@@ -53,8 +53,53 @@
           >
         </li>
       </span>
+      <!--ハンバーガーメニューのボタン-->
+      <div class="hamburger__btn" @click="ActiveBtn = !ActiveBtn">
+        <span class="line line_01" :class="{ btn_line01: ActiveBtn }"></span>
+        <span class="line line_02" :class="{ btn_line02: ActiveBtn }"></span>
+        <span class="line line_03" :class="{ btn_line03: ActiveBtn }"></span>
+      </div>
+      <!--サイドメニュー-->
+      <transition name="hamburger__menu">
+        <div v-show="ActiveBtn" class="hamburger__menu">
+          <ul>
+            <li v-if="!$auth.loggedIn" class="menu-item">
+              <nuxt-link to="/user/login">
+                <button class="log-btn">
+                  <span> <fa :icon="faLockOpen" class="menu-icon" /></span
+                  >ログイン
+                </button>
+              </nuxt-link>
+              <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
+            </li>
+            <li v-if="$auth.loggedIn" class="menu-item">
+              <button class="log-btn" @click="logout">
+                <span> <fa :icon="faLock" class="menu-icon" /></span>ログアウト
+              </button>
+            </li>
+            <li class="menu-item">
+              <nuxt-link to="/user/favorite" class="menu-text">
+                <span> <fa :icon="faStar" class="menu-icon" /></span
+                >お気に入り</nuxt-link
+              >
+            </li>
+            <li class="menu-item">
+              <nuxt-link to="/orders/cart" class="menu-text">
+                <span> <fa :icon="faShoppingCart" class="menu-icon" /></span
+                >カート
+              </nuxt-link>
+            </li>
+            <li class="menu-item-last">
+              <nuxt-link to="/orders/history" class="menu-text">
+                <span> <fa :icon="faStickyNote" class="menu-icon" /></span
+                >注文履歴</nuxt-link
+              >
+            </li>
+          </ul>
+        </div>
+      </transition>
     </header>
-
+    <!-- ＝＝＝Vue-burger-menuでのハンバーガーメニュー実装 → SSR時にエラー＝＝ -->
     <!-- <client-only>
       <slide right class="phone-menu">
         <nuxt-link to="/user/favorite" class="menu-text">
@@ -68,7 +113,7 @@
         >
       </slide>
     </client-only> -->
-    <tasty-burger-button />
+    <!-- ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝-->
   </div>
 </template>
 
@@ -76,7 +121,7 @@
 import axios from 'axios'
 import { mapActions } from 'vuex'
 // import { Slide } from 'vue-burger-menu'
-import { TastyBurgerButton } from 'vue-tasty-burgers'
+
 import {
   faSearch,
   faStar,
@@ -90,12 +135,12 @@ import config from '../config'
 export default {
   components: {
     // Slide, // Register your component
-    'tasty-burger-button': TastyBurgerButton,
   },
   data() {
     return {
       searchWord: '',
       searchedItems: '',
+      ActiveBtn: false,
     }
   },
   computed: {
@@ -217,7 +262,7 @@ header {
   li.menu-item-last {
     list-style: none;
     display: inline-block;
-    padding: 10px 10px 10px 10px;
+    padding: 10px;
   }
   li.menu-search {
     list-style: none;
@@ -320,35 +365,136 @@ header {
       }
     }
     li.menu-search {
+      position: absolute;
+      top: 80px;
+      left: 33%;
       display: flex;
     }
     input.search-box {
       height: 30px;
-      width: 150px;
+      width: 140px;
       margin-left: 10px;
       display: inline-block;
     }
     button.search-btn {
       height: 35px;
-      width: 40px;
+      width: 35px;
       margin-left: 5px;
       margin-left: 5px;
     }
+
     button.log-btn {
-      padding: 5px;
+      font-size: 22px;
+      padding: 1px;
+      margin-left: 12px;
     }
+
     .menu-icon {
       padding-right: 5px;
       display: flex;
+      font-size: 18px;
+      display: none;
     }
     .menu {
-      // display: initial;
       display: flex;
-      // display: none;
+      display: none;
       flex-wrap: wrap;
-      background-color: red;
-      // display: block;
-      // overflow-wrap
+    }
+
+    .hamburger__btn {
+      // justify-content: center;
+      position: absolute;
+      top: 10px;
+      right: 100px;
+
+      // position: fixed;
+      // top: 10.5px;
+      // left: 400px;
+      // width: 70px;
+      // height: 72px;
+      cursor: pointer;
+      z-index: 50;
+
+      .line {
+        position: absolute;
+        top: 0;
+        left: 20px;
+        width: 45px;
+        height: 2px;
+        background: #333333;
+        text-align: center;
+      }
+
+      .line_01 {
+        top: 16px;
+        transition: 0.4s ease;
+      }
+
+      .line_02 {
+        top: 26px;
+        transition: 0.4s ease;
+      }
+
+      .line_03 {
+        top: 36px;
+        transition: 0.4s ease;
+      }
+    }
+
+    .btn_line01 {
+      transform: translateY(10px) rotate(-45deg);
+      transition: 0.4s ease;
+    }
+    .btn_line02 {
+      transition: 0.4s ease;
+      opacity: 0;
+    }
+    .btn_line03 {
+      transform: translateY(-10px) rotate(45deg);
+      transition: 0.4s ease;
+    }
+    // サイドメニュー
+    .hamburger__menu-enter-active,
+    .hamburger__menu-leave-active {
+      transition: opacity 0.4s;
+    }
+    .hamburger__menu-enter,
+    .hamburger__menu-leave-to {
+      opacity: 0;
+    }
+    .hamburger__menu-leave,
+    .hamburger__menu-enter-to {
+      opacity: 1;
+    }
+
+    .hamburger__menu {
+      background-color: rgba(197, 197, 197, 0.671);
+      z-index: 30;
+      padding: 2rem 1rem;
+      position: fixed;
+      width: 200px;
+      height: 80rem;
+      top: 0;
+      right: 0;
+
+      ul {
+        padding: 0;
+        padding-top: 40px;
+      }
+
+      li {
+        padding: 20px 0;
+        list-style: none;
+        line-height: 1;
+      }
+
+      a {
+        color: rgb(66, 66, 66);
+        text-decoration: none;
+        font-size: 22px;
+        margin: 0 4vw;
+        padding-bottom: 8px;
+      }
     }
   }
 }

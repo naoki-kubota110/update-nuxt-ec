@@ -9,9 +9,12 @@
         <th></th>
       </tr>
       <tr v-for="item in favoriteItem" :key="item.index">
-        <router-link :to="{ path: `/item/${item.favoriteId}` }">
-          <th class="item-name">{{ item.itemName }}</th>
-        </router-link>
+        <th class="item-name">
+          <router-link :to="{ path: `/item/${item.favoriteId}` }"
+            >{{ item.itemName }}
+          </router-link>
+        </th>
+
         <th>
           <router-link :to="{ path: `/item/${item.favoriteId}` }">
             <img class="item-img" :src="item.itemImage" />
@@ -65,21 +68,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .item-table {
-//   border-bottom: 1px solid #ddd;
-// }
 th {
+  width: 100%;
   padding-top: 30px;
-  // border-bottom: 1px solid #ddd;
+  align-content: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
 }
 .item-img {
-  width: 124px;
-  height: 124px;
+  width: 164px;
+  height: 164px;
+  padding: 0 30px;
 }
 .item-name {
-  height: 100px;
+  max-width: 300px;
   word-wrap: normal;
-  vertical-align: middle;
 }
 
 .delete-btn {
@@ -95,5 +98,24 @@ th {
   margin: 0 auto;
   margin-top: 10px;
   cursor: pointer;
+  margin-left: 30px;
+}
+@media screen and (max-width: 650px) {
+  .item-name {
+    font-size: 8px;
+  }
+  th {
+    font-size: 12px;
+  }
+  .item-img {
+    width: 80px;
+    height: 80px;
+    padding: 0 5px;
+  }
+  .delete-btn {
+    width: 70px;
+    font-size: 10px;
+    margin-left: 5px;
+  }
 }
 </style>
