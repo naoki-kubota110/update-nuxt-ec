@@ -5,4 +5,5 @@ import 'swiper/swiper-bundle.css'
 import { Autoplay, Pagination, Swiper } from 'swiper'
 
 Vue.use(VueAwesomeSwiper)
+// Vue.component('VueAwesomeSwiper', VueAwesomeSwiper)
 Swiper.use([Autoplay, Pagination])
