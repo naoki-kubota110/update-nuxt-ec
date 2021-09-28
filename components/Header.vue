@@ -120,7 +120,6 @@
 <script>
 import axios from 'axios'
 import { mapActions } from 'vuex'
-// import { Slide } from 'vue-burger-menu'
 
 import {
   faSearch,
@@ -133,9 +132,6 @@ import {
 import config from '../config'
 
 export default {
-  components: {
-    // Slide, // Register your component
-  },
   data() {
     return {
       searchWord: '',
@@ -229,6 +225,7 @@ export default {
 
 <style lang="scss" scoped>
 $hover_color: #6699ff;
+$button_bg_color: #7fbfff;
 
 header {
   display: flex;
@@ -279,7 +276,7 @@ header {
   button.search-btn {
     height: 40px;
     width: 50px;
-    background-color: #7fbfff;
+    background-color: $button_bg_color;
     color: #fff;
     border: none;
     border-radius: 0 25px 25px 0;
@@ -289,7 +286,7 @@ header {
     }
   }
   button.log-btn {
-    background-color: #7fbfff;
+    background-color: $button_bg_color;
     border-width: 1px;
     padding: 5px;
     cursor: pointer;
@@ -342,9 +339,6 @@ header {
     .menu-icon {
       padding-right: 1px;
     }
-    // .phone-menu {
-    //   display: none;
-    // }
   }
 }
 // スマホ対応
@@ -352,7 +346,6 @@ header {
   header {
     width: 100%;
     height: 180px;
-    background-color: #eee;
     align-items: center;
     justify-content: initial;
 
@@ -402,16 +395,9 @@ header {
     }
 
     .hamburger__btn {
-      // justify-content: center;
       position: absolute;
       top: 10px;
       right: 100px;
-
-      // position: fixed;
-      // top: 10.5px;
-      // left: 400px;
-      // width: 70px;
-      // height: 72px;
       cursor: pointer;
       z-index: 50;
 

@@ -39,6 +39,7 @@ describe('トップページのテスト', () => {
   test('Vueインスタンスが存在するのか確認', () => {
     expect(wrapper.vm).toBeTruthy()
   })
+
   // test('click button sendOrder', async () => {
   //   await wrapper.get('button').trigger('click')
   //   expect(wrapper.text()).toContain('Count is: 1')
