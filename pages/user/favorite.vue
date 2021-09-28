@@ -11,7 +11,8 @@
       <tr v-for="item in favoriteItem" :key="item.index">
         <th class="item-name">
           <router-link :to="{ path: `/item/${item.favoriteId}` }"
-            >{{ item.itemName }}
+            >
+            <p>{{ item.itemName }}</p>
           </router-link>
         </th>
 
@@ -37,21 +38,17 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
-  middleware({ store, redirect }) {
-    if (!this.$store.state.auth.loggedIn) {
-      redirect('/user/login')
-    }
-  },
+  middleware: 'direct-login',
   computed: {
     favoriteItem() {
       return this.$store.state.users.favoriteItem
     },
   },
-  created() {
-    if (this.$store.state.auth.loggedIn) {
-      this['users/getFavoriteItem']({ id: this.$store.state.auth.user.id })
-    }
-  },
+  // created() {
+  //   if (this.$store.state.auth.loggedIn) {
+  //     this['users/getFavoriteItem']({ id:this.$auth.user.id})
+  //   }
+  // },
   methods: {
     deleteFavoriteItem(favoriteId, userId) {
       const deleteData = {
