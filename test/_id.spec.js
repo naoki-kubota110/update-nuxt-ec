@@ -14,7 +14,11 @@ describe('商品詳細ページのテスト', () => {
 
   beforeEach(() => {
     // eslint-disable-next-line import/no-named-as-default-member
-    store = new Vuex.Store({})
+    store = new Vuex.Store({
+      state:{
+        auth: {loggedIn: true}
+      },
+    })
     wrapper = shallowMount(_id, {
       store,
       router,
