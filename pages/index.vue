@@ -137,15 +137,7 @@ export default {
       itemflg: (state) => state.item.itemflg,
     }),
   },
-  // ＝＝＝＝ログインしていなくても表示ため削除予定＝＝＝＝＝
-  // created() {
-  //   if (this.$auth.loggedIn) {
-  //     // const data = { id: this.$auth.user.id }
-  //     // console.log(data)
-  //   }
-  //   this['item/searchItem'](this.firstItem.Items)
-  // },
-  // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
   methods: {
     ...mapActions(['item/searchItem']),
   },
