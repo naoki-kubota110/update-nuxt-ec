@@ -34,7 +34,14 @@ describe('商品詳細ページのテスト', () => {
   test('タイトルのタグ確認', () => {
     expect(wrapper.text()).toContain('商品詳細')
   })
-
+  // ========メソッド=========
+  test('タイトルのタグ確認', () => {
+    expect(wrapper.text()).toContain('商品詳細')
+  })
+  test('タイトルのタグ確認', () => {
+    expect(wrapper.text()).toContain('商品詳細')
+  })
+  // =========================
   // test('click button sendOrder', async () => {
   //   await wrapper.vm.addCart()
   //   // expect(wrapper.text()).toContain('Count is: 1')

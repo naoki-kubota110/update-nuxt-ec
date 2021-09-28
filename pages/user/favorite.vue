@@ -48,7 +48,7 @@ export default {
     },
   },
   created() {
-    if (this.$store.state.auth.loggedIn) {
+    if (this.$auth.loggedIn) {
       this['users/getFavoriteItem']({ id: this.$store.state.auth.user.id })
     }
   },
