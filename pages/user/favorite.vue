@@ -38,7 +38,7 @@
 import { mapActions } from 'vuex'
 export default {
   middleware({ store, redirect }) {
-    if (!store.$auth.loggedIn) {
+    if (!this.$store.state.auth.loggedIn) {
       redirect('/user/login')
     }
   },
@@ -48,8 +48,8 @@ export default {
     },
   },
   created() {
-    if (this.$auth.loggedIn) {
-      this['users/getFavoriteItem']({ id: this.$auth.user.id })
+    if (this.$store.state.auth.loggedIn) {
+      this['users/getFavoriteItem']({ id: this.$store.state.auth.user.id })
     }
   },
   methods: {

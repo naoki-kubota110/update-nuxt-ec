@@ -1,9 +1,10 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { config, shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import index from '../pages/index.vue'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+config.stubs.swiper = { template: '<div></div> ' }
 
 describe('トップページのテスト', () => {
   let store
