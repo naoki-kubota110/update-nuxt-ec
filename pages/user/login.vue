@@ -32,11 +32,7 @@
 <script>
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
   export default {
-    middleware({ store, redirect }){
-      if(store.$auth.loggedIn){
-        redirect('/');
-      }
-    },
+    middleware: 'direct-home',
     data(){
       return {
         user:{

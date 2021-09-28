@@ -30,18 +30,17 @@ describe('ショッピングカート画面に商品が入っている場合の�
             addCartDate: 'Fri Sep 24 2021 17:04:23 GMT+0900 (日本標準時)',
             itemInfo: [
               {
-                itemId: 'elfina1:10000277',
-                itemName:
-                  '【スーパーセール】【Bluetooth5.0技術 aptX&#8482;】Bluetooth イヤホン Hi-Fi 完全 ワイヤレス イヤホン 自動ペアリング イヤホン本体 音楽再生 充電ケース付き LEDディスプレイ電量表示 ブルートゥース イヤホン 左右分離型 IPX6防水 CVC8.0ノイズキャンセリング AAC対応',
-                itemPrice: 6580,
-                itemImage:
-                  'https://thumbnail.image.rakuten.co.jp/@0_gold/elfina1/product/image/ep2/a.jpg?_ex=128x128',
-                buyNum: 1,
-              },
-            ],
-          },
-        ],
-      },
+                itemId: "elfina1:10000277",
+                itemName:"【スーパーセール】【Bluetooth5.0技術 aptX&#8482;】Bluetooth イヤホン Hi-Fi 完全 ワイヤレス イヤホン 自動ペアリング イヤホン本体 音楽再生 充電ケース付き LEDディスプレイ電量表示 ブルートゥース イヤホン 左右分離型 IPX6防水 CVC8.0ノイズキャンセリング AAC対応",
+                itemPrice:6580,
+                itemImage:"https://thumbnail.image.rakuten.co.jp/@0_gold/elfina1/product/image/ep2/a.jpg?_ex=128x128",
+                buyNum:1,
+              }
+            ]
+          }
+        ]
+      }
+
     })
     stubs = {
       RouterLink: RouterLinkStub,

@@ -16,11 +16,7 @@
 
 <script>
 export default {
-  middleware({ store, redirect }){
-    if(!store.$auth.loggedIn){
-      redirect('/user/login');
-    }
-  },
+  middleware: 'direct-login',
   methods:{
     backHome(){
       this.$router.push("/")
