@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     addCart() {
-      if (this.$auth.loggedIn) {
+      if (this.$store.state.auth.loggedIn) {
         const item = {
           orderId: new Date().getTime().toString(),
           status: 0,

@@ -22,7 +22,7 @@
       </div>
       <!-- ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} -->
       <span class="menu">
-        <li v-if="!$auth.loggedIn" class="menu-item">
+        <li v-if="!$store.state.auth.loggedIn" class="menu-item">
           <nuxt-link to="/user/login">
             <button class="log-btn">
               <span> <fa :icon="faLockOpen" class="menu-icon" /></span>ログイン
@@ -30,7 +30,7 @@
           </nuxt-link>
           <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
         </li>
-        <li v-if="$auth.loggedIn" class="menu-item">
+        <li v-if="$store.state.auth.loggedIn" class="menu-item">
           <button class="log-btn" @click="logout">
             <span> <fa :icon="faLock" class="menu-icon" /></span>ログアウト
           </button>
@@ -63,7 +63,7 @@
       <transition name="hamburger__menu">
         <div v-show="ActiveBtn" class="hamburger__menu">
           <ul>
-            <li v-if="!$auth.loggedIn" class="menu-item">
+            <li v-if="!$store.state.auth.loggedIn" class="menu-item">
               <nuxt-link to="/user/login">
                 <button class="log-btn">
                   <span> <fa :icon="faLockOpen" class="menu-icon" /></span
@@ -72,7 +72,7 @@
               </nuxt-link>
               <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
             </li>
-            <li v-if="$auth.loggedIn" class="menu-item">
+            <li v-if="$store.state.auth.loggedIn" class="menu-item">
               <button class="log-btn" @click="logout">
                 <span> <fa :icon="faLock" class="menu-icon" /></span>ログアウト
               </button>
