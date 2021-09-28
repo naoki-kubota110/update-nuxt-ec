@@ -3,7 +3,6 @@
     <h1>Sign Up</h1>
     <ValidationObserver ref="observer" v-slot="{ invalid }">
       <form @submit.prevent="registerUser">
-
       <div class="form-item">
         <ValidationProvider v-slot="{ errors }" name="お名前" rules="required|min:1|max:10">
         <label for="name"></label>
@@ -40,11 +39,7 @@
 
 <script>
 export default {
-  middleware({ store, redirect }) {
-    if (store.$auth.loggedIn) {
-      redirect('/')
-    }
-  },
+  middleware: 'direct-home',
   data() {
     return {
       user: {
@@ -56,10 +51,8 @@ export default {
   },
   methods: {
     registerUser() {
-      console.log("register")
       this.$axios.post('/api/user/register', this.user)
       .then((res) => {
-        console.log(res)
         this.$auth.loginWith('local', {
           data: this.user,
         }).catch(err => {

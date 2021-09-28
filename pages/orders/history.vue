@@ -53,11 +53,7 @@
 import { mapActions } from 'vuex'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 export default {
-  middleware({ store, redirect }){
-    if(!store.$auth.loggedIn){
-      redirect('/user/login');
-    }
-  },
+  middleware: 'direct-login',
   computed: {
     historyArray(){
       return this.$store.getters["order/historyData"]
@@ -71,7 +67,7 @@ export default {
   },
   methods:{
     cancelOrder(id){
-      alert("ご注文をキャンセルしますか？")
+      // alert("ご注文をキャンセルしますか？")
       this["order/cancelOrder"](id)
     },
     backHome(){
