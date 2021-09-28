@@ -1,14 +1,21 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import {
+  config,
+  shallowMount,
+  createLocalVue,
+  RouterLinkStub,
+} from '@vue/test-utils'
 import Vuex from 'vuex'
 import Header from '../components/Header'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
+config.stubs.fa = { template: '<div></div> ' }
 
 describe('ヘッダーのテスト', () => {
   let store
   let itemStoreMock
   let wrapper
+  let stubs
 
   beforeEach(() => {
     // Vuexストアのモックを作成する
@@ -18,17 +25,20 @@ describe('ヘッダーのテスト', () => {
     }
     // eslint-disable-next-line import/no-named-as-default-member
     store = new Vuex.Store({
-      state:{
-        auth: {loggedIn: true}
+      state: {
+        auth: { loggedIn: true },
       },
       modules: {
         item: itemStoreMock,
       },
     })
-
+    stubs = {
+      NuxtLink: RouterLinkStub,
+    }
     wrapper = shallowMount(Header, {
       store,
       localVue,
+      stubs,
     })
   })
 
