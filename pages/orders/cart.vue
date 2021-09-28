@@ -69,11 +69,11 @@ import { faLock, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import OrderForm from '../../components/OrderForm.vue'
 export default {
   components: { OrderForm },
-  middleware({ store, redirect }) {
-    if (!store.$auth.loggedIn) {
-      redirect('/user/login')
-    }
-  },
+  // middleware({ store, redirect }) {
+  //   if (!store.$auth.loggedIn) {
+  //     redirect('/user/login')
+  //   }
+  // },
   computed: {
     faLock() {
       return faLock
@@ -91,6 +91,9 @@ export default {
         return this.$store.getters['order/CartDataArry'][0].itemInfo.length
       }
     },
+    // aaa(){
+    //   return this.$store.state.auth
+    // },
     CartSumPrice() {
       if (this.$store.getters['order/CartDataArry'].length !== 0) {
         let sumPrice = 0
@@ -107,7 +110,6 @@ export default {
   },
   methods: {
     deleteItem(id) {
-      console.log(id, 'delete Item')
       if (this.$store.getters['order/CartDataArry'].length) {
         // カートない商品を削除するためにアイテム固有のIDと削除するオーダー情報を指定するIDを入れる
         const data = {

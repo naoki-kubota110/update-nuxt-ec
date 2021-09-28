@@ -140,10 +140,10 @@ export default {
   },
 
   created() {
-    if (this.$auth.loggedIn) {
-      // const data = { id: this.$auth.user.id }
-      // console.log(data)
-    }
+    // if (this.$auth.loggedIn) {
+    //   // const data = { id: this.$auth.user.id }
+    //   // console.log(data)
+    // }
     // this['item/searchItem'](this.firstItem.Items)
   },
   methods: {
