@@ -7,18 +7,27 @@ localVue.use(Vuex)
 
 describe('favoriteコンポーネントのテスト', () => {
   let store
-  let favoriteItem
   let wrapper
 
   beforeEach(() => {
     // Vuexストアのモックを作成する
-    favoriteItem = {
-      favoriteItem: [],
+    const actions = {
+      'users/getFavoriteItem': jest.fn(),
     }
+
     // eslint-disable-next-line import/no-named-as-default-member
     store = new Vuex.Store({
-      modules: {
-        favoriteItem,
+      actions,
+      state: {
+        auth: {
+          loggedIn: true,
+          user: {
+            id: 'abc',
+          },
+        },
+        users: {
+          favoriteItem: [],
+        },
       },
     })
 
@@ -31,4 +40,18 @@ describe('favoriteコンポーネントのテスト', () => {
   test('Vueインスタンスが存在するのか確認', () => {
     expect(wrapper.vm).toBeTruthy()
   })
+  // test('loggedInがfalseのパターンテスト', () => {
+  //   wrapper.vm.middleware()
+  //   if (wrapper.vm.store.state.auth.loggedIn === true) {
+  //     console.log(wrapper.vm)
+  //   } else {
+  //     console.log(wrapper.vm)
+  //   }
+  //   wrapper.vm.store.state.auth.loggedIn = false
+  //   wrapper.vm.middleware()
+  //   if (wrapper.vm.store.state.auth.loggedIn === true) {
+  //     console.log(wrapper.vm)
+  //   } else {
+  //     console.log(wrapper.vm)
+  //   }
 })

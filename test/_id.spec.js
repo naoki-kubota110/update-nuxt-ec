@@ -1,4 +1,4 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { config, shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import _id from '../pages/item/_id.vue'
@@ -8,6 +8,8 @@ localVue.use(Vuex)
 localVue.use(VueRouter)
 const router = new VueRouter()
 
+config.stubs.fa = { template: '<div></div> ' }
+
 describe('商品詳細ページのテスト', () => {
   let store
   let wrapper
@@ -15,8 +17,8 @@ describe('商品詳細ページのテスト', () => {
   beforeEach(() => {
     // eslint-disable-next-line import/no-named-as-default-member
     store = new Vuex.Store({
-      state:{
-        auth: {loggedIn: true}
+      state: {
+        auth: { loggedIn: true },
       },
     })
     wrapper = shallowMount(_id, {
