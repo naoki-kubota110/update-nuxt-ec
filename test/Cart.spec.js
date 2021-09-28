@@ -10,6 +10,7 @@ describe('ショッピングカート画面に商品が入っている場合の�
   let wrapper 
   let stubs
   beforeEach(() => {
+    // eslint-disable-next-line import/no-named-as-default-member
     store = new Vuex.Store({
       state:{
         auth: {loggedIn: true}
@@ -50,6 +51,7 @@ describe('ショッピングカート画面に商品が入っている場合の�
     console.log(wrapper.html())
   })
   test('カートデータがからの場合、合計金額が0円になることを確認', () => {
+     // eslint-disable-next-line import/no-named-as-default-member
     store = new Vuex.Store({
       state:{
         auth: {loggedIn: true}
@@ -120,6 +122,7 @@ describe('ショッピングカート画面の商品が空の場合のテスト'
   let wrapper 
   let stubs
   beforeEach(() => {
+         // eslint-disable-next-line import/no-named-as-default-member
     store = new Vuex.Store({
     // 商品が入っていない場合の"order/getters"のモック
     getters: {

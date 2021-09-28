@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>注文フォーム</h1>
-
     <ValidationObserver ref="orderform" v-slot="{ invalid }">
       <form @submit.prevent="sendOrder">
         <div class="Form-Item">
