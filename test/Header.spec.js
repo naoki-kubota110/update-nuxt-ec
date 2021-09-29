@@ -13,24 +13,26 @@ config.stubs.fa = { template: '<div></div> ' }
 
 describe('ヘッダーのテスト', () => {
   let store
-  let itemStoreMock
+  // let itemStoreMock
   let wrapper
   let stubs
-
   beforeEach(() => {
     // Vuexストアのモックを作成する
-    itemStoreMock = {
-      itemflg: true,
-      shopItems: [],
-    }
+    // itemStoreMock = {
+    //   itemflg: true,
+    //   shopItems: [],
+    // }
     // eslint-disable-next-line import/no-named-as-default-member
     store = new Vuex.Store({
       state: {
         auth: { loggedIn: true },
+        item: {
+          itemflug: true,
+        },
       },
-      modules: {
-        item: itemStoreMock,
-      },
+      // modules: {
+      //   item: itemStoreMock,
+      // },
     })
     stubs = {
       NuxtLink: RouterLinkStub,

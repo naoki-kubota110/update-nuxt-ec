@@ -10,8 +10,8 @@
       </tr>
       <tr v-for="item in favoriteItem" :key="item.index">
         <th class="item-name">
-          <router-link :to="{ path: `/item/${item.favoriteId}` }"
-            >{{ item.itemName }}
+          <router-link :to="{ path: `/item/${item.favoriteId}` }">
+            <p>{{ item.itemName }}</p>
           </router-link>
         </th>
 
@@ -37,30 +37,26 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
-  middleware({ store, redirect }) {
-    if (!this.$store.state.auth.loggedIn) {
-      redirect('/user/login')
-    }
-  },
+  middleware: 'direct-login',
   computed: {
     favoriteItem() {
       return this.$store.state.users.favoriteItem
     },
   },
-  created() {
-    if (this.$auth.loggedIn) {
-      this['users/getFavoriteItem']({ id: this.$store.state.auth.user.id })
-    }
-  },
+  // created() {
+  //   if (this.$store.state.auth.loggedIn) {
+  //     this['users/getFavoriteItem']({ id:this.$auth.user.id})
+  //   }
+  // },
   methods: {
     deleteFavoriteItem(favoriteId, userId) {
       const deleteData = {
         favoriteId,
         userId,
       }
-      if (confirm('お気に入りを解除しますか？')) {
-        this['users/deleteFavoriteItem'](deleteData)
-      }
+      // if (confirm('お気に入りを解除しますか？')) {
+      this['users/deleteFavoriteItem'](deleteData)
+      // }
     },
     ...mapActions(['users/deleteFavoriteItem', 'users/getFavoriteItem']),
   },
@@ -76,8 +72,8 @@ th {
   padding-bottom: 20px;
 }
 .item-img {
-  width: 164px;
-  height: 164px;
+  width: 124px;
+  height: 124px;
   padding: 0 30px;
 }
 .item-name {

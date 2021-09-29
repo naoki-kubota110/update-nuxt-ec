@@ -12,8 +12,20 @@ describe('オーダーフォームコンポーネントのテスト', () => {
   const methodsMock = { sendOrder: jest.fn() }
 
   beforeEach(() => {
+    const actions = {
+      'order/sendOrder': jest.fn(),
+    }
     // eslint-disable-next-line import/no-named-as-default-member
-    store = new Vuex.Store({})
+    store = new Vuex.Store({
+      actions,
+      state: {
+        auth: {
+          user: {
+            id: 'abcdefg',
+          },
+        },
+      },
+    })
 
     wrapper = shallowMount(OrderForm, {
       methodsMock,
@@ -29,47 +41,15 @@ describe('オーダーフォームコンポーネントのテスト', () => {
     expect(wrapper.vm).toBeTruthy()
   })
 
-  // test('computed property nowDay', () => {
-  //   wrapper.vm.nowDay()
-  // })
-  // it('pickupItemが期待通りか？', () => {
-  //   const day = '2021年10月1日'
-
-  //   const wrapper = shallowMount(OrderForm, {
-  //     propsData: { day },
-  //   })
-  //   expect(wrapper.vm.nowDay).toEqual('2021年10月1日')
-  // })
-
   test('method sendOrder', () => {
     wrapper.vm.sendOrder()
   })
   test('propsを受け取れること', () => {
     expect(wrapper.vm.$props.orderId).toBe('abcdefg')
   })
-
-  // it('should call my function', () => {
-  //   // use mockImplementation if you want to return a value
-  //   window.confirm = jest.fn().sendOrder(() => true)
-
-  //   // fireEvent.click(getByText("Supprimer"))
-
-  //   expect(window.confirm).toHaveBeenCalled()
-  // })
-  // test('click button sendOrder', async () => {
-  //   await wrapper.get('button').trigger('click')
-  //   expect(wrapper.text()).toContain('Count is: 1')
-  // })
-  // const input = wrapper.get('input')
-  // input.setValue('山田太郎')
-  // test('click button sendOrder', () => {
-  //   wrapper.vm.sendOrder()
-  //   // console.log(wrapper.emitted())
-  // })
-  // const input = wrapper.get('#form-item-name')
-  // input.setValue('山田太郎')
-  // test('click button sendOrder', () => {
-  //   wrapper.vm.sendOrder()
-  //   // console.log(wrapper.emitted())
-  // })
+  test('nowDay()の戻り値が2021-9-29ならOK', () => {
+    const mockDate = new Date(2021, 8, 29, 2)
+    jest.spyOn(global, 'Date').mockImplementation(() => mockDate)
+    expect(wrapper.vm.nowDay).toBe('2021-9-29')
+  })
 })

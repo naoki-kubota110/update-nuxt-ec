@@ -28,7 +28,11 @@
               <span> <fa :icon="faLockOpen" class="menu-icon" /></span>ログイン
             </button>
           </nuxt-link>
-          <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
+
+          <nuxt-link to="/user/register" class="menu-text">
+            <span> <fa :icon="faUser" class="menu-icon" /></span
+            >ユーザー登録</nuxt-link
+          >
         </li>
         <li v-if="$store.state.auth.loggedIn" class="menu-item">
           <button class="log-btn" @click="logout">
@@ -128,6 +132,7 @@ import {
   faStickyNote,
   faLock,
   faLockOpen,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons'
 import config from '../config'
 
@@ -157,6 +162,9 @@ export default {
     },
     faLockOpen() {
       return faLockOpen
+    },
+    faUser() {
+      return faUser
     },
   },
   created() {
@@ -217,6 +225,8 @@ export default {
             console.log(err)
           })
       }
+      // eslint-disable-next-line no-unused-expressions
+      // this['item/searchItem'](this.searchWord)
     },
     ...mapActions(['item/searchItem']),
   },
@@ -289,6 +299,7 @@ header {
     background-color: $button_bg_color;
     border-width: 1px;
     padding: 5px;
+    margin-right: 3px;
     cursor: pointer;
     &:hover {
       background-color: $hover_color;
