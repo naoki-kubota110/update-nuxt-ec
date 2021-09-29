@@ -57,19 +57,19 @@ describe('favoriteコンポーネントのテスト', () => {
     expect(wrapper.vm).toBeTruthy()
     console.log(store._actions.users)
   })
-  test('お気に入り解除ボタンを押してdeleteFavoriteItemメソッドの発火確認', () => {
-    wrapper.find('.delete-btn').trigger('click')
-    // store.users.dispatch('deleteFavoriteItem')
-    // expect(store.actions.deleteFavoriteItem).toHaveBeenCalled()
-    expect(wrapper.vm.deleteFavoriteItem).toHaveBeenCalled()
-    // expect(
-    //   store._actions['users/deleteFavoriteItem']
-    //   // 'uminekotayori:10002981',
-    //   // 'abcdefg'
-    // ).toHaveBeenCalled()
-  })
-  test('発火確認', () => {
-    wrapper.vm.deleteFavoriteItem()
-    expect(store.actions['users/deleteFavoriteItem']).toHaveBeenCalled()
-  })
+  // test('お気に入り解除ボタンを押してdeleteFavoriteItemメソッドの発火確認', () => {
+  //   wrapper.find('.delete-btn').trigger('click')
+  //   // store.users.dispatch('deleteFavoriteItem')
+  //   // expect(store.actions.deleteFavoriteItem).toHaveBeenCalled()
+  //   expect(wrapper.vm.deleteFavoriteItem).toHaveBeenCalled()
+  //   // expect(
+  //   //   store._actions['users/deleteFavoriteItem']
+  //   //   // 'uminekotayori:10002981',
+  //   //   // 'abcdefg'
+  //   // ).toHaveBeenCalled()
+  // })
+  // test('発火確認', () => {
+  //   wrapper.vm.deleteFavoriteItem()
+  //   expect(store.actions['users/deleteFavoriteItem']).toHaveBeenCalled()
+  // })
 })

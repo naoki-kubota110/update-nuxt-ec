@@ -80,9 +80,9 @@ describe('商品詳細ページのテスト', () => {
     })
   })
   test('addCartメソッド確認', () => {
-    expect(wrapper.vm.addCart()).toContain('商品詳細')
+    expect(wrapper.vm.addCart()).toHaveBeenCalled()
   })
   test('addFavoriteメソッド確認', () => {
-    expect(wrapper.vm.addFavorite()).toContain('商品詳細')
+    expect(wrapper.vm.addFavorite()).toHaveBeenCalled()
   })
 })

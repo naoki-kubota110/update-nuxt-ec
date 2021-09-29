@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   middleware: 'direct-home',
   data() {
@@ -51,15 +52,9 @@ export default {
   },
   methods: {
     registerUser() {
-      this.$axios.post('/api/user/register', this.user)
-      .then((res) => {
-        this.$auth.loginWith('local', {
-          data: this.user,
-        }).catch(err => {
-        console.log(err)
-      })
-      })
+      this["users/register"](this.user)
     },
+    ...mapActions(["users/register"])
   },
 }
 </script>

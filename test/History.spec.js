@@ -1,8 +1,14 @@
-import { shallowMount, createLocalVue, RouterLinkStub } from '@vue/test-utils'
+import {
+  shallowMount,
+  createLocalVue,
+  RouterLinkStub,
+  config,
+} from '@vue/test-utils'
 import Vuex from 'vuex'
 import History from '../pages/orders/history.vue'
 const localVue = createLocalVue()
 localVue.use(Vuex)
+config.stubs.fa = { template: '<div></div> ' }
 
 describe('注文履歴画面に商品が入っている場合のテスト', () => {
   let store

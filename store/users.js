@@ -19,6 +19,26 @@ export const mutations = {
   },
 }
 export const actions = {
+  register({commit}, payload){
+    console.log(payload)
+    this.$axios.post('/api/user/register', payload)
+    .then((res) => {
+      this.$auth.loginWith('local', {
+        data: payload,
+      }).catch(err => {
+      console.log(err)
+    })
+    })
+  },
+  login({commit}, payload){
+    this.$auth.loginWith('local',{data:payload})
+    .then(res => {
+    console.log("成功")
+    })
+    .catch((err) => {
+    console.log(err.response)
+    })
+  },
   addFavoriteItem({ commit }, payload) {
     const favoriteObj = {
       favoriteId : payload.itemInfo[0].itemId,
