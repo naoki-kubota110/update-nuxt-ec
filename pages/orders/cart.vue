@@ -14,14 +14,14 @@
         <div v-for="item in cartData.itemInfo" :key="item._id" class="product">
           <router-link :to="{ path: `/item/${item.itemId}` }">
             <div class="product-image">
-              <img :src="item.itemImage" />
+              <img id="image" :src="item.itemImage" />
             </div>
             <div class="product-details">
-              <div class="product-title">{{ item.itemName }}</div>
+              <div id="title" class="product-title">{{ item.itemName }}</div>
             </div>
           </router-link>
-          <div class="product-price">{{ item.itemPrice.toLocaleString() }}</div>
-          <div class="product-quantity">{{ item.buyNum }}個</div>
+          <div id="price" class="product-price">{{ item.itemPrice.toLocaleString() }}</div>
+          <div id="quantity" class="product-quantity">{{ item.buyNum }}個</div>
           <div class="product-removal">
             <button class="remove-product" @click="deleteItem(item.itemId)">
               削除
@@ -113,6 +113,7 @@ export default {
           orderId: this.$store.getters['order/CartDataArry'][0].orderId,
         }
         this['order/deleteCart'](data)
+        // this.$store.dispatch("order/deleteCart", data)
       // }
     },
     backHome(){

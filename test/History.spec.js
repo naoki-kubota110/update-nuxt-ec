@@ -1,8 +1,9 @@
-import { shallowMount,createLocalVue,RouterLinkStub } from '@vue/test-utils'
+import { shallowMount,createLocalVue,RouterLinkStub,config } from '@vue/test-utils'
 import Vuex from 'vuex'
 import History from "../pages/orders/history.vue"
 const localVue = createLocalVue()
 localVue.use(Vuex)
+config.stubs.fa = { template: '<div></div> ' }
 
 describe('注文履歴画面に商品が入っている場合のテスト', () => {
   let store
@@ -67,13 +68,13 @@ describe('注文履歴画面に商品が入っている場合のテスト', () =
     expect(wrapper.vm).toBeTruthy()
     console.log(wrapper.html())
   })
-  test('注文キャンセルボタンのイベント発火を確認', async () => {
+  test('注文キャンセルボタンのイベント発火を確認', () => {
     wrapper =shallowMount(History,{
       store,
       stubs,
       localVue
     })
-    await wrapper.find('button').trigger('click');
+    wrapper.find('button').trigger('click');
     // await store.dispatch("cancelOrder")
     // expect(store._actions.cancelOrder).toHaveBeenCalled()
   })
