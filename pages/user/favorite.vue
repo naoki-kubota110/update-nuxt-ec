@@ -10,8 +10,7 @@
       </tr>
       <tr v-for="item in favoriteItem" :key="item.index">
         <th class="item-name">
-          <router-link :to="{ path: `/item/${item.favoriteId}` }"
-            >
+          <router-link :to="{ path: `/item/${item.favoriteId}` }">
             <p>{{ item.itemName }}</p>
           </router-link>
         </th>
@@ -55,9 +54,9 @@ export default {
         favoriteId,
         userId,
       }
-      if (confirm('お気に入りを解除しますか？')) {
-        this['users/deleteFavoriteItem'](deleteData)
-      }
+      // if (confirm('お気に入りを解除しますか？')) {
+      this['users/deleteFavoriteItem'](deleteData)
+      // }
     },
     ...mapActions(['users/deleteFavoriteItem', 'users/getFavoriteItem']),
   },
@@ -73,8 +72,8 @@ th {
   padding-bottom: 20px;
 }
 .item-img {
-  width: 164px;
-  height: 164px;
+  width: 124px;
+  height: 124px;
   padding: 0 30px;
 }
 .item-name {

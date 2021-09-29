@@ -238,25 +238,26 @@ export default {
   },
   methods: {
     sendOrder() {
-      if (confirm('注文を確定しますか?')) {
-        const orderDetails = {
-          userId: this.$auth.user.id,
-          orderId: this.orderId,
-          status: Number(this.paymentMethod),
-          // 注文入力フォームのデータ
-          destinationName: this.destinationName,
-          destinationEmail: this.destinationEmail,
-          destinationZipcode: this.destinationZipcode,
-          destinationAddress: this.destinationAddress,
-          destinationTel: this.destinationTel,
-          destinationDate: this.destinationDate + ':' + this.destinationTime,
-          paymentMethod: this.paymentMethod,
-          creditCardNumber: this.creditCardNumber,
-          // 注文ボタンを押したときの日時
-          orderDate: new Date().toString(),
-        }
-        this['order/sendOrder'](orderDetails)
+      // if (confirm('注文を確定しますか?')) {
+      const orderDetails = {
+        // userId: this.$auth.user.id,
+        userId: this.$store.state.auth.user.id,
+        orderId: this.orderId,
+        status: Number(this.paymentMethod),
+        // 注文入力フォームのデータ
+        destinationName: this.destinationName,
+        destinationEmail: this.destinationEmail,
+        destinationZipcode: this.destinationZipcode,
+        destinationAddress: this.destinationAddress,
+        destinationTel: this.destinationTel,
+        destinationDate: this.destinationDate + ':' + this.destinationTime,
+        paymentMethod: this.paymentMethod,
+        creditCardNumber: this.creditCardNumber,
+        // 注文ボタンを押したときの日時
+        orderDate: new Date().toString(),
       }
+      this['order/sendOrder'](orderDetails)
+      // }
     },
     ...mapActions(['order/sendOrder']),
   },

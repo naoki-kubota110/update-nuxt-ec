@@ -69,6 +69,7 @@ import { mapActions } from 'vuex'
 import { faShoppingCart, faStar } from '@fortawesome/free-solid-svg-icons'
 import config from '../../config'
 export default {
+  middleware: 'direct-login',
   data() {
     return {
       value: 1,
@@ -104,52 +105,52 @@ export default {
   },
   methods: {
     addCart() {
-      if (this.$store.state.auth.loggedIn) {
-        const item = {
-          orderId: new Date().getTime().toString(),
-          status: 0,
-          userId: this.$auth.user.id,
-          addCartDate: new Date().toString(),
-          itemInfo: [
-            {
-              itemId: this.selectedItem[0].Item.itemCode,
-              itemName: this.selectedItem[0].Item.itemName,
-              itemPrice: this.selectedItem[0].Item.itemPrice,
-              itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
-              buyNum: this.value,
-            },
-          ],
-        }
-        // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
-        if (this.$store.getters['order/CartDataArry'].length === 0) {
-          console.log('neworder')
-          if (confirm('カートに追加しますか？')) {
-            this['order/newCart'](item)
-          }
-          // ユーザーのオーダー配列にstatusが０のオブジェクトがある
-        } else {
-          console.log('addorder呼び出し')
-          const payload = {
-            orderId: this.$store.getters['order/CartDataArry'][0].orderId,
+      // if (this.$auth.loggedIn) {
+      const item = {
+        orderId: new Date().getTime().toString(),
+        status: 0,
+        // userId: this.$auth.user.id,
+        userId: this.$store.state.auth.user.id,
+        addCartDate: new Date().toString(),
+        itemInfo: [
+          {
             itemId: this.selectedItem[0].Item.itemCode,
             itemName: this.selectedItem[0].Item.itemName,
             itemPrice: this.selectedItem[0].Item.itemPrice,
             itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
             buyNum: this.value,
-          }
-          if (confirm('カートに追加しますか？')) {
-            this['order/addCart'](payload)
-          }
-        }
-      } else {
-        alert('カートに追加するにはログインしてください')
-        this.$router.push('/user/login')
+          },
+        ],
       }
+      // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
+      if (this.$store.getters['order/CartDataArry'].length === 0) {
+        if (confirm('カートに追加しますか？')) {
+          this['order/newCart'](item)
+        }
+        // ユーザーのオーダー配列にstatusが０のオブジェクトがある
+      } else {
+        const payload = {
+          orderId: this.$store.getters['order/CartDataArry'][0].orderId,
+          itemId: this.selectedItem[0].Item.itemCode,
+          itemName: this.selectedItem[0].Item.itemName,
+          itemPrice: this.selectedItem[0].Item.itemPrice,
+          itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
+          buyNum: this.value,
+        }
+        // if (confirm('カートに追加しますか？')) {
+        this['order/addCart'](payload)
+        // }
+      }
+      // } else {
+      //   alert('カートに追加するにはログインしてください')
+      //   this.$router.push('/user/login')
+      // }
     },
     addFavorite() {
       const favoriteItem = {
         favoriteId: new Date().getTime().toString(),
-        userId: this.$auth.user.id,
+        // userId: this.$auth.user.id,
+        userId: this.$store.state.auth.user.id,
         itemInfo: [
           {
             itemId: this.selectedItem[0].Item.itemCode,
@@ -159,10 +160,9 @@ export default {
           },
         ],
       }
-      if (confirm('お気に入りに追加しますか？')) {
-        this['users/addFavoriteItem'](favoriteItem)
-      }
-      console.log('お気に入り追加')
+      // if (confirm('お気に入りに追加しますか？')) {
+      this['users/addFavoriteItem'](favoriteItem)
+      // }
     },
     ...mapActions([
       'order/getOrders',

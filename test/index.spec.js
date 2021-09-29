@@ -41,5 +41,6 @@ describe('トップページのテスト', () => {
   test('v-showがfalseか', () => {
     const itemflg = wrapper.get('#itemflg')
     expect(itemflg.isVisible()).toBe(false)
+    // console.log(wrapper.html())
   })
 })
