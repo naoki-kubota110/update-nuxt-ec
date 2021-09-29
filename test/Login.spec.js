@@ -4,7 +4,7 @@ import {
   ValidationProvider,
   ValidationObserver
 } from 'vee-validate'
-import Register from "../pages/user/register.vue"
+import Login from "../pages/user/login.vue"
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.component('ValidationObserver', ValidationObserver)
@@ -21,20 +21,15 @@ describe('ユーザー登録画面のテスト', () => {
       },
       // 商品が入っている場合の"order/getters"のモック
       actions:{
-        "users/register": jest.fn()
+        "users/login": jest.fn()
       }
     })
     stubs = {
       RouterLink: RouterLinkStub
     }
-    mocks = {
-      $axios: {
-        $post: jest.fn(() => Promise.resolve({ name: 'test', email:"test@gmail.com", password: "password" }))
-      }
-    }
   })
   test('ユーザー登録画面のVueインスタンスが存在するのか確認', () => {
-    const wrapper = mount(Register,{
+    const wrapper = mount(Login,{
       stubs,
       localVue,
       store
@@ -43,7 +38,7 @@ describe('ユーザー登録画面のテスト', () => {
     console.log(wrapper.html())
   })
   test('登録ボタン押下時にイベントが発火することを確認',  () => {
-    const wrapper = mount(Register,{
+    const wrapper = mount(Login,{
       stubs,
       localVue,
       mocks,

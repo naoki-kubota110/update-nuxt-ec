@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import { mapActions } from 'vuex'
   export default {
     middleware: 'direct-home',
     data(){
@@ -42,23 +42,11 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
         errorMsg:""
       }
     },
-    computed: {
-    faShoppingCart() {
-      return faShoppingCart
-    },
-    },
     methods:{
       loginUser(){
-        this.$auth.loginWith('local',{data:this.user})
-        .then(res => {
-          console.log("成功")
-          console.log(res)
-        })
-        .catch((err) => {
-          console.log(err.response)
-          this.errorMsg = "メールアドレスまたはパスワードが間違っています。"
-        })
+        this["users/login"](this.user)
       },
+      ...mapActions(["users/login"])
     }
   }
 </script>
