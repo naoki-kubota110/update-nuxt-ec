@@ -10,51 +10,97 @@ const router = new VueRouter()
 
 config.stubs.fa = { template: '<div></div> ' }
 
-describe('商品詳細ページのテスト', () => {
+describe('商品詳細ページのテスト: ログイン中かつカートに商品が入っている場合', () => {
   let store
   let wrapper
-  const MockItemData = [
-    {
-      itemId: 'gaisense:10000039',
-      itemName:
-        '＼クーポンセール開催中／わた増量 ペットベッド 猫 ペットベッド 犬 ペット ベッド ベッド ふわふわ 小型犬 中型犬 猫用 猫 ベッド 暖...',
-      itemPrice: 2580,
-      itemImage:
-        'https://thumbnail.image.rakuten.co.jp/@0_mall/gaisense/cabinet/0768960...',
-    },
-  ]
-
+  let actions
   beforeEach(() => {
-    const actions = {
-      'users/addFavoriteItem': jest.fn(),
+    actions = {
+      "item/fetchItemDetail": jest.fn(),
+      "order/newCart" : jest.fn(),
+      "order/addCart" : jest.fn(),
+      "users/addFavoriteItem": jest.fn()
     }
     // eslint-disable-next-line import/no-named-as-default-member
     store = new Vuex.Store({
-      actions,
       state: {
         auth: {
           loggedIn: true,
-          user: {
-            id: 'abcdefg',
-          },
+          user: {id: "test"}
         },
+        item: {
+          itemDetail:{
+            itemId: "elfina1:10000277",
+            itemName:"【スーパーセール】【Bluetooth5.0技術 aptX&#8482;】Bluetooth イヤホン Hi-Fi 完全 ワイヤレス イヤホン 自動ペアリング イヤホン本体 音楽再生 充電ケース付き LEDディスプレイ電量表示 ブルートゥース イヤホン 左右分離型 IPX6防水 CVC8.0ノイズキャンセリング AAC対応",
+            itemPrice:6580,
+            itemImage:"https://thumbnail.image.rakuten.co.jp/@0_gold/elfina1/product/image/ep2/a.jpg?_ex=128x128",
+            buyNum:1,
+          }
+        }
       },
+      getters: {
+        'order/CartDataArry': () => [
+          {
+            orderId: '1632470663818',
+            status: 0,
+            addCartDate: 'Fri Sep 24 2021 17:04:23 GMT+0900 (日本標準時)',
+            itemInfo: [
+              {
+                itemId: "elfina1:10000277",
+                itemName:"【スーパーセール】【Bluetooth5.0技術 aptX&#8482;】Bluetooth イヤホン Hi-Fi 完全 ワイヤレス イヤホン 自動ペアリング イヤホン本体 音楽再生 充電ケース付き LEDディスプレイ電量表示 ブルートゥース イヤホン 左右分離型 IPX6防水 CVC8.0ノイズキャンセリング AAC対応",
+                itemPrice:6580,
+                itemImage:"https://thumbnail.image.rakuten.co.jp/@0_gold/elfina1/product/image/ep2/a.jpg?_ex=128x128",
+                buyNum:1,
+              }
+            ]
+          }
+        ]
+      },
+      actions
     })
     wrapper = shallowMount(_id, {
       store,
       router,
       localVue,
-      MockItemData,
     })
   })
 
   test('Vueインスタンスが存在するのか確認', () => {
     expect(wrapper.vm).toBeTruthy()
+    console.log(wrapper.html())
   })
   test('タイトルのタグ確認', () => {
     expect(wrapper.text()).toContain('商品詳細')
   })
-
+  test('gettersのモックが適切に表示されていることを確認', () => {
+    expect(wrapper.find(".item-name").text()).toBe("商品名：【スーパーセール】【Bluetooth5.0技術 aptX&#8482;】Bluetooth イヤホン Hi-Fi 完全 ワイヤレス イヤホン 自動ペアリング イヤホン本体 音楽再生 充電ケース付き LEDディスプレイ電量表示 ブルートゥース イヤホン 左右分離型 IPX6防水 CVC8.0ノイズキャンセリング AAC対応")
+  })
+  // confirm => trueの場合
+  test('カートに追加ボタンの押下し、confirmでtrueを選択した場合に"order/addCart"が呼ばれることを確認', () => {
+    window.confirm = jest.fn(() => true)
+    wrapper.find('.addcart-btn').trigger('click')
+    expect(window.confirm).toHaveBeenCalledWith('カートに追加しますか？');
+    expect(actions["order/addCart"]).toHaveBeenCalled()
+  })
+  test('お気に入りに追加ボタンの押下し、confirmでtrueを選択した場合に"order/addCart"が呼ばれることを確認', () => {
+    window.confirm = jest.fn(() => true)
+    wrapper.find('.addfavorite-btn').trigger('click')
+    expect(window.confirm).toHaveBeenCalledWith('お気に入りに追加しますか？');
+    expect(actions["users/addFavoriteItem"]).toHaveBeenCalled()
+  })
+    // confirm => falseの場合
+  test('カートに追加ボタンの押下し、confirmでfalseを選択した場合に"order/addCart"が呼ばれないことを確認', () => {
+    window.confirm = jest.fn(() => false)
+    wrapper.find('.addcart-btn').trigger('click')
+    expect(window.confirm).toHaveBeenCalledWith('カートに追加しますか？');
+    expect(actions["order/addCart"]).not.toHaveBeenCalled()
+  })
+  test('お気に入りに追加ボタンの押下し、confirmでfalseを選択した場合に"order/addCart"が呼ばれないことを確認', () => {
+    window.confirm = jest.fn(() => false)
+    wrapper.find('.addfavorite-btn').trigger('click')
+    expect(window.confirm).toHaveBeenCalledWith('お気に入りに追加しますか？');
+    expect(actions["users/addFavoriteItem"]).not.toHaveBeenCalled()
+  })
   test('faアイコンの確認', () => {
     expect(wrapper.vm.faShoppingCart).toMatchObject({
       prefix: 'fas',
@@ -79,10 +125,103 @@ describe('商品詳細ページのテスト', () => {
       ],
     })
   })
-  test('addCartメソッド確認', () => {
-    expect(wrapper.vm.addCart()).toHaveBeenCalled()
+})
+
+describe('商品詳細ページのテスト：ログイン中だがカートに商品が入っていない場合', () => {
+  let store
+  let wrapper
+  let actions
+  beforeEach(() => {
+    actions = {
+      "order/newCart": jest.fn(),
+      "item/fetchItemDetail": jest.fn()
+    }
+    // eslint-disable-next-line import/no-named-as-default-member
+    store = new Vuex.Store({
+      state: {
+        auth: {
+          loggedIn: true,
+          user: {id: "test"}
+        },
+        item: {
+          itemDetail:{
+            itemId: "elfina1:10000277",
+            itemName:"【スーパーセール】【Bluetooth5.0技術 aptX&#8482;】Bluetooth イヤホン Hi-Fi 完全 ワイヤレス イヤホン 自動ペアリング イヤホン本体 音楽再生 充電ケース付き LEDディスプレイ電量表示 ブルートゥース イヤホン 左右分離型 IPX6防水 CVC8.0ノイズキャンセリング AAC対応",
+            itemPrice:6580,
+            itemImage:"https://thumbnail.image.rakuten.co.jp/@0_gold/elfina1/product/image/ep2/a.jpg?_ex=128x128",
+            buyNum:1,
+          }
+        }
+      },
+      getters: {
+        'order/CartDataArry': () => []
+      },
+      actions
+    })
+    wrapper = shallowMount(_id, {
+      store,
+      router,
+      localVue,
+    })
   })
-  test('addFavoriteメソッド確認', () => {
-    expect(wrapper.vm.addFavorite()).toHaveBeenCalled()
+  test('カートに追加ボタンの押下し、confirmでtrueを選択した場合に"order/addCart"が呼ばれることを確認', () => {
+    window.confirm = jest.fn(() => true) 
+    wrapper.find('.addcart-btn').trigger('click')
+    expect(window.confirm).toHaveBeenCalledWith('カートに追加しますか？');
+    expect(actions["order/newCart"]).toHaveBeenCalled()
+  })
+  test('カートに追加ボタンの押下し、confirmでfalseを選択した場合に"order/addCart"が呼ばれないことを確認', () => {
+    window.confirm = jest.fn(() => false) 
+    wrapper.find('.addcart-btn').trigger('click')
+    expect(window.confirm).toHaveBeenCalledWith('カートに追加しますか？');
+    expect(actions["order/newCart"]).not.toHaveBeenCalled()
+  })
+})
+
+
+describe('商品詳細ページのテスト：ログインしていない場合', () => {
+  let store
+  let wrapper
+
+  beforeEach(() => {
+    // eslint-disable-next-line import/no-named-as-default-member
+    store = new Vuex.Store({
+      state: {
+        // ユーザーがログインしていない状態↓
+        auth: {
+          loggedIn: false,
+        },
+        item: {
+          itemDetail:{
+            itemId: "elfina1:10000277",
+            itemName:"【スーパーセール】【Bluetooth5.0技術 aptX&#8482;】Bluetooth イヤホン Hi-Fi 完全 ワイヤレス イヤホン 自動ペアリング イヤホン本体 音楽再生 充電ケース付き LEDディスプレイ電量表示 ブルートゥース イヤホン 左右分離型 IPX6防水 CVC8.0ノイズキャンセリング AAC対応",
+            itemPrice:6580,
+            itemImage:"https://thumbnail.image.rakuten.co.jp/@0_gold/elfina1/product/image/ep2/a.jpg?_ex=128x128",
+            buyNum:1,
+          }
+        }
+      },
+      getters: {
+        'order/CartDataArry': () => []
+      },
+      actions: {
+        "item/fetchItemDetail": jest.fn()
+      }
+    })
+    wrapper = shallowMount(_id, {
+      store,
+      router,
+      localVue,
+    })
+    window.alert = jest.fn()
+  })
+
+  test('カートに追加ボタンの押下した際にalertが表示されることを確認', () => {
+    wrapper.find('.addcart-btn').trigger('click')
+    expect(window.alert).toHaveBeenCalledWith('カートに追加するにはログインしてください');
+  })
+  test('お気に入りに追加ボタンの押下した際にalertが表示されることを確認', () => {
+    wrapper.find('.addfavorite-btn').trigger('click')
+    expect(window.alert).toHaveBeenCalledWith('お気に入りに追加するにはログインしてください');
   })
 })

@@ -50,20 +50,15 @@ export default {
     //   }
     // },
   },
-  // created() {
-  //   if (this.$store.state.auth.loggedIn) {
-  //     this['users/getFavoriteItem']({ id:this.$auth.user.id})
-  //   }
-  // },
   methods: {
     deleteFavoriteItem(favoriteId, userId) {
       const deleteData = {
         favoriteId,
         userId,
       }
-      // if (confirm('お気に入りを解除しますか？')) {
+      if (confirm('お気に入りを解除しますか？')) {
       this['users/deleteFavoriteItem'](deleteData)
-      // }
+      }
     },
     ...mapActions(['users/deleteFavoriteItem', 'users/getFavoriteItem']),
   },

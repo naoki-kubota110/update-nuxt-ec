@@ -2,22 +2,21 @@
   <div>
     <h1>商品詳細</h1>
     <ul class="itemList">
-      <li v-for="item in selectedItem" :key="item.Item.itemCode">
+      <li>
         <p class="item-name">
-          <span class="text-bold">商品名：</span>{{ item.Item.itemName }}
+          <span class="text-bold">商品名：</span>{{ itemDetail.itemName }}
         </p>
-
         <div class="img-position">
           <span>
             <img
-              :src="item.Item.mediumImageUrls[0].imageUrl"
+              :src="itemDetail.itemImage"
               class="item-img"
             />
           </span>
           <span class="cost-position">
             <p class="item-cost">
               <span class="text-bold">価格：</span
-              >{{ [item.Item.itemPrice].toLocaleString() }}円(税込)
+              >{{ itemDetail.itemPrice }}円(税込)
             </p>
             <p>
               <span class="text-bold"> 数量：</span>
@@ -36,7 +35,7 @@
             </p>
             <p>
               <span class="text-bold"> 合計：</span>
-              {{ [item.Item.itemPrice * value].toLocaleString() }}円(税込)
+              {{ (itemDetail.itemPrice * value) }}円(税込)
             </p>
           </span>
           <span class="cost-position">
@@ -52,10 +51,9 @@
             </p>
           </span>
         </div>
-
         <span class="item-detail">
           <p>
-            <span class="text-bold">商品詳細：</span>{{ item.Item.itemCaption }}
+            <span class="text-bold">商品詳細：</span>{{ itemDetail.itemCaption }}
           </p>
         </span>
       </li>
@@ -64,16 +62,12 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapActions } from 'vuex'
 import { faShoppingCart, faStar } from '@fortawesome/free-solid-svg-icons'
-import config from '../../config'
 export default {
-  middleware: 'direct-login',
   data() {
     return {
       value: 1,
-      selectedItem: '',
     }
   },
   computed: {
@@ -83,29 +77,16 @@ export default {
     faStar() {
       return faStar
     },
+    itemDetail() {
+      return this.$store.state.item.itemDetail
+    }
   },
   mounted() {
-    const apiKey = config.RAKUTEN_API_KEY
-    axios
-      .get(
-        'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
-        {
-          params: {
-            applicationId: apiKey,
-            itemCode: this.$route.params.id,
-          },
-        }
-      )
-      .then((response) => {
-        this.selectedItem = response.data.Items
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    this['item/fetchItemDetail'](this.$route.params.id)
   },
   methods: {
     addCart() {
-      // if (this.$auth.loggedIn) {
+      if (this.$store.state.auth.loggedIn) {
       const item = {
         orderId: new Date().getTime().toString(),
         status: 0,
@@ -114,61 +95,67 @@ export default {
         addCartDate: new Date().toString(),
         itemInfo: [
           {
-            itemId: this.selectedItem[0].Item.itemCode,
-            itemName: this.selectedItem[0].Item.itemName,
-            itemPrice: this.selectedItem[0].Item.itemPrice,
-            itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
+            itemId: this.itemDetail.itemId,
+            itemName: this.itemDetail.itemName,
+            itemPrice: this.itemDetail.itemPrice,
+            itemImage: this.itemDetail.itemImage,
             buyNum: this.value,
           },
         ],
       }
       // ユーザーのオーダー配列が空（まだ一回もカートに入れたことがない）、またはカートに入れているが注文は実行していない場合
       if (this.$store.getters['order/CartDataArry'].length === 0) {
-        if (confirm('カートに追加しますか？')) {
+        if (confirm('カートに追加しますか？')){
           this['order/newCart'](item)
         }
         // ユーザーのオーダー配列にstatusが０のオブジェクトがある
       } else {
         const payload = {
           orderId: this.$store.getters['order/CartDataArry'][0].orderId,
-          itemId: this.selectedItem[0].Item.itemCode,
-          itemName: this.selectedItem[0].Item.itemName,
-          itemPrice: this.selectedItem[0].Item.itemPrice,
-          itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
+          itemId: this.itemDetail.itemId,
+          itemName: this.itemDetail.itemName,
+          itemPrice: this.itemDetail.itemPrice,
+          itemImage: this.itemDetail.itemImage,
           buyNum: this.value,
         }
-        // if (confirm('カートに追加しますか？')) {
-        this['order/addCart'](payload)
-        // }
+        if (confirm('カートに追加しますか？')) {
+         this['order/addCart'](payload)
+        }
       }
-      // } else {
-      //   alert('カートに追加するにはログインしてください')
-      //   this.$router.push('/user/login')
-      // }
+      }else {
+        alert('カートに追加するにはログインしてください')
+        this.$router.push('/user/login')
+      }
     },
     addFavorite() {
-      const favoriteItem = {
-        favoriteId: new Date().getTime().toString(),
+      if (this.$store.state.auth.loggedIn){
+        const favoriteItem = {
+          favoriteId: new Date().getTime().toString(),
         // userId: this.$auth.user.id,
         userId: this.$store.state.auth.user.id,
         itemInfo: [
           {
-            itemId: this.selectedItem[0].Item.itemCode,
-            itemName: this.selectedItem[0].Item.itemName,
-            itemPrice: this.selectedItem[0].Item.itemPrice,
-            itemImage: this.selectedItem[0].Item.mediumImageUrls[0].imageUrl,
+            itemId: this.itemDetail.itemId,
+            itemName: this.itemDetail.itemName,
+            itemPrice: this.itemDetail.itemPrice,
+            itemImage: this.itemDetail.itemImage,
           },
         ],
       }
-      // if (confirm('お気に入りに追加しますか？')) {
-      this['users/addFavoriteItem'](favoriteItem)
-      // }
+        if (confirm('お気に入りに追加しますか？')) {
+          this['users/addFavoriteItem'](favoriteItem)
+        }
+        }else{
+        alert('お気に入りに追加するにはログインしてください')
+        this.$router.push('/user/login')
+        }
     },
     ...mapActions([
       'order/getOrders',
       'order/newCart',
       'order/addCart',
       'users/addFavoriteItem',
+      "item/fetchItemDetail"
     ]),
   },
 }
