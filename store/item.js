@@ -1,9 +1,11 @@
 // import axios from 'axios'
-// import config from '../config'
+import axios from 'axios'
+import config from '../config'
 
 export const state = () => ({
   itemflg: true,
   shopItems: [],
+  itemDetail: {}
 })
 
 export const getters = {}
@@ -15,12 +17,44 @@ export const mutations = {
   flgChange(state) {
     state.itemflg = false
   },
+  setItemDetail(state, payload){
+    state.itemDetail = payload
+    console.log(state.itemDetail)
+  }
 }
 
 export const actions = {
   searchItem({ commit }, searchedItems) {
     commit('searchItem', searchedItems)
   },
+  fetchItemDetail({commit}, payload){
+    const apiKey = config.RAKUTEN_API_KEY
+    console.log(payload)
+    axios
+    .get(
+      'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+      {
+        params: {
+          applicationId: apiKey,
+          itemCode: payload,
+        },
+      }
+    )
+    .then((res) => {
+      console.log(res.data.Items[0])
+      const itemDetailObj = {
+        itemId: res.data.Items[0].Item.itemCode,
+        itemName: res.data.Items[0].Item.itemName,
+        itemCaption: res.data.Items[0].Item.itemCaption,
+        itemPrice: res.data.Items[0].Item.itemPrice,
+        itemImage: res.data.Items[0].Item.mediumImageUrls[0].imageUrl,
+      }
+      commit("setItemDetail", itemDetailObj)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
 }
 // export const actions = {
 //   searchItem({ commit }, searchWord) {

@@ -18,7 +18,7 @@
         </ValidationProvider>
       </div>
      <div class="button-panel">
-      <input type="submit" class="button" title="ログイン" value="Sign In" :disabled="invalid">
+      <button type="submit" title="ログイン" value="Sign In" :disabled="invalid"></button>
     </div>
       <p>{{errorMsg}}</p>
     </form>
