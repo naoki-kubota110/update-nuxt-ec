@@ -11,15 +11,21 @@ describe('ユーザー登録画面のテスト', () => {
   let stubs
   let mocks
   let store
+  let actions
   beforeEach(() => {
+    actions = {
+      'users/register': jest.fn(),
+    }
+    // eslint-disable-next-line import/no-named-as-default-member
     store = new Vuex.Store({
       state: {
         auth: { loggedIn: true },
       },
       // 商品が入っている場合の"order/getters"のモック
-      actions: {
-        'users/register': jest.fn(),
-      },
+      actions,
+      // actions: {
+      //   'users/register': jest.fn(),
+      // },
     })
     stubs = {
       RouterLink: RouterLinkStub,
@@ -52,7 +58,9 @@ describe('ユーザー登録画面のテスト', () => {
       mocks,
       store,
     })
-    wrapper.find('.button').trigger('click')
+    // wrapper.find('.button').trigger('click')
+    wrapper.vm.registerUser()
+    expect(actions['users/register']).toHaveBeenCalled()
     // console.log(wrapper)
     // console.log(store._actions["users/register"])
     // store.dispatch("users/register")

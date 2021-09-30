@@ -36,7 +36,6 @@ describe('ユーザー登録画面のテスト', () => {
       store,
     })
     expect(wrapper.vm).toBeTruthy()
-    console.log(wrapper.html())
   })
   test('登録ボタン押下時にイベントが発火することを確認', () => {
     const wrapper = mount(Login, {
@@ -45,12 +44,18 @@ describe('ユーザー登録画面のテスト', () => {
       mocks,
       store,
     })
-    wrapper.find('.button').trigger('click')
 
+    wrapper.vm.loginUser()
+    expect(actions['users/login']).toHaveBeenCalled()
+    // const email = wrapper.get('.email')
+    // const password = wrapper.get('.password')
+    // email.setValue('テストユーザー1')
+    // password.setValue('password')
+    // console.log(wrapper.html())
+    // wrapper.find('.button').trigger('click')
     // console.log(wrapper)
     // console.log(store._actions["users/register"])
     // store.dispatch("users/register")
     // expect(store._actions["users/register"]).toHaveBeenCalled()
-    expect(actions['users/login']).toHaveBeenCalled()
   })
 })

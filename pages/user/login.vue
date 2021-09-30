@@ -13,6 +13,7 @@
             <input
               v-model="user.email"
               type="email"
+              class="email"
               name="email"
               required="required"
               placeholder="メールアドレス"
@@ -30,6 +31,7 @@
             <input
               v-model="user.password"
               type="password"
+              class="password"
               name="password"
               required="required"
               placeholder="パスワード"

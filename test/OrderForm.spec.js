@@ -8,13 +8,15 @@ config.stubs.ValidationObserver = { template: '<div></div> ' }
 
 describe('オーダーフォームコンポーネントのテスト', () => {
   let store
+  let actions
   let wrapper
   const methodsMock = { sendOrder: jest.fn() }
 
   beforeEach(() => {
-    const actions = {
+    actions = {
       'order/sendOrder': jest.fn(),
     }
+
     // eslint-disable-next-line import/no-named-as-default-member
     store = new Vuex.Store({
       actions,
@@ -41,8 +43,15 @@ describe('オーダーフォームコンポーネントのテスト', () => {
     expect(wrapper.vm).toBeTruthy()
   })
 
-  test('method sendOrder', () => {
+  test('method sendOrder発火時にactionsを呼び出せているか', () => {
+    window.confirm = jest.fn(() => true)
     wrapper.vm.sendOrder()
+    expect(actions['order/sendOrder']).toHaveBeenCalled()
+  })
+  test('window.confirmがfalseの場合、method sendOrdeが発火しないか', () => {
+    window.confirm = jest.fn(() => false)
+    wrapper.vm.sendOrder()
+    expect(actions['order/sendOrder']).not.toHaveBeenCalled()
   })
   test('propsを受け取れること', () => {
     expect(wrapper.vm.$props.orderId).toBe('abcdefg')

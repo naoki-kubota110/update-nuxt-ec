@@ -6,7 +6,6 @@ import {
 } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Cart from '../pages/orders/cart.vue'
-// import { actions } from '../store/order'
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
@@ -48,9 +47,6 @@ describe('ショッピングカート画面に商品が入っている場合の�
         ],
       },
       actions,
-      // actions:{
-      //   "order/deleteCart": jest.fn()
-      // }
     })
     stubs = {
       RouterLink: RouterLinkStub,
@@ -97,12 +93,6 @@ describe('ショッピングカート画面に商品が入っている場合の�
       localVue,
     })
     wrapper.find('.remove-product').trigger('click')
-    // const actions = {
-    //   "order/deleteCart" : jest.fn()
-    // }
-    // console.log(store)
-    // store.dispatch('order.deleteCart')
-    // console.log(actions)
     expect(actions['order/deleteCart']).toHaveBeenCalled()
   })
   test('nuxt-fontawesomeの確認', () => {

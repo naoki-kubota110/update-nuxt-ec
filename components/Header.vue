@@ -366,7 +366,7 @@ header {
 @media screen and (max-width: 650px) {
   header {
     width: 100%;
-    height: 180px;
+    height: 160px;
     align-items: center;
     justify-content: initial;
 

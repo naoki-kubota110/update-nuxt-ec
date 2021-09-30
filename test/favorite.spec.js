@@ -60,8 +60,15 @@ describe('favoriteコンポーネントのテスト', () => {
   })
 
   test('deleteFavoriteItemメソッドでstoreのactionsが呼び出せているか', () => {
+    window.confirm = jest.fn(() => true)
     wrapper.find('.delete-btn').trigger('click')
     wrapper.vm.deleteFavoriteItem()
     expect(actions['users/deleteFavoriteItem']).toHaveBeenCalled()
+  })
+  test('deleteFavoriteItemメソッドでstoreのactionsが呼び出せているか', () => {
+    window.confirm = jest.fn(() => false)
+    wrapper.find('.delete-btn').trigger('click')
+    wrapper.vm.deleteFavoriteItem()
+    expect(actions['users/deleteFavoriteItem']).not.toHaveBeenCalled()
   })
 })

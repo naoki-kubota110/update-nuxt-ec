@@ -42,6 +42,13 @@ export default {
     favoriteItem() {
       return this.$store.state.users.favoriteItem
     },
+    // favoriteItemLength() {
+    //   if (this.$store.state.users.favoriteItem.length === 0) {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // },
   },
   methods: {
     deleteFavoriteItem(favoriteId, userId) {
