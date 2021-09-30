@@ -14,9 +14,13 @@ config.stubs.fa = { template: '<div></div> ' }
 
 describe('ショッピングカート画面に商品が入っている場合のテスト', () => {
   let store
+  let actions
   let wrapper
   let stubs
   beforeEach(() => {
+    actions = {
+      'order/deleteCart': jest.fn(),
+    }
     // eslint-disable-next-line import/no-named-as-default-member
     store = new Vuex.Store({
       state: {
@@ -31,19 +35,22 @@ describe('ショッピングカート画面に商品が入っている場合の�
             addCartDate: 'Fri Sep 24 2021 17:04:23 GMT+0900 (日本標準時)',
             itemInfo: [
               {
-                itemId: "elfina1:10000277",
-                itemName:"【スーパーセール】【Bluetooth5.0技術 aptX&#8482;】Bluetooth イヤホン Hi-Fi 完全 ワイヤレス イヤホン 自動ペアリング イヤホン本体 音楽再生 充電ケース付き LEDディスプレイ電量表示 ブルートゥース イヤホン 左右分離型 IPX6防水 CVC8.0ノイズキャンセリング AAC対応",
-                itemPrice:6580,
-                itemImage:"https://thumbnail.image.rakuten.co.jp/@0_gold/elfina1/product/image/ep2/a.jpg?_ex=128x128",
-                buyNum:1,
-              }
-            ]
-          }
-        ]
+                itemId: 'elfina1:10000277',
+                itemName:
+                  '【スーパーセール】【Bluetooth5.0技術 aptX&#8482;】Bluetooth イヤホン Hi-Fi 完全 ワイヤレス イヤホン 自動ペアリング イヤホン本体 音楽再生 充電ケース付き LEDディスプレイ電量表示 ブルートゥース イヤホン 左右分離型 IPX6防水 CVC8.0ノイズキャンセリング AAC対応',
+                itemPrice: 6580,
+                itemImage:
+                  'https://thumbnail.image.rakuten.co.jp/@0_gold/elfina1/product/image/ep2/a.jpg?_ex=128x128',
+                buyNum: 1,
+              },
+            ],
+          },
+        ],
       },
-      actions:{
-        "order/deleteCart": jest.fn()
-      }
+      actions,
+      // actions:{
+      //   "order/deleteCart": jest.fn()
+      // }
     })
     stubs = {
       RouterLink: RouterLinkStub,
@@ -65,7 +72,7 @@ describe('ショッピングカート画面に商品が入っている場合の�
       stubs,
       localVue,
     })
-    expect(wrapper.find("h1").text()).toBe("ショッピングカート")
+    expect(wrapper.find('h1').text()).toBe('ショッピングカート')
   })
   test('モック化したgettersのデータが適切に表示されていることを確認', () => {
     wrapper = shallowMount(Cart, {
@@ -73,10 +80,14 @@ describe('ショッピングカート画面に商品が入っている場合の�
       stubs,
       localVue,
     })
-    expect(wrapper.find("#price").text()).toBe("6,580")
-    expect(wrapper.find("#quantity").text()).toBe("1個")
-    expect(wrapper.find("#title").text()).toBe("【スーパーセール】【Bluetooth5.0技術 aptX&#8482;】Bluetooth イヤホン Hi-Fi 完全 ワイヤレス イヤホン 自動ペアリング イヤホン本体 音楽再生 充電ケース付き LEDディスプレイ電量表示 ブルートゥース イヤホン 左右分離型 IPX6防水 CVC8.0ノイズキャンセリング AAC対応")
-    expect(wrapper.find("#image").html()).toBe("<img id=\"image\" src=\"https://thumbnail.image.rakuten.co.jp/@0_gold/elfina1/product/image/ep2/a.jpg?_ex=128x128\">")
+    expect(wrapper.find('#price').text()).toBe('6,580')
+    expect(wrapper.find('#quantity').text()).toBe('1個')
+    expect(wrapper.find('#title').text()).toBe(
+      '【スーパーセール】【Bluetooth5.0技術 aptX&#8482;】Bluetooth イヤホン Hi-Fi 完全 ワイヤレス イヤホン 自動ペアリング イヤホン本体 音楽再生 充電ケース付き LEDディスプレイ電量表示 ブルートゥース イヤホン 左右分離型 IPX6防水 CVC8.0ノイズキャンセリング AAC対応'
+    )
+    expect(wrapper.find('#image').html()).toBe(
+      '<img id="image" src="https://thumbnail.image.rakuten.co.jp/@0_gold/elfina1/product/image/ep2/a.jpg?_ex=128x128">'
+    )
   })
 
   test('カート商品削除ボタンのイベント発火を確認', () => {
@@ -90,9 +101,9 @@ describe('ショッピングカート画面に商品が入っている場合の�
     //   "order/deleteCart" : jest.fn()
     // }
     // console.log(store)
-    store.dispatch("order.deleteCart")
+    // store.dispatch('order.deleteCart')
     // console.log(actions)
-    expect(store._actions["order/deleteCart"]).toHaveBeenCalled()
+    expect(actions['order/deleteCart']).toHaveBeenCalled()
   })
   test('nuxt-fontawesomeの確認', () => {
     wrapper = shallowMount(Cart, {
@@ -136,9 +147,9 @@ describe('ショッピングカート画面の商品が空の場合のテスト'
       getters: {
         'order/CartDataArry': () => [],
       },
-      actions:{
-        "order/deleteOrder": jest.fn()
-      }
+      actions: {
+        'order/deleteOrder': jest.fn(),
+      },
     })
     stubs = {
       RouterLink: RouterLinkStub,
@@ -158,7 +169,9 @@ describe('ショッピングカート画面の商品が空の場合のテスト'
       stubs,
       localVue,
     })
-    expect(wrapper.find(".empty-text").text()).toBe("カートの中には何も入っていません。")
+    expect(wrapper.find('.empty-text').text()).toBe(
+      'カートの中には何も入っていません。'
+    )
   })
   test('カートデータが空の場合、合計金額が0円になることを確認', () => {
     wrapper = shallowMount(Cart, {

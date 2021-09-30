@@ -28,7 +28,8 @@
               <span> <fa :icon="faLockOpen" class="menu-icon" /></span>ログイン
             </button>
           </nuxt-link>
-
+        </li>
+        <li v-if="!$store.state.auth.loggedIn" class="menu-item">
           <nuxt-link to="/user/register" class="menu-text">
             <span> <fa :icon="faUser" class="menu-icon" /></span
             >ユーザー登録</nuxt-link
@@ -322,6 +323,7 @@ header {
 @media screen and (max-width: 1024px) {
   header {
     font-size: 12px;
+    height: 160px;
     h1.title {
       .header-logo {
         height: 90px;
@@ -336,7 +338,7 @@ header {
     input.search-box {
       font-size: 12px;
       height: 30px;
-      width: 150px;
+      width: 180px;
     }
     button.search-btn {
       height: 30px;
@@ -346,9 +348,17 @@ header {
     button.log-btn {
       font-size: 12px;
       padding: 1px;
+      margin-bottom: 3px;
     }
     .menu-icon {
       padding-right: 1px;
+    }
+    .menu {
+      display: inline-block;
+      text-align: left;
+      margin-right: 0px;
+
+      width: 100px;
     }
   }
 }

@@ -163,13 +163,18 @@ describe('商品詳細ページのテスト：ログイン中だがカートに�
       router,
       localVue,
     })
-    window.alert = jest.fn()
-    window.confirm = jest.fn(() => true) 
   })
-  test('カートに追加ボタンの押下した際にconfirmが表示される', () => {
+  test('カートに追加ボタンの押下し、confirmでtrueを選択した場合に"order/addCart"が呼ばれることを確認', () => {
+    window.confirm = jest.fn(() => true) 
     wrapper.find('.addcart-btn').trigger('click')
     expect(window.confirm).toHaveBeenCalledWith('カートに追加しますか？');
     expect(actions["order/newCart"]).toHaveBeenCalled()
+  })
+  test('カートに追加ボタンの押下し、confirmでfalseを選択した場合に"order/addCart"が呼ばれないことを確認', () => {
+    window.confirm = jest.fn(() => false) 
+    wrapper.find('.addcart-btn').trigger('click')
+    expect(window.confirm).toHaveBeenCalledWith('カートに追加しますか？');
+    expect(actions["order/newCart"]).not.toHaveBeenCalled()
   })
 })
 
