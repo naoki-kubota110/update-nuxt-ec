@@ -1,54 +1,84 @@
 <template>
-<div class="form-wrapper">
-  <h1>Sign In</h1>
-  <ValidationObserver ref="observer" v-slot="{ invalid }">
-    <form @submit.prevent="loginUser">
-      <div class="form-item">
-        <ValidationProvider v-slot="{ errors }" name="メールアドレス" rules="required|email|">
-        <label for="email"></label>
-          <input v-model="user.email" type="email" name="email" required="required" placeholder="メールアドレス">
-          <p class="text-danger">{{ errors[0] }}</p>
-        </ValidationProvider>
+  <div class="form-wrapper">
+    <h1>Sign In</h1>
+    <ValidationObserver ref="observer" v-slot="{ invalid }">
+      <form @submit.prevent="loginUser">
+        <div class="form-item">
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="メールアドレス"
+            rules="required|email|"
+          >
+            <label for="email"></label>
+            <input
+              v-model="user.email"
+              type="email"
+              name="email"
+              required="required"
+              placeholder="メールアドレス"
+            />
+            <p class="text-danger">{{ errors[0] }}</p>
+          </ValidationProvider>
+        </div>
+        <div class="form-item">
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="パスワード"
+            rules="required"
+          >
+            <label for="password"></label>
+            <input
+              v-model="user.password"
+              type="password"
+              name="password"
+              required="required"
+              placeholder="パスワード"
+            />
+            <p class="text-danger">{{ errors[0] }}</p>
+          </ValidationProvider>
+        </div>
+        <div class="button-panel">
+          <input
+            type="submit"
+            class="button"
+            title="ログイン"
+            value="Sign In"
+            :disabled="invalid"
+          />
+        </div>
+        <p>{{ errorMsg }}</p>
+      </form>
+    </ValidationObserver>
+    <div class="form-footer">
+      <p>
+        <router-link :to="{ path: '/user/register' }"
+          >新規登録はこちら</router-link
+        >
+      </p>
     </div>
-      <div class="form-item">
-        <ValidationProvider v-slot="{ errors }" name="パスワード" rules="required">
-        <label for="password"></label>
-        <input v-model="user.password" type="password" name="password" required="required" placeholder="パスワード">
-        <p class="text-danger">{{ errors[0] }}</p>
-        </ValidationProvider>
-      </div>
-     <div class="button-panel">
-      <input type="submit" class="button" title="ログイン" value="Sign In" :disabled="invalid">
-    </div>
-      <p>{{errorMsg}}</p>
-    </form>
-   </ValidationObserver>
-     <div class="form-footer">
-      <p><router-link :to="{ path: '/user/register' }">新規登録はこちら</router-link></p>
-    </div>
-</div>
+  </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
-  export default {
-    middleware: 'direct-home',
-    data(){
-      return {
-        user:{
-          email:'',
-          password:''
-        },
-        errorMsg:""
-      }
-    },
-    methods:{
-      loginUser(){
-        this["users/login"](this.user)
+export default {
+  middleware: 'direct-home',
+  data() {
+    return {
+      user: {
+        email: '',
+        password: '',
       },
-      ...mapActions(["users/login"])
+      errorMsg: '',
     }
-  }
+  },
+  methods: {
+    loginUser() {
+      this['users/login'](this.user)
+    },
+    ...mapActions(['users/login']),
+  },
+}
 </script>
 
 <style lang="scss" scoped>
