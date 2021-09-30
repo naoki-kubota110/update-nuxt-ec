@@ -1,10 +1,7 @@
-import { mount, createLocalVue,RouterLinkStub } from '@vue/test-utils'
+import { mount, createLocalVue, RouterLinkStub } from '@vue/test-utils'
 import Vuex from 'vuex'
-import {
-  ValidationProvider,
-  ValidationObserver
-} from 'vee-validate'
-import Register from "../pages/user/register.vue"
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import Register from '../pages/user/register.vue'
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.component('ValidationObserver', ValidationObserver)
@@ -20,40 +17,45 @@ describe('ユーザー登録画面のテスト', () => {
         auth: { loggedIn: true },
       },
       // 商品が入っている場合の"order/getters"のモック
-      actions:{
-        "users/register": jest.fn()
-      }
+      actions: {
+        'users/register': jest.fn(),
+      },
     })
     stubs = {
-      RouterLink: RouterLinkStub
+      RouterLink: RouterLinkStub,
     }
     mocks = {
       $axios: {
-        $post: jest.fn(() => Promise.resolve({ name: 'test', email:"test@gmail.com", password: "password" }))
-      }
+        $post: jest.fn(() =>
+          Promise.resolve({
+            name: 'test',
+            email: 'test@gmail.com',
+            password: 'password',
+          })
+        ),
+      },
     }
   })
   test('ユーザー登録画面のVueインスタンスが存在するのか確認', () => {
-    const wrapper = mount(Register,{
+    const wrapper = mount(Register, {
       stubs,
       localVue,
-      store
+      store,
     })
     expect(wrapper.vm).toBeTruthy()
     console.log(wrapper.html())
   })
-  test('登録ボタン押下時にイベントが発火することを確認',  () => {
-    const wrapper = mount(Register,{
+  test('登録ボタン押下時にイベントが発火することを確認', () => {
+    const wrapper = mount(Register, {
       stubs,
       localVue,
       mocks,
-      store
+      store,
     })
-    wrapper.find(".button").trigger("click")
+    wrapper.find('.button').trigger('click')
     // console.log(wrapper)
     // console.log(store._actions["users/register"])
     // store.dispatch("users/register")
     // expect(store._actions["users/register"]).toHaveBeenCalled()
   })
 })
-
