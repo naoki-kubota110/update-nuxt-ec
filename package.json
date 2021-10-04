@@ -11,7 +11,8 @@
     "lint": "yarn lint:js",
     "test": "jest",
     "api": "node api/server.js",
-    "vercel-build": "yarn global add node-gyp"
+    "vercel-build": "yarn global add node-gyp",
+    "heroku-postbuild": "yarn run build"
   },
   "modules": [
     "@nuxtjs/pwa"
