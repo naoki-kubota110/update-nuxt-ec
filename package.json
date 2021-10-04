@@ -13,6 +13,13 @@
     "api": "node api/server.js",
     "vercel-build": "yarn global add node-gyp"
   },
+  "modules":[
+    "@nuxtjs/pwa"
+  ],
+  "manifest": {
+    "name": "ラクラクEC",
+    "lang": "ja"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
