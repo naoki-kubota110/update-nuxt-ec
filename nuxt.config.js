@@ -32,7 +32,6 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/pwa',
     '@nuxtjs/eslint-module',
-    "@nuxtjs/vercel-builder"
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
