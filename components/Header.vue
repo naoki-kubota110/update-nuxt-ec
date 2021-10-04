@@ -135,7 +135,6 @@ import {
   faLockOpen,
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
-// import config from '../config'
 
 export default {
   data() {
@@ -170,7 +169,6 @@ export default {
   },
   created() {
     if (this.$store.state.item.itemflg === true) {
-      // const apiKey = config.RAKUTEN_API_KEY
       const apiKey = '1083744313894679387'
       axios
         .get(
