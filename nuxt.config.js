@@ -71,6 +71,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend(config) {
+      config.performance.maxAssetSize = 300000;
+    },
     babel: {
       plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
     },
