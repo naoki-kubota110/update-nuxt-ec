@@ -69,19 +69,19 @@ export const mutations = {
 export const actions = {
   // 各ユーザーが保持しているすべての注文情報を取得
   getOrders({ commit }, payload) {
-    this.$axios.$post('/api/order/all-orders', payload).then(res => {
+    this.$axios.$post('/order/all-orders', payload).then(res => {
       commit('setOrders', res.orders)
     })
   },
   // カートに追加する処理（1つ目の商品）
   newCart({ commit }, items) {
-    this.$axios.$post('/api/order/new-cart', items)
+    this.$axios.$post('/order/new-cart', items)
     commit("setNewCart", items)
     this.$router.push('/orders/cart')
   },
   // カートに追加する処理（2つ目以降）
   addCart({ commit }, payload){
-    this.$axios.$post('/api/order/add-cart', { payload })
+    this.$axios.$post('/order/add-cart', { payload })
     const addCartData = {
       itemId: payload.itemId,
       itemName:  payload.itemName,
@@ -94,20 +94,20 @@ export const actions = {
   },
   // カート内商品を削除
   deleteCart({ commit }, payload) {
-    this.$axios.$post('/api/order/delete-cart', payload)
+    this.$axios.$post('/order/delete-cart', payload)
     commit('deleteCart', payload.itemId)
   },
   // 注文実行処理
   sendOrder({ commit }, payload) {
     console.log('store/sendOrder発火')
-    this.$axios.$post('/api/order/send-order', { payload })
+    this.$axios.$post('/order/send-order', { payload })
     console.log(payload)
     commit("setOrder", payload)
     this.$router.push('/orders/complete')
   },
   // 注文キャンセル処理
   cancelOrder({commit}, id){
-    this.$axios.$post('/api/order/cancel-order', {orderId: id})
+    this.$axios.$post('/order/cancel-order', {orderId: id})
     commit("setCancelOrder", id)
     }
 }

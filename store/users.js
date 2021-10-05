@@ -21,7 +21,7 @@ export const mutations = {
 export const actions = {
   register({commit}, payload){
     console.log(payload)
-    this.$axios.post('/api/user/register', payload)
+    this.$axios.post('/user/register', payload)
     .then((res) => {
       this.$auth.loginWith('local', {
         data: payload,
@@ -47,14 +47,14 @@ export const actions = {
       itemPrice: payload.itemInfo[0].itemPrice
     }
     commit('addFavoriteItem', favoriteObj)
-    this.$axios.$post('/api/user/add-favorite', payload)
+    this.$axios.$post('/user/add-favorite', payload)
   },
   deleteFavoriteItem({ commit }, payload) {
-    this.$axios.$post('/api/user/delete-favorite', payload)
+    this.$axios.$post('/user/delete-favorite', payload)
     commit('deleteFavoriteItem', payload)
   },
   getFavoriteItem({ commit }, payload) {
-    this.$axios.$post('/api/user/get-favorite', payload).then((res) => {
+    this.$axios.$post('/user/get-favorite', payload).then((res) => {
       commit('getFavoriteItem', res.userFavorite)
     })
   },
