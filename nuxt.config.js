@@ -53,12 +53,12 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: '/api/user/login',
+            url: '/user/login',
             method: 'post',
             propertyName: 'token',
           },
-          logout: { url: '/api/user/logout', method: 'post' },
-          user: { url: '/api/user/auth', method: 'get', propertyName: 'user' },
+          logout: { url: '/user/logout', method: 'post' },
+          user: { url: '/user/auth', method: 'get', propertyName: 'user' },
         },
       },
     },
@@ -66,9 +66,8 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // baseURL: 'http://localhost:3000/',
-    // baseURL: 'https://nuxt-express-ec.an.r.appspot.com/',
-    baseURL: 'https://nuxt-ec-server.herokuapp.com/',
+    // baseURL: 'http://localhost:5000/',
+    baseURL: 'https://nuxt-ec-server.herokuapp.com/'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
