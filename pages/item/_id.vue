@@ -82,7 +82,11 @@ export default {
     }
   },
   mounted() {
+    console.log("itemDetail")
     this['item/fetchItemDetail'](this.$route.params.id)
+  },
+  beforeDestroy(){
+    this['item/deleteItemDetail']()
   },
   methods: {
     addCart() {
@@ -155,7 +159,8 @@ export default {
       'order/newCart',
       'order/addCart',
       'users/addFavoriteItem',
-      "item/fetchItemDetail"
+      "item/fetchItemDetail",
+      "item/deleteItemDetail",
     ]),
   },
 }

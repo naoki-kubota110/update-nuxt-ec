@@ -20,6 +20,9 @@ export const mutations = {
   setItemDetail(state, payload){
     state.itemDetail = payload
     console.log(state.itemDetail)
+  },
+  deleteItemDetail(state){
+    state.itemDetail = {}
   }
 }
 
@@ -54,6 +57,10 @@ export const actions = {
     .catch((err) => {
       console.log(err)
     })
+  },
+  deleteItemDetail({commit}){
+    console.log("deleteItemDetail")
+    commit("deleteItemDetail")
   }
 }
 // export const actions = {

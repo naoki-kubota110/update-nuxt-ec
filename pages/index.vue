@@ -6,27 +6,27 @@
           <swiper-slide
             ><img
               class="swiper-img"
-              src="https://heyagoto.com/wp-content/uploads/2020/07/20200712-1.jpg"
+              src="https://i.gyazo.com/dd07f31b0954e45679ddaa6397e2fbb9.png"
           /></swiper-slide>
           <swiper-slide
             ><img
               class="swiper-img"
-              src="https://static-buyma-com.akamaized.net/imgdata/item/210711/0071307921/371518570/428.jpg"
+              src="https://i.gyazo.com/cc7054c779ffd109b20298c06ad39f08.png"
           /></swiper-slide>
           <swiper-slide
             ><img
               class="swiper-img"
-              src="https://www.yamagishi-p.co.jp/interiorblog/wp-content/uploads/2016/03/linterno-1024x768.jpg"
+              src="https://i.gyazo.com/25ace084a26d225c671609ebe20cd1b4.png"
           /></swiper-slide>
           <swiper-slide
             ><img
               class="swiper-img"
-              src="https://www.rafila-fan.com/img/category/category_img/ba_slid_00-206_r4.jpg?x=640"
+              src="https://i.gyazo.com/258fb0676fde6c90fe4a73cdda29d272.png"
           /></swiper-slide>
           <swiper-slide
             ><img
               class="swiper-img"
-              src="https://shopping.line-scdn.net/0hWv43GGCQCFkJSiD5nHF3DlsXFCh_O1FOdnISe34PSGwjLktaNHxAa34aBWt0c0hcPS5CPyQdXm4kf0sIZihFUS1KUzkkL08HYSpHPyxME2h2e01cYigV/r800_trim"
+              src="https://i.gyazo.com/075358c757d0a1f23c044b27c61bc862.png"
           /></swiper-slide>
 
           <div
@@ -92,7 +92,7 @@ export default {
         speed: 1000, // スライドの切り替わりスピード
         slidesPerView: 1,
         centeredSlides: true, // スライダーを真ん中に
-        spaceBetween: 30, // 各スライドの余白
+        spaceBetween: 0, // 各スライドの余白
         loop: true, // 無限ループ
 
         autoplay: {
@@ -117,11 +117,11 @@ export default {
           // レスポンシブ対応
           1024: {
             slidesPerView: 3,
-            spaceBetween: 40,
+            spaceBetween: 10,
           },
           650: {
             slidesPerView: 2,
-            spaceBetween: 30,
+            spaceBetween: 10,
           },
         },
       },

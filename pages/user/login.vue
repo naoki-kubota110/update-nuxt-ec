@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrapper">
-    <h1>Sign In</h1>
+    <h1>ログイン</h1>
     <ValidationObserver ref="observer" v-slot="{ invalid }">
       <form @submit.prevent="loginUser">
         <div class="form-item">
@@ -64,7 +64,7 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
-  middleware: 'direct-home',
+  // middleware: 'direct-home',
   data() {
     return {
       user: {
@@ -91,9 +91,13 @@ body {
 }
 .form-wrapper {
   background: #fafafa;
-  margin: 3em auto;
+  margin: 100px auto;
   padding: 0 1em;
   max-width: 370px;
+}
+.text-danger{
+  text-align: center;
+  color:red;
 }
 h1 {
   text-align: center;
@@ -126,7 +130,7 @@ form {
   width: 100%;
 }
 .button-panel .button {
-  background: #f16272;
+  background: #555555;
   border: none;
   color: #fff;
   cursor: pointer;
@@ -140,7 +144,7 @@ form {
   width: 100%;
 }
 .button:hover {
-  background: #ee3e52;
+  background: #333333;
 }
 .form-footer {
   font-size: 1em;

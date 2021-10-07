@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrapper">
-    <h1>Sign Up</h1>
+    <h1>新規登録</h1>
     <ValidationObserver ref="observer" v-slot="{ invalid }">
       <form @submit.prevent="registerUser">
       <div class="form-item">
@@ -40,7 +40,7 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
-  middleware: 'direct-home',
+  // middleware: 'direct-home',
   data() {
     return {
       user: {

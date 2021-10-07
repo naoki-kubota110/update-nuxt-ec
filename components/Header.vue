@@ -1,125 +1,60 @@
 <template>
-  <div>
-    <header>
-      <h1 class="title">
-        <nuxt-link to="/">
-          <img src="/ラクラクEC.png" class="header-logo" />
-        </nuxt-link>
-      </h1>
-
-      <div>
-        <li class="menu-search">
-          <input
-            v-model="searchWord"
-            class="search-box"
-            type="text"
-            placeholder="商品を検索"
-          />
-          <button class="search-btn" type="submit" @click="searchItem">
-            <fa :icon="faSearch" class="search-icon" />
-          </button>
-        </li>
-      </div>
-      <!-- ログイン状態:{{ $auth.loggedIn }} | {{ $auth.user }} -->
-      <span class="menu">
-        <li v-if="!$store.state.auth.loggedIn" class="menu-item">
-          <nuxt-link to="/user/login">
-            <button class="log-btn">
-              <span> <fa :icon="faLockOpen" class="menu-icon" /></span>ログイン
-            </button>
-          </nuxt-link>
-        </li>
-        <li v-if="!$store.state.auth.loggedIn" class="menu-item">
-          <nuxt-link to="/user/register" class="menu-text">
-            <span> <fa :icon="faUser" class="menu-icon" /></span
-            >ユーザー登録</nuxt-link
-          >
-        </li>
-        <li v-if="$store.state.auth.loggedIn" class="menu-item">
-          <button class="log-btn" @click="logout">
-            <span> <fa :icon="faLock" class="menu-icon" /></span>ログアウト
-          </button>
-        </li>
-        <li class="menu-item">
-          <nuxt-link to="/user/favorite" class="menu-text">
-            <span> <fa :icon="faStar" class="menu-icon" /></span
-            >お気に入り</nuxt-link
-          >
-        </li>
-        <li class="menu-item">
-          <nuxt-link to="/orders/cart" class="menu-text">
-            <span> <fa :icon="faShoppingCart" class="menu-icon" /></span>カート
-          </nuxt-link>
-        </li>
-        <li class="menu-item-last">
-          <nuxt-link to="/orders/history" class="menu-text">
-            <span> <fa :icon="faStickyNote" class="menu-icon" /></span
-            >注文履歴</nuxt-link
-          >
-        </li>
-      </span>
-      <!--ハンバーガーメニューのボタン-->
-      <div class="hamburger__btn" @click="ActiveBtn = !ActiveBtn">
-        <span class="line line_01" :class="{ btn_line01: ActiveBtn }"></span>
-        <span class="line line_02" :class="{ btn_line02: ActiveBtn }"></span>
-        <span class="line line_03" :class="{ btn_line03: ActiveBtn }"></span>
-      </div>
-      <!--サイドメニュー-->
-      <transition name="hamburger__menu">
-        <div v-show="ActiveBtn" class="hamburger__menu">
-          <ul>
-            <li v-if="!$store.state.auth.loggedIn" class="menu-item">
-              <nuxt-link to="/user/login">
-                <button class="log-btn">
-                  <span> <fa :icon="faLockOpen" class="menu-icon" /></span
-                  >ログイン
-                </button>
-              </nuxt-link>
-              <nuxt-link to="/user/register">ユーザー登録</nuxt-link>
-            </li>
-            <li v-if="$store.state.auth.loggedIn" class="menu-item">
-              <button class="log-btn" @click="logout">
-                <span> <fa :icon="faLock" class="menu-icon" /></span>ログアウト
-              </button>
-            </li>
-            <li class="menu-item">
-              <nuxt-link to="/user/favorite" class="menu-text">
-                <span> <fa :icon="faStar" class="menu-icon" /></span
-                >お気に入り</nuxt-link
-              >
-            </li>
-            <li class="menu-item">
-              <nuxt-link to="/orders/cart" class="menu-text">
-                <span> <fa :icon="faShoppingCart" class="menu-icon" /></span
-                >カート
-              </nuxt-link>
-            </li>
-            <li class="menu-item-last">
-              <nuxt-link to="/orders/history" class="menu-text">
-                <span> <fa :icon="faStickyNote" class="menu-icon" /></span
-                >注文履歴</nuxt-link
-              >
-            </li>
-          </ul>
+    <header class="site-header">
+      <div class="site-header__top">
+        <div class="wrapper site-header__wrapper">
+          <div class="site-header__middle">
+            <router-link to="/" class="header_title">
+             <div class="brand">RAKURAKU EC</div>
+            </router-link>
+          </div>
+          <div v-if="!loginStatus" class="site-header__end top">
+            <router-link to="/user/login">
+              <div class="button-18">ログイン</div>
+            </router-link>
+          </div>
+          <div v-else class="site-header__end top">
+            <div class="user_name">{{loginUserName}}</div>
+            <div class="button-18" @click="logout">ログアウト</div>
+          </div>
         </div>
-      </transition>
+      </div>
+
+      <div class="site-header__bottom">
+        <div class="wrapper site-header__wrapper">
+          
+          <div class="site-header__start">
+            <nav class="nav">
+              <input 
+              v-model="searchWord" 
+              class="form1-input" 
+              placeholder="商品を検索"/>
+              <fa  class="cart" :icon="faSearch" @click="searchItem"/>
+            </nav>
+          </div>
+
+          <div class="site-header__end bottom">
+              <router-link to="/" class="link_item">
+                <fa :icon="faUser"/>
+                <div class="icon_text">ユーザー</div>
+             </router-link>
+              <router-link to="/orders/cart" class="link_item">
+                <fa :icon="faShoppingCart"/>
+                <div class="icon_text">カート</div>
+             </router-link>
+              <router-link to="user/favorite" class="link_item">
+                <fa :icon="faStar"/>
+                <div class="icon_text">お気に入り</div>
+             </router-link>
+              <router-link to="orders/history" class="link_item">
+                <fa :icon="faStickyNote"/>
+                <div class="icon_text">注文履歴</div>
+             </router-link>
+          </div>
+          
+        </div>
+
+      </div>
     </header>
-    <!-- ＝＝＝Vue-burger-menuでのハンバーガーメニュー実装 → SSR時にエラー＝＝ -->
-    <!-- <client-only>
-      <slide right class="phone-menu">
-        <nuxt-link to="/user/favorite" class="menu-text">
-          <span> お気に入り</span></nuxt-link
-        >
-        <nuxt-link to="/orders/cart" class="menu-text">
-          <span>カート</span>
-        </nuxt-link>
-        <nuxt-link to="/orders/history" class="menu-text">
-          <span>注文履歴</span></nuxt-link
-        >
-      </slide>
-    </client-only> -->
-    <!-- ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝-->
-  </div>
 </template>
 
 <script>
@@ -145,6 +80,12 @@ export default {
     }
   },
   computed: {
+    loginStatus(){
+      return this.$store.state.auth.loggedIn
+    },
+    loginUserName(){
+      return this.$store.state.auth.user.name
+    },
     faSearch() {
       return faSearch
     },
@@ -233,275 +174,218 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-$hover_color: #6699ff;
-$button_bg_color: #7fbfff;
+<style scoped>
+.form1-input {
+  box-sizing: border-box;
+  height: 30px;
+  width:250px;
+  color: #333;
+  margin-left:20px;
+  border: solid 1px #ccc;
+  border-radius: 6px;
+  outline: 0;
+  -webkit-appearance: none;
+}
 
-header {
+.form1-input:focus {
+  border: 1px solid #00b5ad;
+}
+.button-18 {
+  position: relative;
+  display: inline-block;
+  padding: 0.4em 1.6em;
+  font-size: 0.8em;
+  color: #fff;
+  text-decoration: none;
+  user-select: none;
+}
+.user_name{
+  color:#fff;
+}
+
+.link_item {
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  margin-right: 10px;
+  text-decoration: none;
+}
+.icon_text{
+  font-size: 12px;
+}
+
+.button-18::after {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  width: 40%;
+  height: 1px;
+  margin-top: 4px;
+  content: '';
+  background: #EEEEEE;
+  transition: 0.4s ease;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+.header_title{
+  text-decoration: none;
+}
+.brand {
+  font-weight: bold;
+  font-size: 27px; 
+  color:#fff
+}
+.site-header__top {
+  background-color: #bf0000; 
+}
+.site-header__top ul {
+  display: flex; 
+}
+.site-header__top li:not(:last-child) {
+  margin-right: 1.5rem; 
+}
+.site-header__top .site-header__start {
+  display: none; 
+}
+.site-header__bottom {
+  position: relative;
+  background-color:#bf0000; 
+}
+.cart{
+  color:#fff;
+}
+.site-header__wrapper {
   display: flex;
-  width: 100%;
-  height: 100px;
-  background-color: #eee;
-  align-items: center;
+  justify-content: space-between; 
+}
+
+.site-header__wrapper {
+  display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 1rem; 
+  }
+  @media (min-width: 940px) {
+    .site-header__wrapper {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem; } }
+.site-header__end {
+  display: flex;
+  align-items: center; }
 
-  h1.title {
-    .header-logo {
-      height: 90px;
-      width: 120px;
-      margin-left: 5px;
-      margin-top: 10px;
-    }
-  }
-  li {
-    .menu-text {
-      &:hover {
-        color: $hover_color;
-      }
-    }
-  }
-
-  li.menu-item {
-    list-style: none;
-    display: inline-block;
-    padding: 10px;
-  }
-  li.menu-item-last {
-    list-style: none;
-    display: inline-block;
-    padding: 10px;
-  }
-  li.menu-search {
-    list-style: none;
-    display: inline-block;
-  }
-  input.search-box {
-    height: 35px;
-    width: 200px;
-    border-radius: 25px;
-    outline: 0;
-    background-color: white;
-    padding-left: 20px;
-  }
-  button.search-btn {
-    height: 40px;
-    width: 50px;
-    background-color: $button_bg_color;
-    color: #fff;
-    border: none;
-    border-radius: 0 25px 25px 0;
-    cursor: pointer;
-    &:hover {
-      background-color: $hover_color;
-    }
-  }
-  button.log-btn {
-    background-color: $button_bg_color;
-    border-width: 1px;
-    padding: 5px;
-    margin-right: 3px;
-    cursor: pointer;
-    &:hover {
-      background-color: $hover_color;
-    }
-  }
-  .search-icon {
-    color: white;
-  }
-  .menu-icon {
-    padding-right: 5px;
-  }
-  .menu {
-    display: inline-block;
-    text-align: right;
-    margin-right: 10px;
-  }
+.site-header__end.top {
+  margin-left: 1.5rem; 
 }
 
-// タブレット対応
-@media screen and (max-width: 1024px) {
-  header {
-    font-size: 12px;
-    height: 160px;
-    h1.title {
-      .header-logo {
-        height: 90px;
-        width: 80px;
-        margin-left: 5px;
-        margin-top: 5px;
-      }
-    }
-    li.menu-item {
-      padding: 5px;
-    }
-    input.search-box {
-      font-size: 12px;
-      height: 30px;
-      width: 180px;
-    }
-    button.search-btn {
-      height: 30px;
-      width: 30px;
-      font-size: 12px;
-    }
-    button.log-btn {
-      font-size: 12px;
-      padding: 1px;
-      margin-bottom: 3px;
-    }
-    .menu-icon {
-      padding-right: 1px;
-    }
-    .menu {
-      display: inline-block;
-      text-align: left;
-      margin-right: 0px;
+@media (min-width: 940px) {
+  .site-header__end.bottom > *:not(:last-child) {
+    margin-right: 1.5rem; } }
 
-      width: 100px;
-    }
+@media (max-width: 939px) {
+  .site-header__end.bottom .cart {
+    margin-right: 1.5rem; } 
   }
-}
-// スマホ対応
-@media screen and (max-width: 650px) {
-  header {
-    width: 100%;
-    height: 160px;
-    align-items: center;
-    justify-content: initial;
 
-    h1.title {
-      .header-logo {
-        height: 90px;
-        width: 100px;
-        margin: 0 0 0 5px;
-        display: inline-block;
-      }
-    }
-    li.menu-search {
-      position: absolute;
-      top: 80px;
-      left: 33%;
-      display: flex;
-    }
-    input.search-box {
-      height: 30px;
-      width: 140px;
-      margin-left: 10px;
-      display: inline-block;
-    }
-    button.search-btn {
-      height: 35px;
-      width: 35px;
-      margin-left: 5px;
-      margin-left: 5px;
-    }
+/* @media (max-width: 939px) {
+  .site-header__end.bottom .search {
+    margin-left: 0; } } */
 
-    button.log-btn {
-      font-size: 22px;
-      padding: 1px;
-      margin-left: 12px;
-    }
+/* .site-header__end.bottom svg {
+  width: 22px;
+  height: 22px; } */
 
-    .menu-icon {
-      padding-right: 5px;
-      display: flex;
-      font-size: 18px;
-      display: none;
-    }
-    .menu {
-      display: flex;
-      display: none;
-      flex-wrap: wrap;
-    }
+@media (min-width: 940px) {
+  .nav__wrapper {
+    display: flex; } }
 
-    .hamburger__btn {
-      position: absolute;
-      top: 10px;
-      right: 100px;
-      cursor: pointer;
-      z-index: 50;
-
-      .line {
-        position: absolute;
-        top: 0;
-        left: 20px;
-        width: 45px;
-        height: 2px;
-        background: #333333;
-        text-align: center;
-      }
-
-      .line_01 {
-        top: 16px;
-        transition: 0.4s ease;
-      }
-
-      .line_02 {
-        top: 26px;
-        transition: 0.4s ease;
-      }
-
-      .line_03 {
-        top: 36px;
-        transition: 0.4s ease;
-      }
-    }
-
-    .btn_line01 {
-      transform: translateY(10px) rotate(-45deg);
-      transition: 0.4s ease;
-    }
-    .btn_line02 {
-      transition: 0.4s ease;
-      opacity: 0;
-    }
-    .btn_line03 {
-      transform: translateY(-10px) rotate(45deg);
-      transition: 0.4s ease;
-    }
-    // サイドメニュー
-    .hamburger__menu-enter-active,
-    .hamburger__menu-leave-active {
-      transition: opacity 0.4s;
-    }
-    .hamburger__menu-enter,
-    .hamburger__menu-leave-to {
-      opacity: 0;
-    }
-    .hamburger__menu-leave,
-    .hamburger__menu-enter-to {
+@media (max-width: 939px) {
+  .nav__wrapper {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: -1;
+    background-color: #d9f0f7;
+    float: center;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out; }
+    .nav__wrapper.active {
+      visibility: visible;
       opacity: 1;
-    }
+      transform: translateY(0); } }
 
-    .hamburger__menu {
-      background-color: rgba(197, 197, 197, 0.671);
-      z-index: 30;
-      padding: 2rem 1rem;
-      position: fixed;
-      width: 200px;
-      height: 80rem;
-      top: 0;
+.nav__item:not(:last-child) {
+  margin-right: 1.5rem; }
+
+.nav__item a {
+  display: block;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem; }
+  @media (max-width: 939px) {
+    .nav__item a {
+      padding: 1rem; } }
+/* .nav__item svg {
+  display: inline-block;
+  vertical-align: middle;
+  width: 28px;
+  height: 28px;
+  margin-right: 1rem; } */
+  /* @media (min-width: 940px) {
+    .nav__item svg {
+      display: block;
+      margin: 0 auto 0.5rem; } } */
+.nav__item.active a {
+  border-left-color: #222; }
+  @media (min-width: 800px) {
+    .nav__item.active a {
+      border-bottom-color: #222; } }
+.nav__toggle {
+  position: absolute;
+  right: 1rem;
+  top: 1rem; }
+.search {
+  display: flex; }
+
+.search__toggle {
+  appearance: none;
+  order: 1;
+  font-size: 0;
+  width: 34px;
+  height: 34px;
+  /* background: url("../img/header-3/search.svg") center/22px no-repeat; */
+  border: 0; }
+  @media (max-width: 939px) {
+    .search__toggle {
+      position: absolute;
+      right: 5.5rem;
+      top: 0.65rem; } }
+  /* .search__toggle.active { */
+    /* background: url("../img/header-5/close.svg") center/22px no-repeat; } */
+
+.search__form {
+  display: none; }
+  .search__form.active {
+    display: block; }
+  @media (max-width: 799px) {
+    .search__form {
+      position: absolute;
+      left: 0;
       right: 0;
-
-      ul {
-        padding: 0;
-        padding-top: 40px;
-      }
-
-      li {
-        padding: 20px 0;
-        list-style: none;
-        line-height: 1;
-      }
-
-      a {
-        color: rgb(66, 66, 66);
-        text-decoration: none;
-        font-size: 22px;
-        margin: 0 4vw;
-        padding-bottom: 8px;
-      }
-    }
-  }
-}
+      top: 100%;
+      background-color: red; }
+      .search__form input {
+        width: 100%; } }
+  .search__form input {
+    min-width: 200px;
+    appearance: none;
+    border: 0;
+    background-color: #fff;
+    border-radius: 0;
+    font-size: 16px;
+    padding: 0.5rem; }
+    @media (max-width: 799px) {
+      .search__form input {
+        border-bottom: 1px solid #979797; } }
 </style>
