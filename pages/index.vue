@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div v-show="itemflg" id="itemflg">
       <section class="swiper">
         <swiper :options="swiperOption">
           <swiper-slide
@@ -28,7 +27,6 @@
               class="swiper-img"
               src="https://i.gyazo.com/075358c757d0a1f23c044b27c61bc862.png"
           /></swiper-slide>
-
           <div
             slot="pagination"
             class="swiper-pagination swiper-pagination-black"
@@ -37,57 +35,99 @@
           <div slot="button-next" class="swiper-button-next"></div>
         </swiper>
       </section>
-      <!-- </client-only> -->
-
+      <div class="list5">
+  <ul>
+    <li class="index-list">
+      <div 
+      class="index-name" 
+      :class="{'index-name-select':isSuperSale}"
+      @click="setSuperSaleItem" 
+      >
+        スーパーセール
+      </div>
+    </li>
+    <li class="index-list">
+      <div 
+      class="index-name" 
+      :class="{'index-name-select':isDoublePoint}"
+      @click="setDoublePointItem" 
+      >
+        ポイント倍増
+      </div>
+    </li>
+    <li class="index-list">
+      <div 
+        class="index-name"
+       :class="{'index-name-select':isFurusato}"
+      @click="setFurusatoItem" 
+      >
+        ふるさと納税
+      </div>
+    </li>
+    <li 
+    class="index-list"
+    :class="{'index-name-select':isCosme}"
+    @click="setCosmeItem" 
+    >
+    <div class="index-name">
+      美容・コスメ
+    </div>
+    </li>
+    <li class="index-list">
+      <div 
+      class="index-name"
+      :class="{'index-name-select':isSport}"
+      @click="setSportItem" 
+      >
+       スポーツ
+      </div>
+    </li>
+    <li class="index-list">
+      <div 
+      class="index-name"
+      :class="{'index-name-select':isInterior}"
+      @click="setInteriorItem" 
+      >
+        インテリア
+      </div>
+    </li>
+  </ul>
+</div>
+      <div>
+        {{searchMsg}}
+      </div>
       <ul class="itemList">
-        <li v-for="item in firstViewItemList" :key="item.Item.itemCode">
+        <li v-for="(item,i) in items" :key="i">
           <div>
-            <router-link :to="{ path: `/item/${item.Item.itemCode}` }">
+            <router-link :to="{ path: `/item/${item.itemId}` }">
               <img
                 class="item-img"
-                :src="item.Item.mediumImageUrls[0].imageUrl"
+                :src="item.itemImage"
               />
             </router-link>
           </div>
-          <router-link :to="{ path: `/item/${item.Item.itemCode}` }">
-            <div class="item-name">{{ item.Item.itemName }}</div>
+          <router-link :to="{ path: `/item/${item.itemId}` }">
+            <div class="item-name">{{ item.itemName }}</div>
           </router-link>
           <div class="item-price">
-            {{ [item.Item.itemPrice].toLocaleString() }}円
+            {{ [item.itemPrice].toLocaleString() }}円
           </div>
         </li>
       </ul>
-    </div>
-
-    <div v-show="!itemflg">
-      <ul class="itemList">
-        <li v-for="item in firstViewItemList" :key="item.Item.itemCode">
-          <p>
-            <router-link :to="{ path: `/item/${item.Item.itemCode}` }">
-              <img
-                :src="item.Item.mediumImageUrls[0].imageUrl"
-                class="item-img"
-              />
-            </router-link>
-          </p>
-          <router-link :to="{ path: `/item/${item.Item.itemCode}` }">
-            <p class="item-name">{{ item.Item.itemName }}</p>
-          </router-link>
-          <p class="item-price">
-            {{ [item.Item.itemPrice].toLocaleString() }}円
-          </p>
-        </li>
-      </ul>
-    </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-
+import { mapActions } from 'vuex'
 export default {
   data() {
     return {
+      isSuperSale:true,
+      isDoublePoint:false,
+      isFurusato: false,
+      isCosme:false,
+      isSport:false,
+      isInterior:false,
       swiperOption: {
         speed: 1000, // スライドの切り替わりスピード
         slidesPerView: 1,
@@ -125,26 +165,131 @@ export default {
           },
         },
       },
-
       cartData: '',
       searchedItem: false,
     }
   },
-
   computed: {
-    ...mapState({
-      firstViewItemList: (state) => state.item.shopItems,
-      itemflg: (state) => state.item.itemflg,
-    }),
+    items(){
+      return this.$store.state.item.superSaleItems
+    },
+    searchMsg(){
+      return this.$store.state.item.searchMessage
+    }
+    // ...mapState({
+    //   firstViewItemList: (state) => state.item.shopItems,
+    //   itemflg: (state) => state.item.itemflg,
+    //   items: (state) => state.item.superSaleItems
+    // }),
   },
-
+  created(){
+    this["item/fetchSuperSaleItem"]()
+  },
   methods: {
-    ...mapActions(['item/searchItem']),
+    setSuperSaleItem(){
+      this.isDoublePoint = false
+      this.isSuperSale = true
+      this.isFurusato = false
+      this.isCosme =  false
+      this.isSport = false
+      this.isInterior = false
+    },
+    setDoublePointItem(){
+      this.isDoublePoint = true
+      this.isSuperSale = false
+      this.isFurusato = false
+      this.isCosme =  false
+      this.isSport = false
+      this.isInterior = false
+    },
+    setFurusatoItem(){
+      this.isDoublePoint = false
+      this.isSuperSale = false
+      this.isFurusato = true
+      this.isCosme =  false
+      this.isSport = false
+      this.isInterior = false
+    },
+    setCosmeItem(){
+      this.isDoublePoint = false
+      this.isSuperSale = false
+      this.isFurusato = false
+      this.isCosme =  true
+      this.isSport = false
+      this.isInterior = false
+    },
+    setSportItem(){
+      this.isDoublePoint = false
+      this.isSuperSale = false
+      this.isFurusato = false
+      this.isCosme =  false
+      this.isSport = true
+      this.isInterior = false
+    },
+    setInteriorItem(){
+      this.isDoublePoint = false
+      this.isSuperSale = false
+      this.isFurusato = false
+      this.isCosme =  false
+      this.isSport = false
+      this.isInterior = true
+    },
+
+    
+    ...mapActions(['item/searchItem',"item/fetchSuperSaleItem"]),
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.list5 {
+  position: relative;
+  margin: 30px auto;
+}
+
+.list5 ul,
+.list5 ol {
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  color: #999;
+  list-style-type: none;
+  border: none;
+}
+
+.index-list {
+  width:12%;
+  display: inline-block;
+  padding: 5px 3px;
+  line-height: 1.5;
+}
+
+.index-list:hover {
+  background: #f3f3f4;
+}
+// .index-name {
+// }
+.index-name-select {
+  line-height: 1.4;
+  color: #555;
+  border-bottom: 1.5px solid #bf0000;
+}
+@media screen and (max-width: 950px) {
+.index-name {
+  font-size:15px;
+}
+.index-list {
+  width:25%;
+  padding: 5px 3px;
+  line-height: 1.5;
+}
+}
+@media screen and (max-width: 430px) {
+.index-name {
+  font-size:12px;
+}
+}
+
 ul.itemList {
   padding: 0;
   display: flex;

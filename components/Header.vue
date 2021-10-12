@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 import { mapActions } from 'vuex'
 
 import {
@@ -108,29 +108,29 @@ export default {
       return faUser
     },
   },
-  created() {
-    if (this.$store.state.item.itemflg === true) {
-      const apiKey = '1083744313894679387'
-      axios
-        .get(
-          'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
-          {
-            params: {
-              applicationId: apiKey,
-              keyword: 'スーパーセール',
-              hits: 30,
-            },
-          }
-        )
-        .then((response) => {
-          this.searchedItems = response.data
-          this['item/searchItem'](response.data.Items)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
-  },
+  // created() {
+  //   if (this.$store.state.item.itemflg === true) {
+  //     const apiKey = '1083744313894679387'
+  //     axios
+  //       .get(
+  //         'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+  //         {
+  //           params: {
+  //             applicationId: apiKey,
+  //             keyword: 'スーパーセール',
+  //             hits: 30,
+  //           },
+  //         }
+  //       )
+  //       .then((response) => {
+  //         this.searchedItems = response.data
+  //         this['item/searchItem'](response.data.Items)
+  //       })
+  //       .catch((err) => {
+  //         console.log(err)
+  //       })
+  //   }
+  // },
 
   methods: {
     logout() {
@@ -139,33 +139,39 @@ export default {
       }
     },
     searchItem() {
-      const apiKey = '1083744313894679387'
-      if (this.searchWord !== '') {
-        this.searchedItems = ''
-        axios
-          .get(
-            'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
-            {
-              params: {
-                applicationId: apiKey,
-                keyword: this.searchWord,
-                hits: 30,
-              },
-            }
-          )
-          .then((response) => {
-            console.log(response.data)
-            this.searchedItems = response.data
-
-            this['item/searchItem'](response.data.Items)
-            this.$store.commit('item/flgChange')
-            this.$router.push('/')
-          })
-
-          .catch((err) => {
-            console.log(err)
-          })
+      if(this.searchWord === ""){
+        alert("空欄の場合は検索できません")
+      }else{
+        this['item/searchItem'](this.searchWord)
+        this.searchWord = ""
       }
+      // const apiKey = '1083744313894679387'
+      // if (this.searchWord !== '') {
+      //   this.searchedItems = ''
+      //   axios
+      //     .get(
+      //       'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+      //       {
+      //         params: {
+      //           applicationId: apiKey,
+      //           keyword: this.searchWord,
+      //           hits: 30,
+      //         },
+      //       }
+      //     )
+      //     .then((response) => {
+      //       console.log(response.data)
+      //       this.searchedItems = response.data
+
+      //       this['item/searchItem'](response.data.Items)
+      //       this.$store.commit('item/flgChange')
+      //       this.$router.push('/')
+      //     })
+
+      //     .catch((err) => {
+      //       console.log(err)
+      //     })
+      // }
       // eslint-disable-next-line no-unused-expressions
       // this['item/searchItem'](this.searchWord)
     },
