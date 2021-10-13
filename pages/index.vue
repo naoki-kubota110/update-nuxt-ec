@@ -171,16 +171,11 @@ export default {
   },
   computed: {
     items(){
-      return this.$store.state.item.superSaleItems
+      return this.$store.state.item.itemArray
     },
     searchMsg(){
       return this.$store.state.item.searchMessage
     }
-    // ...mapState({
-    //   firstViewItemList: (state) => state.item.shopItems,
-    //   itemflg: (state) => state.item.itemflg,
-    //   items: (state) => state.item.superSaleItems
-    // }),
   },
   created(){
     this["item/fetchSuperSaleItem"]()
@@ -193,6 +188,7 @@ export default {
       this.isCosme =  false
       this.isSport = false
       this.isInterior = false
+      this["item/fetchSuperSaleItem"]()
     },
     setDoublePointItem(){
       this.isDoublePoint = true
@@ -201,6 +197,7 @@ export default {
       this.isCosme =  false
       this.isSport = false
       this.isInterior = false
+      this["item/fetchDoublePointItem"]()
     },
     setFurusatoItem(){
       this.isDoublePoint = false
@@ -209,6 +206,7 @@ export default {
       this.isCosme =  false
       this.isSport = false
       this.isInterior = false
+      this["item/fetchFurusatoItem"]()
     },
     setCosmeItem(){
       this.isDoublePoint = false
@@ -217,6 +215,7 @@ export default {
       this.isCosme =  true
       this.isSport = false
       this.isInterior = false
+      this["item/fetchCosmeItem"]()
     },
     setSportItem(){
       this.isDoublePoint = false
@@ -225,6 +224,7 @@ export default {
       this.isCosme =  false
       this.isSport = true
       this.isInterior = false
+       this["item/fetchSportItem"]()
     },
     setInteriorItem(){
       this.isDoublePoint = false
@@ -233,10 +233,18 @@ export default {
       this.isCosme =  false
       this.isSport = false
       this.isInterior = true
+      this["item/fetchInteriorItem"]()
     },
 
-    
-    ...mapActions(['item/searchItem',"item/fetchSuperSaleItem"]),
+    ...mapActions([
+      'item/searchItem',
+      "item/fetchSuperSaleItem",
+      "item/fetchDoublePointItem",
+      "item/fetchFurusatoItem",
+      "item/fetchCosmeItem",
+      "item/fetchSportItem",
+      "item/fetchInteriorItem"
+      ]),
   },
 }
 </script>

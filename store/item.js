@@ -6,7 +6,7 @@ export const state = () => ({
   itemflg: true,
   shopItems: [],
   itemDetail: {},
-  superSaleItems:[],
+  itemArray:[],
   searchMessage : ""
 })
 
@@ -21,24 +21,41 @@ export const mutations = {
   },
   setItemDetail(state, payload){
     state.itemDetail = payload
-    console.log(state.itemDetail)
   },
   deleteItemDetail(state){
     state.itemDetail = {}
   },
   setsuperSaleItem(state, superSaleItemArray){
-    console.log("setsuper")
-    state.superSaleItems = superSaleItemArray
-    console.log(state.superSaleItems)
+    state.itemArray = superSaleItemArray
+    state.searchMessage = ""
   },
   setSearchItem(state, payload){
-    state.superSaleItems = payload.array
+    state.itemArray = payload.array
     state.searchMessage = `「${payload.searchword}」の検索結果`
   },
   setSearchErrorMessage(state){
-    console.log("setsearchErr")
     state.searchMessage = "検索結果が見つかりません"
-    state.superSaleItems = []
+    state.itemArray = []
+  },
+  setDoublePointItem(state, DoublePointItemArray){
+    state.itemArray =DoublePointItemArray
+    state.searchMessage = ""
+  },
+  setFurusatoItem(state,FurusatoItemArray){
+    state.itemArray =FurusatoItemArray
+    state.searchMessage = ""
+  },
+  setCosmeItem(state,CosmeItemArray){
+    state.itemArray =CosmeItemArray
+    state.searchMessage = ""
+  },
+  setSportItem(state,SportItemArray){
+    state.itemArray =SportItemArray
+    state.searchMessage = ""
+  },
+  setInteriorItem(state, InteriorItemArray){
+    state.itemArray = InteriorItemArray
+    state.searchMessage = ""
   }
 }
 
@@ -64,7 +81,6 @@ export const actions = {
         }
         superSaleItemArray.push(SuperSaleItemObj)
       })
-      console.log(superSaleItemArray)
       commit("setsuperSaleItem", superSaleItemArray)
     })
   },
@@ -99,6 +115,130 @@ export const actions = {
     .catch(()=> {
       console.log("検索失敗")
       commit("setSearchErrorMessage")
+    })
+  },
+  fetchDoublePointItem({commit}){
+    const apiKey = '1083744313894679387'
+    axios.get('https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+    {
+      params: {
+        applicationId: apiKey,
+        // genreId:551167,
+        keyword:"倍増",
+        pointRateFlag: 1,
+        hits: 30,
+      },
+    })
+    .then((res) => {
+      const DoublePointItemArray = []
+      res.data.Items.forEach(data => {
+        const DoublePointItemObj = {
+          itemId: data.Item.itemCode,
+          itemName : data.Item.itemName,
+          itemImage: data.Item.mediumImageUrls[0].imageUrl,
+          itemPrice : data.Item.itemPrice
+        }
+        DoublePointItemArray.push(DoublePointItemObj)
+      })
+      console.log(DoublePointItemArray)
+      commit("setDoublePointItem", DoublePointItemArray)
+    })
+  },
+  fetchFurusatoItem({commit}){
+    const apiKey = '1083744313894679387'
+    axios.get('https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+    {
+      params: {
+        applicationId: apiKey,
+        // genreId:551167,
+        keyword:"【ふるさと納税】",
+        hits: 30,
+      },
+    })
+    .then((res) => {
+      const FurusatoItemArray = []
+      res.data.Items.forEach(data => {
+        const FurusatoItemObj = {
+          itemId: data.Item.itemCode,
+          itemName : data.Item.itemName,
+          itemImage: data.Item.mediumImageUrls[0].imageUrl,
+          itemPrice : data.Item.itemPrice
+        }
+        FurusatoItemArray.push(FurusatoItemObj)
+      })
+      commit("setFurusatoItem", FurusatoItemArray)
+    })
+  },
+  fetchCosmeItem({commit}){
+    const apiKey = '1083744313894679387'
+    axios.get('https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+    {
+      params: {
+        applicationId: apiKey,
+        genreId:100939	,
+        hits: 30,
+      },
+    })
+    .then((res) => {
+      const CosmeItemArray = []
+      res.data.Items.forEach(data => {
+        const CosmeItemObj = {
+          itemId: data.Item.itemCode,
+          itemName : data.Item.itemName,
+          itemImage: data.Item.mediumImageUrls[0].imageUrl,
+          itemPrice : data.Item.itemPrice
+        }
+        CosmeItemArray.push(CosmeItemObj)
+      })
+      commit("setCosmeItem", CosmeItemArray)
+    })
+  },
+  fetchSportItem({commit}){
+    const apiKey = '1083744313894679387'
+    axios.get('https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+    {
+      params: {
+        applicationId: apiKey,
+        genreId:101070,
+        hits: 30,
+      },
+    })
+    .then((res) => {
+      const SportItemArray = []
+      res.data.Items.forEach(data => {
+        const SportItemObj = {
+          itemId: data.Item.itemCode,
+          itemName : data.Item.itemName,
+          itemImage: data.Item.mediumImageUrls[0].imageUrl,
+          itemPrice : data.Item.itemPrice
+        }
+        SportItemArray.push(SportItemObj)
+      })
+      commit("setSportItem", SportItemArray)
+    })
+  },
+  fetchInteriorItem({commit}){
+    const apiKey = '1083744313894679387'
+    axios.get('https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+    {
+      params: {
+        applicationId: apiKey,
+        genreId:100804	,
+        hits: 30,
+      },
+    })
+    .then((res) => {
+      const InteriorItemArray = []
+      res.data.Items.forEach(data => {
+        const InteriorItemObj = {
+          itemId: data.Item.itemCode,
+          itemName : data.Item.itemName,
+          itemImage: data.Item.mediumImageUrls[0].imageUrl,
+          itemPrice : data.Item.itemPrice
+        }
+        InteriorItemArray.push(InteriorItemObj)
+      })
+      commit("setInteriorItem", InteriorItemArray)
     })
   },
   fetchItemDetail({commit}, payload){
