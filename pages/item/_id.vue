@@ -1,18 +1,16 @@
 <template>
-  <div>
+  <div class="container">
     <h1>商品詳細</h1>
     <ul class="itemList">
       <li>
         <p class="item-name">
-          <span class="text-bold">商品名：</span>{{ itemDetail.itemName }}
+       {{ itemDetail.itemName }}
         </p>
         <div class="img-position">
-          <span>
             <img
               :src="itemDetail.itemImage"
               class="item-img"
             />
-          </span>
           <span class="cost-position">
             <p class="item-cost">
               <span class="text-bold">価格：</span
@@ -39,22 +37,20 @@
             </p>
           </span>
           <span class="cost-position">
-            <p>
-              <button class="addcart-btn" @click="addCart">
-                <span> <fa :icon="faShoppingCart" class="menu-icon" /></span
-                ><span>カートに入れる</span></button
-              ><br />
-              <button class="addfavorite-btn" @click="addFavorite">
+              <button class="button-design" @click="addCart">
+                 <fa :icon="faShoppingCart" class="menu-icon" /><span>カートに入れる</span>
+                 </button>
+                 <br />
+              <button class="button-design" @click="addFavorite">
                 <span> <fa :icon="faStar" class="menu-icon" /></span
                 ><span>お気に入りへ追加</span>
               </button>
-            </p>
           </span>
         </div>
         <span class="item-detail">
-          <p>
-            <span class="text-bold">商品詳細：</span>{{ itemDetail.itemCaption }}
-          </p>
+          <div class="box">
+            <p class="item-caption"></p>{{ itemDetail.itemCaption }}
+          </div>
         </span>
       </li>
     </ul>
@@ -167,15 +163,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$hover_color: #6699ff;
-$border_color: #000080;
 
+$hover_color: black;
+$border_color: black;
+
+.box  {overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 5;/*行数を指定*/}
+
+.container{
+  margin: 50px auto;
+  width: 80%;
+  overflow: hidden
+}
 h1 {
   text-align: center;
-  margin: 50px 0 30px 0;
-}
-ul {
-  padding: 0;
 }
 li {
   list-style: none;
@@ -184,8 +184,8 @@ li {
   border-left: 1px solid $border_color;
   border-bottom: 1px solid $border_color;
   margin: 10px 100px 0 100px;
-  padding: 0 30px 0 30px;
-  background: #eee;
+  padding: 0 10px 0 10px;
+  background: #fff;
   font-size: 18px;
 }
 .item-detail {
@@ -195,30 +195,22 @@ li {
 .menu-icon {
   padding-right: 5px;
 }
-.addcart-btn {
+.button-design {
+  color:#fff;
   height: 40px;
   width: 160px;
-  background: #7fbfff;
+  background: #bf0000;
   cursor: pointer;
-  margin-top: 10px;
+  margin: 20px auto;
   &:hover {
-    background-color: $hover_color;
-  }
-}
-.addfavorite-btn {
-  height: 40px;
-  width: 160px;
-  background: #7fbfff;
-  cursor: pointer;
-  margin-top: 20px;
-  &:hover {
-    background-color: $hover_color;
+    font-weight: bold;
   }
 }
 .img-position {
   display: flex;
   flex-wrap: wrap;
   text-align: left;
+  margin-left:40px;
 }
 .cost-position {
   margin-left: 50px;
@@ -236,6 +228,10 @@ li {
 }
 .text-bold {
   font-weight: 900;
+      overflow: hidden;
+  position: relative;
+  word-wrap: break-word;
+
 }
 .item-img {
   height: 160px;
@@ -265,6 +261,10 @@ li {
 }
 
 @media screen and (max-width: 650px) {
+
+.container{
+  width: 100%;
+}
   li {
     margin: 0 30px;
     font-size: 14px;

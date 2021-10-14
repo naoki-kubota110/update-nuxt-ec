@@ -69,7 +69,7 @@ import { faLock, faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import OrderForm from '../../components/OrderForm.vue'
 export default {
   components: { OrderForm },
-  middleware: 'direct-login',
+  // middleware: 'direct-login',
   computed: {
     faLock() {
       return faLock
