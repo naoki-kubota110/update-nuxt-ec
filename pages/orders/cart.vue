@@ -1,5 +1,69 @@
 <template>
   <div>
+    <div v-if="!$store.state.auth.loggedIn">
+      <div v-if="cartDataBeforelogin === null || cartDataBeforeloginlength === 0" class="empty-cart">
+        <div class="empty-content">
+        <p class="empty-text">カートの中には何も入っていません。</p>
+        <div class="empty-icon">
+         <fa :icon="faShoppingCart"/>
+        </div>
+        <div class="button05" @click.prevent="backHome">
+          <a href="">お買い物を続ける</a>
+        </div>
+      </div>
+      </div>
+      <div v-else>
+      <h1>ショッピングカート</h1>
+      <div class="shopping-cart">
+        <div class="column-labels">
+          <label class="product-image">Image</label>
+          <label class="product-details">Product</label>
+          <label class="product-price">価格</label>
+          <label class="product-quantity">数量</label>
+          <label class="product-removal">削除</label>
+          <label class="product-line-price">合計</label>
+        </div>
+        <div v-for="(item, index) in cartDataBeforelogin.itemInfo" :key="index" class="product">
+          <router-link :to="{ path: `/item/${item.itemId}` }">
+            <div class="product-image">
+              <img id="image" :src="item.itemImage" />
+            </div>
+            <div class="product-details">
+              <div id="title" class="product-title">{{ item.itemName }}</div>
+            </div>
+          </router-link>
+          <div id="price" class="product-price">{{ item.itemPrice.toLocaleString() }}</div>
+          <div id="quantity" class="product-quantity">{{ item.buyNum }}個</div>
+          <div class="product-removal">
+            <button class="remove-product" @click="deleteItem(item.itemId)">
+              削除
+            </button>
+          </div>
+          <div class="product-line-price">
+            {{ (item.itemPrice * item.buyNum).toLocaleString() }}
+          </div>
+        </div>
+        <div class="totals">
+          <div class="totals-item totals-item-total">
+            <label>注文合計金額</label>
+            <div id="cart-total" class="totals-value">
+              {{ cartDataBeforeloginSumPrice.toLocaleString() }}
+            </div>
+          </div>
+          <div class="totals-item">
+            <label>内消費税(10%)</label>
+            <div id="cart-tax" class="totals-value">
+              {{ Math.floor(((cartDataBeforeloginSumPrice * 0.1) / 1.1).toLocaleString()) }}
+            </div>
+          </div>
+        </div>
+        <button class="checkout">注文に進む</button>
+      </div>
+      </div>
+    </div>
+
+    <div v-else>
+    <!-- ログイン中でカートに商品がある場合 -->
     <div v-if="cartLength !== 0">
       <h1>ショッピングカート</h1>
       <div class="shopping-cart">
@@ -49,6 +113,7 @@
       </div>
       <div><OrderForm :order-id="cartData.orderId" /></div>
     </div>
+    <!-- ログイン中でカートが空の場合 -->
     <div v-else class="empty-cart">
       <div class="empty-content">
         <p class="empty-text">カートの中には何も入っていません。</p>
@@ -61,6 +126,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -70,6 +136,13 @@ import OrderForm from '../../components/OrderForm.vue'
 export default {
   components: { OrderForm },
   // middleware: 'direct-login',
+  data(){
+    return{
+      cartDataBeforelogin:null,
+      cartDataBeforeloginLength:null,
+      cartDataBeforeloginSumPrice:0
+    }
+  },
   computed: {
     faLock() {
       return faLock
@@ -77,6 +150,25 @@ export default {
     faShoppingCart() {
       return faShoppingCart
     },
+    // cartDataBeforeLogin(){
+    //   const cartData = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
+    //   return cartData
+    // },
+    // cartDataBeforeLoginLength(){
+    //   const cartData = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
+    // const cartDataLength =  cartData.itemInfo.length
+    // return cartDataLength
+    // },  
+    // cartDataBeforeLoginSumPrice(){
+    //   const cartData = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
+    //   let sumPrice = 0
+    //   if(cartData !== null){
+    //     cartData.itemInfo.forEach(item => {
+    //       sumPrice += (item.itemPrice * item.buyNum)
+    //     })
+    //   }
+    //   return sumPrice
+    // },
     cartData() {
       return this.$store.getters['order/CartDataArry'][0]
     },
@@ -87,9 +179,6 @@ export default {
         return this.$store.getters['order/CartDataArry'][0].itemInfo.length
       }
     },
-    // aaa(){
-    //   return this.$store.state.auth
-    // },
     CartSumPrice() {
       if (this.$store.getters['order/CartDataArry'].length !== 0) {
         let sumPrice = 0
@@ -103,6 +192,18 @@ export default {
         return 0
       }
     },
+  },
+  mounted(){
+    const cartData = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
+      let sumPrice = 0
+    if(cartData !== null){
+      this.cartDataBeforelogin = cartData
+      this.cartDataBeforeloginLength = cartData.itemInfo.length
+      cartData.itemInfo.forEach(item => {
+        sumPrice += (item.itemPrice * item.buyNum)
+      })
+    }
+    this.cartDataBeforeLoginSumPrice = sumPrice
   },
   methods: {
     deleteItem(id) {

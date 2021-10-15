@@ -122,9 +122,54 @@ export default {
          this['order/addCart'](payload)
         }
       }
+      // 未ログインの場合
       }else {
         alert('カートに追加するにはログインしてください')
-        this.$router.push('/user/login')
+        const item = {
+        orderId: new Date().getTime().toString(),
+        status: 0,
+        addCartDate: new Date().toString(),
+        itemInfo: [
+          {
+            itemId: this.itemDetail.itemId,
+            itemName: this.itemDetail.itemName,
+            itemPrice: this.itemDetail.itemPrice,
+            itemImage: this.itemDetail.itemImage,
+            buyNum: this.value,
+          },
+        ],
+      }
+      const localDart  = localStorage.getItem("itemsBeforeLogin")
+      console.log(localDart)
+      if(localDart === null){
+        console.log("kara")
+        localStorage.setItem('itemsBeforeLogin', JSON.stringify({
+        orderId: new Date().getTime().toString(),
+        status: 0,
+        addCartDate: new Date().toString(),
+        itemInfo: [
+          {
+            itemId: this.itemDetail.itemId,
+            itemName: this.itemDetail.itemName,
+            itemPrice: this.itemDetail.itemPrice,
+            itemImage: this.itemDetail.itemImage,
+            buyNum: this.value,
+          },
+        ],
+      }))
+      this["order/newCartBeforeLogin"](item)
+      } else{
+        console.log("tuika")
+        const localDart  = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
+        localDart.itemInfo.push({
+            itemId: this.itemDetail.itemId,
+            itemName: this.itemDetail.itemName,
+            itemPrice: this.itemDetail.itemPrice,
+            itemImage: this.itemDetail.itemImage,
+            buyNum: this.value,
+        })
+        localStorage.setItem('itemsBeforeLogin', JSON.stringify(localDart))
+      }
       }
     },
     addFavorite() {
@@ -154,6 +199,7 @@ export default {
       'order/getOrders',
       'order/newCart',
       'order/addCart',
+      "order/newCartBeforeLogin",
       'users/addFavoriteItem',
       "item/fetchItemDetail",
       "item/deleteItemDetail",

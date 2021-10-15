@@ -255,7 +255,6 @@ export const actions = {
       }
     )
     .then((res) => {
-      console.log(res.data.Items[0])
       const itemDetailObj = {
         itemId: res.data.Items[0].Item.itemCode,
         itemName: res.data.Items[0].Item.itemName,

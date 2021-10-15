@@ -1,5 +1,6 @@
 export const state = () => ({
   orders: [],
+  ordersBeforeLogin:{}
 })
 
 export const getters = {
@@ -63,6 +64,10 @@ export const mutations = {
       return order.orderId === id
     })
     CancelArry[0].status = 9
+  },
+  setnewCartBeforeLogin(state,item){
+    state.ordersBeforeLogin = item
+    console.log(state.ordersBeforeLogin)
   }
 }
 
@@ -109,5 +114,9 @@ export const actions = {
   cancelOrder({commit}, id){
     this.$axios.$post('/order/cancel-order', {orderId: id})
     commit("setCancelOrder", id)
+    },
+    newCartBeforeLogin({commit}, item){
+
+      commit("setnewCartBeforeLogin",item)
     }
 }
