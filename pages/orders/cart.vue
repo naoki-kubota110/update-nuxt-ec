@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!$store.state.auth.loggedIn">
-      <div v-if="cartDataBeforelogin === null || cartDataBeforeloginlength === 0" class="empty-cart">
+      <div v-if="cartDataBeforeLogin === null || cartDataBeforeLoginLength=== 0" class="empty-cart">
         <div class="empty-content">
         <p class="empty-text">カートの中には何も入っていません。</p>
         <div class="empty-icon">
@@ -23,7 +23,7 @@
           <label class="product-removal">削除</label>
           <label class="product-line-price">合計</label>
         </div>
-        <div v-for="(item, index) in cartDataBeforelogin.itemInfo" :key="index" class="product">
+        <div v-for="(item, index) in cartDataBeforeLogin.itemInfo" :key="index" class="product">
           <router-link :to="{ path: `/item/${item.itemId}` }">
             <div class="product-image">
               <img id="image" :src="item.itemImage" />
@@ -35,7 +35,7 @@
           <div id="price" class="product-price">{{ item.itemPrice.toLocaleString() }}</div>
           <div id="quantity" class="product-quantity">{{ item.buyNum }}個</div>
           <div class="product-removal">
-            <button class="remove-product" @click="deleteItem(item.itemId)">
+            <button class="remove-product" @click="deleteItemBeforeLogin(index)">
               削除
             </button>
           </div>
@@ -47,17 +47,17 @@
           <div class="totals-item totals-item-total">
             <label>注文合計金額</label>
             <div id="cart-total" class="totals-value">
-              {{ cartDataBeforeloginSumPrice.toLocaleString() }}
+              {{ cartDataBeforeLoginSumPrice.toLocaleString() }}
             </div>
           </div>
           <div class="totals-item">
             <label>内消費税(10%)</label>
             <div id="cart-tax" class="totals-value">
-              {{ Math.floor(((cartDataBeforeloginSumPrice * 0.1) / 1.1).toLocaleString()) }}
+              {{ Math.floor(((cartDataBeforeLoginSumPrice* 0.1) / 1.1).toLocaleString()) }}
             </div>
           </div>
         </div>
-        <button class="checkout">注文に進む</button>
+        <button class="checkout" @click="checkoutBeforeLogin">注文に進む</button>
       </div>
       </div>
     </div>
@@ -138,9 +138,9 @@ export default {
   // middleware: 'direct-login',
   data(){
     return{
-      cartDataBeforelogin:null,
-      cartDataBeforeloginLength:null,
-      cartDataBeforeloginSumPrice:0
+      // cartDataBeforelogin:null,
+      // cartDataBeforeloginLength:null,
+      // cartDataBeforeloginSumPrice:0
     }
   },
   computed: {
@@ -150,25 +150,26 @@ export default {
     faShoppingCart() {
       return faShoppingCart
     },
-    // cartDataBeforeLogin(){
-    //   const cartData = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
-    //   return cartData
-    // },
-    // cartDataBeforeLoginLength(){
-    //   const cartData = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
-    // const cartDataLength =  cartData.itemInfo.length
-    // return cartDataLength
-    // },  
-    // cartDataBeforeLoginSumPrice(){
-    //   const cartData = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
-    //   let sumPrice = 0
-    //   if(cartData !== null){
-    //     cartData.itemInfo.forEach(item => {
-    //       sumPrice += (item.itemPrice * item.buyNum)
-    //     })
-    //   }
-    //   return sumPrice
-    // },
+    cartDataBeforeLogin(){
+      return this.$store.state.order
+      .ordersBeforeLogin
+    },
+    cartDataBeforeLoginLength(){
+       const cartArray =  this.$store.state.order.ordersBeforeLogin.itemInfo
+       return cartArray.length
+    },  
+    cartDataBeforeLoginSumPrice(){
+      let sumPrice = 0
+      if( this.$store.state.order.ordersBeforeLogin !== null){
+        const cartArray =  this.$store.state.order.ordersBeforeLogin.itemInfo
+          cartArray.forEach(item => {
+          sumPrice += (item.itemPrice * item.buyNum)
+        })
+        return sumPrice
+      }else{
+        return 0
+      }
+    },
     cartData() {
       return this.$store.getters['order/CartDataArry'][0]
     },
@@ -194,16 +195,20 @@ export default {
     },
   },
   mounted(){
-    const cartData = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
-      let sumPrice = 0
-    if(cartData !== null){
-      this.cartDataBeforelogin = cartData
-      this.cartDataBeforeloginLength = cartData.itemInfo.length
-      cartData.itemInfo.forEach(item => {
-        sumPrice += (item.itemPrice * item.buyNum)
-      })
-    }
-    this.cartDataBeforeLoginSumPrice = sumPrice
+    this["order/fetchCartItemsBeforeLogin"]()
+    // const cartData = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
+    // console.log(cartData.itemInfo.length)
+    //   let sumPrice = 0
+    // if(cartData !== null){
+    //   this.cartDataBeforelogin = cartData
+    //   this.cartDataBeforeloginLength = cartData.itemInfo.length
+    //   cartData.itemInfo.forEach(item => {
+    //     sumPrice += (item.itemPrice * item.buyNum)
+    //   })
+    // }else{
+    //   console.log("kara")
+    // }
+    // this.cartDataBeforeLoginSumPrice = sumPrice
   },
   methods: {
     deleteItem(id) {
@@ -217,10 +222,29 @@ export default {
         // this.$store.dispatch("order/deleteCart", data)
       // }
     },
+    deleteItemBeforeLogin(index){
+      if (confirm('商品を削除してよろしいですか？')) {
+        // const localDart  = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
+        // localDart.itemInfo.splice(index,1)
+        // console.log(localDart.itemInfo)
+        //  localStorage.setItem('itemsBeforeLogin', JSON.stringify(localDart))
+        // location.reload();
+        this[ "order/deleteCartItemsBeforeLogin"](index)
+      }
+    },
+    checkoutBeforeLogin(){
+      alert("注文に進む場合はログインしてください")
+      this.$router.push("/user/login")
+    },
     backHome(){
       this.$router.push("/")
     },
-    ...mapActions(['order/getOrders', 'order/deleteCart']),
+    ...mapActions([
+      'order/getOrders', 
+      'order/deleteCart',
+      "order/fetchCartItemsBeforeLogin",
+      "order/deleteCartItemsBeforeLogin",
+      ]),
   },
 }
 </script>
@@ -305,6 +329,7 @@ label {
 
 .shopping-cart {
   margin-top: -45px;
+  margin-bottom: 70px;
 }
 
 /* Column headers */
@@ -391,7 +416,7 @@ label {
   border: 0;
   margin-top: 20px;
   padding: 6px 25px;
-  background-color: #6b6;
+  background-color: gray;
   color: #fff;
   font-size: 25px;
   border-radius: 3px;

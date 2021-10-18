@@ -124,8 +124,8 @@ export default {
       }
       // 未ログインの場合
       }else {
-        alert('カートに追加するにはログインしてください')
-        const item = {
+      const localData  = localStorage.getItem("itemsBeforeLogin")
+      const newCartDataBeforeLogin = {
         orderId: new Date().getTime().toString(),
         status: 0,
         addCartDate: new Date().toString(),
@@ -139,36 +139,30 @@ export default {
           },
         ],
       }
-      const localDart  = localStorage.getItem("itemsBeforeLogin")
-      console.log(localDart)
-      if(localDart === null){
-        console.log("kara")
-        localStorage.setItem('itemsBeforeLogin', JSON.stringify({
-        orderId: new Date().getTime().toString(),
-        status: 0,
-        addCartDate: new Date().toString(),
-        itemInfo: [
-          {
+      if(localData === null){
+        console.log("newcart")
+        this["order/newCartBeforeLogin"](newCartDataBeforeLogin)
+      }else{
+              console.log("addcart")
+        const addCartDataBeforeLogin = {
             itemId: this.itemDetail.itemId,
             itemName: this.itemDetail.itemName,
             itemPrice: this.itemDetail.itemPrice,
             itemImage: this.itemDetail.itemImage,
             buyNum: this.value,
-          },
-        ],
-      }))
-      this["order/newCartBeforeLogin"](item)
-      } else{
+        }
         console.log("tuika")
-        const localDart  = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
-        localDart.itemInfo.push({
-            itemId: this.itemDetail.itemId,
-            itemName: this.itemDetail.itemName,
-            itemPrice: this.itemDetail.itemPrice,
-            itemImage: this.itemDetail.itemImage,
-            buyNum: this.value,
-        })
-        localStorage.setItem('itemsBeforeLogin', JSON.stringify(localDart))
+        // const localDart  = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
+        // localDart.itemInfo.push({
+        //     itemId: this.itemDetail.itemId,
+        //     itemName: this.itemDetail.itemName,
+        //     itemPrice: this.itemDetail.itemPrice,
+        //     itemImage: this.itemDetail.itemImage,
+        //     buyNum: this.value,
+        // })
+        // localStorage.setItem('itemsBeforeLogin', JSON.stringify(localDart))
+        this["order/addCartBeforeLogin"](addCartDataBeforeLogin)
+        // this.$router.push("/orders/cart")
       }
       }
     },
@@ -200,6 +194,7 @@ export default {
       'order/newCart',
       'order/addCart',
       "order/newCartBeforeLogin",
+      "order/addCartBeforeLogin",
       'users/addFavoriteItem',
       "item/fetchItemDetail",
       "item/deleteItemDetail",

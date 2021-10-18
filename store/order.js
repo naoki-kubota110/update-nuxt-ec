@@ -1,6 +1,6 @@
 export const state = () => ({
   orders: [],
-  ordersBeforeLogin:{}
+  ordersBeforeLogin:null
 })
 
 export const getters = {
@@ -65,9 +65,23 @@ export const mutations = {
     })
     CancelArry[0].status = 9
   },
+  setCartDataBeforeLogin(state,cartData){
+    state.ordersBeforeLogin = cartData
+    console.log(state.ordersBeforeLogin)
+  },
   setnewCartBeforeLogin(state,item){
     state.ordersBeforeLogin = item
     console.log(state.ordersBeforeLogin)
+    this.$router.push("/orders/cart")
+  },
+  setaddCartBeforeLogin(state,item){
+    console.log(state.ordersBeforeLogin)
+    state.ordersBeforeLogin.itemInfo.push(item)
+    console.log(state.ordersBeforeLogin)
+    this.$router.push("/orders/cart")
+  },
+  setDeleteBeforeLoginItems(state, item){
+    state.ordersBeforeLogin = item
   }
 }
 
@@ -115,8 +129,28 @@ export const actions = {
     this.$axios.$post('/order/cancel-order', {orderId: id})
     commit("setCancelOrder", id)
     },
+    fetchCartItemsBeforeLogin({commit}){
+      console.log("fetch")
+      const cartData = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
+      console.log(typeof(cartData))
+      commit("setCartDataBeforeLogin",cartData)
+    },
     newCartBeforeLogin({commit}, item){
-
-      commit("setnewCartBeforeLogin",item)
+      localStorage.setItem('itemsBeforeLogin', JSON.stringify(item))
+      commit("setnewCartBeforeLogin", item)
+    },
+    addCartBeforeLogin({commit}, item){
+      console.log(item)
+      const localData  = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
+      console.log(localData)
+      localData.itemInfo.push(item)
+      localStorage.setItem('itemsBeforeLogin', JSON.stringify(localData))
+      commit("setaddCartBeforeLogin",item)
+    },
+    deleteCartItemsBeforeLogin({commit},index){
+        const localData  = JSON.parse(localStorage.getItem("itemsBeforeLogin"))
+        localData.itemInfo.splice(index,1)
+        localStorage.setItem('itemsBeforeLogin', JSON.stringify(localData))
+        commit("setDeleteBeforeLoginItems",localData)
     }
 }
